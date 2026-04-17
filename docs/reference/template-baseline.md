@@ -15,8 +15,8 @@ This note describes the current baseline wiring of the resume system so future c
 - Optionally overrides `metadata.language` from `sys.inputs`
 - Renders with `#show: cv.with(...)`
 - Includes section modules from `modules_<language>/`
-- Reads `personal.profile_photo` from `metadata.toml` for `profile-photo`, falling back to `assets/avatar.png`
-- Uses a repo-local profile-photo helper so metadata can also tune crop zoom and X/Y offsets for non-square source images
+- Passes a repo-local cropped photo into the upstream header photo slot
+- Reads `personal.profile_photo` from `metadata.toml`, with metadata controls for crop zoom and crop offsets
 
 ### `letter.typ`
 

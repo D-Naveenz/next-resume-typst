@@ -10,11 +10,13 @@
 }
 #let profile-photo-path = metadata.personal.at("profile_photo", default: "assets/avatar.png")
 #let profile-photo-source = read(profile-photo-path, encoding: none)
+#let profile-photo-aspect-ratio = metadata.personal.at("profile_photo_aspect_ratio", default: 1.0)
 #let profile-photo-offset-x = eval(metadata.personal.at("profile_photo_offset_x", default: "0pt"))
 #let profile-photo-offset-y = eval(metadata.personal.at("profile_photo_offset_y", default: "0pt"))
 #let profile-photo-zoom = metadata.personal.at("profile_photo_zoom", default: 1.12)
 #let profile-photo = profile-photo(
   profile-photo-source,
+  profile-photo-aspect-ratio,
   zoom: profile-photo-zoom,
   offset-x: profile-photo-offset-x,
   offset-y: profile-photo-offset-y,
