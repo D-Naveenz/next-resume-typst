@@ -1,0 +1,38 @@
+# Template Baseline Reference
+
+This note describes the current baseline wiring of the resume system so future changes can be measured against it.
+
+## Upstream Package
+
+- The project currently imports `@preview/brilliant-cv:3.3.0`
+
+## Entry Points
+
+### `cv.typ`
+
+- Imports `cv` from `brilliant-cv`
+- Loads `metadata.toml`
+- Optionally overrides `metadata.language` from `sys.inputs`
+- Renders with `#show: cv.with(...)`
+- Includes section modules from `modules_<language>/`
+- Currently passes `assets/avatar.png` as `profile-photo`
+
+### `letter.typ`
+
+- Imports `letter` from `brilliant-cv`
+- Loads `metadata.toml`
+- Optionally overrides `metadata.language` from `sys.inputs`
+- Renders with `#show: letter.with(...)`
+- Currently passes `assets/signature.png` as `signature`
+
+## Main Customization Surfaces
+
+- `metadata.toml` for layout, fonts, colors, personal data, footer text, and ATS injection
+- `modules_en/*.typ` for resume section content
+- `cv.typ` and `letter.typ` for light wrapper behavior around the package
+
+## Operational Notes
+
+- Generated PDFs should be treated as validation output only.
+- Asset paths are already wired into the template and should remain stable when possible.
+- The current design direction favors incremental modernization rather than replacing the package model outright.
