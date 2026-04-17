@@ -14,6 +14,7 @@ This folder is the working knowledge base for the `next-resume-typst` project. U
 
 - [project-guidelines.md](project-guidelines.md): Canonical project purpose, repository layout, modernization direction, and verification expectations.
 - [continuous-learning.md](continuous-learning.md): Running log of project-specific lessons and repeat patterns worth remembering.
+- [template-customization-workflow.md](template-customization-workflow.md): Section-level customization workflow for deciding when to stay inside wrappers and when to replace an upstream helper locally.
 - `../reference/template-baseline.md`: Reference note describing how the current `brilliant-cv` setup is wired together.
 - `../adr/ADR-001-incremental-template-customization.md`: Initial architectural decision to prefer incremental local customization over a template fork.
 
