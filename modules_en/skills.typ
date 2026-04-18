@@ -1,41 +1,21 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv-section, h-bar
-#import "../components/skills.typ": cv-skill, cv-skill-tags
+#import "../components/skills.typ": cv-skill
 
 
 #cv-section("Skills")
 
 #cv-skill(
   type: [Languages],
-  info: [English (Native) #h-bar() French (Fluent) #h-bar() Chinese (Conversational)],
+  info: [Sinhala #h-bar() English #h-bar() Tamil],
 )
 
 #cv-skill(
-  type: [Programming],
-  info: [Python #h-bar() SQL #h-bar() R],
+  type: [Recruitment],
+  info: [Recruitment coordination #h-bar() Interview scheduling #h-bar() Candidate communication #h-bar() Digital job advertising],
 )
 
 #cv-skill(
-  type: [Tech Stack],
-  info: [Tableau #h-bar() Snowflake #h-bar() AWS #h-bar() Docker #h-bar() Git],
-)
-
-#cv-skill(
-  type: [Frameworks & Libraries],
-  info: [Pandas #h-bar() NumPy #h-bar() Scikit-learn #h-bar() TensorFlow #h-bar() FastAPI],
-)
-
-#cv-skill-tags(
-  type: [Certifications],
-  tags: (
-    [AWS Certified],
-    [Google Analytics],
-    [Tableau Desktop],
-    [Scrum Master],
-  ),
-)
-
-#cv-skill(
-  type: [Personal Interests],
-  info: [Swimming #h-bar() Cooking #h-bar() Reading #h-bar() Photography],
+  type: [Operations],
+  info: [Workforce planning support #h-bar() Application-system handling #h-bar() Passenger service operations #h-bar() Stakeholder coordination],
 )

@@ -1,53 +1,40 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section, cv-entry, cv-entry-start, cv-entry-continued
+#import "@preview/brilliant-cv:3.3.0": cv-section, cv-entry
 
 
 #cv-section("Professional Experience")
 
-#cv-entry-start(
-  society: [XYZ Corporation],
-  logo: image("../assets/logos/xyz_corp.png"),
-  location: [San Francisco, CA],
-)
-
-#cv-entry-continued(
-  title: [Director of Data Science],
+#cv-entry(
+  title: [Talent Resourcing Officer],
+  society: [SriLankan Airlines],
+  date: [Jan 2024 - Present],
+  location: [Sri Lanka],
   description: list(
-    [Lead a team of data scientists and analysts to develop and implement data-driven strategies, develop predictive models and algorithms to support decision-making across the organization],
-    [Collaborate with executive leadership to identify business opportunities and drive growth, implement best practices for data governance, quality, and security],
-  ),
-  tags: ("Dataiku", "Snowflake", "SparkSQL"),
-)
-
-#cv-entry-continued(
-  title: [Data Scientist],
-  date: [2017 - 2020 #linebreak() 2021 - 2022],
-  description: list(
-    [Analyze large datasets with SQL and Python, collaborate with teams to uncover business insights],
-    [Create data visualizations and dashboards in Tableau, develop and maintain data pipelines with AWS],
+    [Manage end-to-end recruitment coordination for operational and technical roles, from vacancy advertising through candidate communication and interview scheduling.],
+    [Support workforce planning and talent acquisition activities by coordinating assessments, updating application pipelines, and maintaining timely hiring progress.],
+    [Work with hiring teams to keep recruitment operations organized, responsive, and aligned with business staffing needs.],
   ),
 )
 
 #cv-entry(
-  title: [Data Analyst],
-  society: [ABC Company],
-  logo: image("../assets/logos/abc_company.png"),
-  date: [2017 - 2020],
-  location: [New York, NY],
+  title: [Airport Service Agent],
+  society: [SriLankan Airlines],
+  date: [Feb 2018 - Jan 2024],
+  location: [Bandaranaike International Airport],
   description: list(
-    [Analyze large datasets with SQL and Python, collaborate with teams to uncover business insights],
-    [Create data visualizations and dashboards in Tableau, develop and maintain data pipelines with AWS],
+    [Worked across passenger service, boarding gates, and baggage services while maintaining smooth front-line operations in a high-volume airport environment.],
+    [Handled check-in procedures, passenger documentation verification, gate coordination, baggage inquiries, and irregularity support with a strong service focus.],
+    [Served as Back-up Officer for Departure Gates, supporting supervision, operational coordination, and timely departures under changing conditions.],
   ),
 )
 
 #cv-entry(
-  title: [Data Analysis Intern],
-  society: [PQR Corporation],
-  logo: image("../assets/logos/pqr_corp.png"),
-  date: list(
-    [Summer 2017],
-    [Summer 2016],
+  title: [Administrative Trainee CUM IT Assistant],
+  society: [Challenger Motors (Pvt) Ltd],
+  date: [Feb 2017 - Aug 2017],
+  location: [Sri Lanka],
+  description: list(
+    [Provided administrative and IT support to internal teams through data handling, system-related tasks, and day-to-day office coordination.],
+    [Assisted with documentation, billing-system support, and routine operational tasks that required accuracy, responsiveness, and follow-through.],
   ),
-  location: [Chicago, IL],
-  description: list([Assisted with data cleaning, processing, and analysis using Python and Excel, participated in team meetings and contributed to project planning and execution]),
 )

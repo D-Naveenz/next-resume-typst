@@ -43,8 +43,6 @@
 #import-modules((
   "education",
   "professional",
-  "projects",
   "certificates",
-  "publications",
   "skills",
 ))

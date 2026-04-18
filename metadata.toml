@@ -6,12 +6,12 @@ language = "en"
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
     # Preset: skyblue, red, nephritis, concrete, darknight — or any hex like "#1E90FF"
-    awesome_color = "skyblue"
+    awesome_color = "nephritis"
 
     # Controls vertical spacing; increase to spread out sections/entries, decrease to compact
-    before_section_skip = "1pt"
+    before_section_skip = "8pt"
     # Vertical space before each entry within a section
-    before_entry_skip = "1pt"
+    before_entry_skip = "4pt"
     # Vertical space before entry description text
     before_entry_description_skip = "1pt"
 
@@ -19,7 +19,7 @@ language = "en"
     paper_size = "a4"
 
     # Overrides the width of the right-side date column in entries; omit to use sensible defaults
-    #date_width = "3.6cm"
+    date_width = "4.8cm"
 
     # Overrides base font size for body text; affects overall density of content
     #font_size = "9pt"
@@ -47,7 +47,7 @@ language = "en"
         display_entry_society_first = true
 
         # false hides all company/organisation logos in entries
-        display_logo = true
+        display_logo = false
 
     [layout.footer]
         # true shows "1/2" style page numbers in the footer
@@ -62,74 +62,52 @@ language = "en"
     # custom_ai_prompt_text = "Custom prompt text here..."  # Uncomment to add a custom ATS prompt string
 
     # Hidden keywords injected into PDF metadata for ATS keyword matching (invisible to readers)
-    injected_keywords_list = ["Data Analyst", "GCP", "Python", "SQL", "Tableau"]
+    injected_keywords_list = ["Talent Acquisition", "Recruitment Coordination", "Candidate Communication", "Workforce Planning", "Interview Scheduling"]
 
 [personal]
     # Your first name, displayed in the header
-    first_name = "John"
+    first_name = "Chamini"
     # Your last name, displayed in the header
-    last_name = "Doe"
+    last_name = "Layangika"
     # Profile image used by cv.typ for the resume header photo
     profile_photo = "assets/profile-chamini.jpeg"
     # Run `pwsh ./scripts/update-profile-photo-metadata.ps1 -ImagePath assets/profile-chamini.jpeg` to refresh both fields
     # Width / height ratio of the source image, used for aspect-ratio-aware cropping
     profile_photo_aspect_ratio = 0.6407
     # Zoom is relative to the minimum full-cover crop; values below 1.0 clamp to 1.0
-    profile_photo_zoom = 1.00
+    # profile_photo_zoom = 1.00
     # Offsets let you nudge the image inside the circular crop
     profile_photo_offset_x = "-5pt"
     profile_photo_offset_y = "10pt"
     # Your mailing address, used as default sender-address in the cover letter
-    # address = "123 Main St, San Francisco, CA 94102"
+    address = "138, Airport Road, Andiambalama"
 
     # The order of entries below controls the display order of icons/links in the header
     # The custom value is for any additional information you want to add, name it as custom-1, custom-2, etc.
     [personal.info]
-        # Shown as clickable icon in header; auto-links to github.com/<value>
-        github = "yunanwg"
         # Shown as phone icon in header; displayed as-is with a tel: link
-        phone = "+33 6 12 34 56 78"
+        phone = "0716453283"
         # Shown as envelope icon in header; auto-links to mailto:<value>
-        email = "john.doe@me.org"
-        # Shown as clickable icon in header; auto-links to linkedin.com/in/<value>
-        linkedin = "johndoe"
-        # Shown as clickable icon in header; auto-links to gitlab.com/<value>
-        gitlab = "yunanwg"
-        # Shown as clickable globe icon in header; auto-links to https://<value>
-        homepage = "johndoe.dev"
-        # Shown as ORCID icon in header; auto-links to orcid.org/<value>
-        orcid = "0000-0000-0000-0000"
-        # researchgate = "John-Doe"  # Shown as a clickable ResearchGate icon in header
+        email = "cdharmathunga@gmail.com"
         # Shown as map-marker icon in header; displayed as plain text (no link)
-        location = "San Francisco, CA"
-        # extraInfo = "Available for remote work"  # Shown as extra text with an info icon in header
+        location = "Yakkala, Sri Lanka"
         # Insert a line break in the header info, splitting icons across two lines
-        #linebreak = ""
+        linebreak = ""
 
         # Custom info with awesome icon
         [personal.info.custom-1]
-            awesomeIcon = "graduation-cap" # See https://typst.app/universe/package/fontawesome/
+            awesomeIcon = "id-card" # See https://typst.app/universe/package/fontawesome/
             # Display text shown next to the icon in the header
-            text = "PhD in Data Science"
-            # URL the icon/text links to; omit for non-clickable entries
-            link = "https://www.example.com"
-
-        # Custom info with image icon
-        # To use a custom image icon, pass it via custom-icons in cv.typ:
-        #   custom-icons: ("custom-2": image("assets/my-icon.png"))
-        [personal.info.custom-2]
-            awesomeIcon = "certificate"
-            text = "AWS Certified"
-            link = "https://aws.amazon.com/certification/"
+            text = "NIC 926220306v"
 
 
 # Add a [lang.xx] section for each language you support
 # Each section must contain header_quote, cv_footer, and letter_footer
 [lang.en]
     # Italic tagline displayed below your name and contact info
-    header_quote = "Experienced Data Analyst looking for a full time job starting from now"
+    header_quote = "Talent resourcing professional with airline operations experience in recruitment coordination, candidate communication, and workforce support."
     # Text shown in the left side of the footer on CV pages
-    cv_footer = "Curriculum vitae"
+    cv_footer = "Resume"
     # Text shown in the left side of the footer on cover letter pages
     letter_footer = "Cover letter"
 
