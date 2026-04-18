@@ -1,18 +1,17 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section, cv-skill, cv-skill-with-level, cv-skill-tag, h-bar
+#import "@preview/brilliant-cv:3.3.0": cv-section, h-bar
+#import "../components/skills.typ": cv-skill, cv-skill-tags
 
 
 #cv-section("Skills")
 
-#cv-skill-with-level(
+#cv-skill(
   type: [Languages],
-  level: 4,
   info: [English (Native) #h-bar() French (Fluent) #h-bar() Chinese (Conversational)],
 )
 
-#cv-skill-with-level(
+#cv-skill(
   type: [Programming],
-  level: 5,
   info: [Python #h-bar() SQL #h-bar() R],
 )
 
@@ -26,15 +25,14 @@
   info: [Pandas #h-bar() NumPy #h-bar() Scikit-learn #h-bar() TensorFlow #h-bar() FastAPI],
 )
 
-// Skill tags example
-#cv-skill(
+#cv-skill-tags(
   type: [Certifications],
-  info: [
-    #cv-skill-tag([AWS Certified])
-    #cv-skill-tag([Google Analytics])
-    #cv-skill-tag([Tableau Desktop])
-    #cv-skill-tag([Scrum Master])
-  ],
+  tags: (
+    [AWS Certified],
+    [Google Analytics],
+    [Tableau Desktop],
+    [Scrum Master],
+  ),
 )
 
 #cv-skill(
