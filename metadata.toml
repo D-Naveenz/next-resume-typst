@@ -71,14 +71,11 @@ language = "en"
     last_name = "Doe"
     # Profile image used by cv.typ for the resume header photo
     profile_photo = "assets/avatar.png"
-    # Run `pwsh ./scripts/update-profile-photo-metadata.ps1 -ImagePath assets/profile-chamini.jpeg` to refresh both fields
-    # Width / height ratio of the source image, used for aspect-ratio-aware cropping
-    profile_photo_aspect_ratio = 1.00
-    # Zoom is relative to the minimum full-cover crop; values below 1.0 clamp to 1.0
-    # profile_photo_zoom = 1.00
+    # Scale-up adds extra enlargement above the minimum full-cover crop
+    # profile_photo_scale_up = 0
     # Offsets let you nudge the image inside the circular crop
-    # profile_photo_offset_x = "-5pt"
-    # profile_photo_offset_y = "10pt"
+    # profile_photo_offset_x = "0pt"
+    # profile_photo_offset_y = "0pt"
     # Your mailing address, used as default sender-address in the cover letter
     # address = "123 Main St, San Francisco, CA 94102"
 

@@ -16,7 +16,7 @@ This note describes the current baseline wiring of the resume system so future c
 - Renders with `#show: cv.with(...)`
 - Includes section modules from `modules_<language>/`
 - Passes a repo-local cropped photo into the upstream header photo slot
-- Reads `personal.profile_photo` from `metadata.toml`, with metadata controls for crop zoom and crop offsets
+- Reads `personal.profile_photo` from `metadata.toml`, derives the natural image ratio with Typst measurement, and applies metadata controls for crop scale-up and crop offsets
 
 ### `letter.typ`
 
