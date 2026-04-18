@@ -8,7 +8,7 @@
   title: [Talent Resourcing Officer],
   society: [SriLankan Airlines],
   date: [Jan 2024 - Present],
-  location: [Sri Lanka],
+  location: [Bandaranaike International Airport],
   description: list(
     [Manage end-to-end recruitment coordination for operational and technical roles, from vacancy advertising through candidate communication and interview scheduling.],
     [Support workforce planning and talent acquisition activities by coordinating assessments, updating application pipelines, and maintaining timely hiring progress.],
@@ -32,7 +32,7 @@
   title: [Administrative Trainee CUM IT Assistant],
   society: [Challenger Motors (Pvt) Ltd],
   date: [Feb 2017 - Aug 2017],
-  location: [Sri Lanka],
+  location: [Kurunegala, Sri Lanka],
   description: list(
     [Provided administrative and IT support to internal teams through data handling, system-related tasks, and day-to-day office coordination.],
     [Assisted with documentation, billing-system support, and routine operational tasks that required accuracy, responsiveness, and follow-through.],

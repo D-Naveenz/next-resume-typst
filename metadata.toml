@@ -68,7 +68,7 @@ language = "en"
     # Your first name, displayed in the header
     first_name = "Chamini"
     # Your last name, displayed in the header
-    last_name = "Layangika"
+    last_name = "Dharmathunga"
     # Profile image used by cv.typ for the resume header photo
     profile_photo = "assets/profile-chamini.jpeg"
     # Run `pwsh ./scripts/update-profile-photo-metadata.ps1 -ImagePath assets/profile-chamini.jpeg` to refresh both fields
@@ -78,9 +78,9 @@ language = "en"
     # profile_photo_zoom = 1.00
     # Offsets let you nudge the image inside the circular crop
     profile_photo_offset_x = "-5pt"
-    profile_photo_offset_y = "10pt"
+    profile_photo_offset_y = "20pt"
     # Your mailing address, used as default sender-address in the cover letter
-    address = "138, Airport Road, Andiambalama"
+    address = "204/1, Gampaha Road, Yakkala"
 
     # The order of entries below controls the display order of icons/links in the header
     # The custom value is for any additional information you want to add, name it as custom-1, custom-2, etc.
