@@ -9,9 +9,9 @@ language = "en"
     awesome_color = "skyblue"
 
     # Controls vertical spacing; increase to spread out sections/entries, decrease to compact
-    before_section_skip = "1pt"
+    before_section_skip = "8pt"
     # Vertical space before each entry within a section
-    before_entry_skip = "1pt"
+    before_entry_skip = "4pt"
     # Vertical space before entry description text
     before_entry_description_skip = "1pt"
 
@@ -19,7 +19,7 @@ language = "en"
     paper_size = "a4"
 
     # Overrides the width of the right-side date column in entries; omit to use sensible defaults
-    #date_width = "3.6cm"
+    date_width = "4.8cm"
 
     # Overrides base font size for body text; affects overall density of content
     #font_size = "9pt"
