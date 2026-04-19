@@ -28,10 +28,10 @@
 #cv-skill-tags(
   type: [Certifications],
   tags: (
-    [AWS Certified],
-    [Google Analytics],
-    [Tableau Desktop],
-    [Scrum Master],
+    "AWS Certified",
+    "Google Analytics",
+    "Tableau Desktop",
+    "Scrum Master",
   ),
 )
 

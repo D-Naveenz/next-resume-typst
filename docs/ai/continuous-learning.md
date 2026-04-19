@@ -17,3 +17,9 @@ Use this file to record project-specific lessons learned during real work. Keep 
 - PDF files in the repo are output artifacts, not sources of truth. Verify layout changes by recompiling rather than editing generated files.
 - Language selection flows through `--input language=...`, so any future localized content should preserve the `modules_<lang>/` convention instead of hardcoding `modules_en/`.
 - The upstream `cv-skill` helpers use a rigid table layout and negative vertical pull, so section-level alignment issues can require replacing just that helper locally instead of fighting the module content.
+
+### 2026-04-19
+
+- Native Typst metadata plus `typst query` is enough to expose page geometry and replacement text for narrow PDF post-processing without embedding hidden marker text into the PDF itself.
+- For the certification pill row, the better `ActualText` path is to patch the original visible text spans in place instead of replacing them with an image and a second hidden text layer.
+- CV-only PDF post-processing should stay narrow and marker-driven; broadening it beyond clearly bounded decorative regions would need a separate design pass.

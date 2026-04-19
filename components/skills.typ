@@ -1,4 +1,5 @@
 // Repo-local skill helpers used when the upstream template layout is too rigid.
+#import "./actual-text.typ": actual-text-tag
 
 #let skill-pill-fill = luma(235)
 
@@ -40,7 +41,16 @@
     type,
     [
       #for (index, tag) in tags.enumerate() {
-        _skill-tag(tag)
+        let actual = if index < tags.len() - 1 {
+          tag + " | "
+        } else {
+          tag
+        }
+        actual-text-tag(
+          "skill-tag-" + str(index),
+          actual,
+          _skill-tag(tag),
+        )
         if index < tags.len() - 1 {
           h(5pt)
         }
