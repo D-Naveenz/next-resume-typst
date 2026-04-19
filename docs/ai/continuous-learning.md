@@ -21,5 +21,5 @@ Use this file to record project-specific lessons learned during real work. Keep 
 ### 2026-04-19
 
 - Native Typst metadata plus `typst query` is enough to expose page geometry and replacement text for narrow PDF post-processing without embedding hidden marker text into the PDF itself.
-- For the certification pill row, the better `ActualText` path is to patch the original visible text spans in place instead of replacing them with an image and a second hidden text layer.
+- For decorative tag rows where generic extraction matters more than PDF purity, a row-level redaction plus raster snapshot plus one invisible replacement string is more reliable than trying to patch each original visible text span in place.
 - CV-only PDF post-processing should stay narrow and marker-driven; broadening it beyond clearly bounded decorative regions would need a separate design pass.

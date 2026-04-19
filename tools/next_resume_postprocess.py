@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 """Post-process Typst-generated PDFs for resume-specific accessibility fixes.
 
-This v1 tool only supports the CV output and only rewrites the certification
-pill row in the Skills section. Geometry and replacement text are queried from
-Typst metadata, and the processor patches `/ActualText` directly onto the
-original certification text spans in the PDF content stream.
+This tool keeps the Typst-side metadata contract and replaces the original
+certification pill row with a row-level overlay workflow:
+
+1. Query row metadata from Typst.
+2. Snapshot the visible certification pills.
+3. Redact the original row content from the PDF text layer.
+4. Reinsert the visible pills as an image.
+5. Insert one invisible replacement string for extraction and wrap it with
+   PDF `/ActualText`.
 """
 
 from __future__ import annotations
@@ -25,46 +30,38 @@ import fitz
 LOGGER = logging.getLogger("next_resume_postprocess")
 
 ACTUAL_TEXT_SELECTOR = "<next-resume-actual-text>"
-REGION_PADDING = 0.75
 WATCH_POLL_SECONDS = 1.0
-PT_RE = re.compile(r"^(?P<value>-?\d+(?:\.\d+)?)pt$")
-NEXT_RESUME_ID_RE = re.compile(rb"/NextResumeID\s*\((?P<id>(?:\\.|[^\\)])*)\)")
-SPAN_BLOCK_RE = re.compile(
-    r"(?P<full>"
-    r"/Span\s*<<(?P<dict_body>.*?)>>\s*BDC"
-    r"(?P<body>.*?)"
-    r"EMC)",
+ROW_RENDER_DPI = 300
+ROW_PADDING_PT = 1.0
+REPLACEMENT_FONT_SIZE = 6.0
+PT_SUFFIX = "pt"
+EMPTY_PATCH_WRAPPER_RE = re.compile(
+    r"/Span\s*<<\s*/ActualText\s*<[^>]*>\s*/NextResumeID\s*\([^)]*\)\s*>>\s*BDC\s*q\s*Q\s*EMC\s*",
     re.DOTALL,
 )
 
 
 @dataclass(frozen=True)
-class ActualTextRegion:
+class ActualTextRow:
     page_number: int
-    marker_id: str
+    row_id: str
     actual_text: str
-    rect: fitz.Rect
-    marker_x: float
-    marker_y: float
-    marker_height: float
+    anchor_id: str
+
+
+@dataclass(frozen=True)
+class ActualTextTarget:
+    page_number: int
+    target_id: str
+    row_id: str
+    x: float
+    y: float
+    width: float
+    height: float
 
 
 class PostProcessError(RuntimeError):
     """Raised when the PDF cannot be processed safely."""
-
-
-def required_str_group(match: re.Match[str], name: str) -> str:
-    value = match.group(name)
-    if value is None:
-        raise PostProcessError(f"Expected regex group {name!r} to be present.")
-    return value
-
-
-def required_bytes_group(match: re.Match[bytes], name: str) -> bytes:
-    value = match.group(name)
-    if value is None:
-        raise PostProcessError(f"Expected regex group {name!r} to be present.")
-    return value
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -137,17 +134,19 @@ def typst_source_for(document: str) -> Path:
 
 
 def parse_pt(value: object, field_name: str) -> float:
-    if not isinstance(value, str):
-        raise PostProcessError(f"Expected `{field_name}` to be a Typst length string.")
-
-    match = PT_RE.match(value)
-    if not match:
+    if not isinstance(value, str) or not value.endswith(PT_SUFFIX):
         raise PostProcessError(f"Expected `{field_name}` in pt units, got {value!r}.")
 
-    return float(match.group("value"))
+    try:
+        return float(value[: -len(PT_SUFFIX)])
+    except ValueError as error:
+        raise PostProcessError(f"Expected `{field_name}` in pt units, got {value!r}.") from error
 
 
-def query_actual_text_regions(document: str, typst_inputs: list[str]) -> list[ActualTextRegion]:
+def query_actual_text_metadata(
+    document: str,
+    typst_inputs: list[str],
+) -> tuple[list[ActualTextRow], dict[str, ActualTextTarget]]:
     source_path = typst_source_for(document)
     root = workspace_root()
     font_path = root / "fonts"
@@ -188,50 +187,71 @@ def query_actual_text_regions(document: str, typst_inputs: list[str]) -> list[Ac
     except json.JSONDecodeError as error:
         raise PostProcessError(f"Failed to parse typst query output: {error}") from error
 
-    regions: list[ActualTextRegion] = []
+    rows: list[ActualTextRow] = []
+    targets: dict[str, ActualTextTarget] = {}
     for entry in payload:
         value = entry.get("value")
         if not isinstance(value, dict):
             raise PostProcessError("Expected metadata query results to contain dictionary values.")
 
-        if value.get("kind") != "actual-text":
+        kind = value.get("kind")
+        if kind == "actual-text-row":
+            row_id = value.get("id")
+            actual_text = value.get("actual")
+            anchor_id = value.get("anchor_id")
+            if not isinstance(row_id, str) or not isinstance(actual_text, str) or not isinstance(anchor_id, str):
+                raise PostProcessError(
+                    "Each actual-text row metadata entry must include string `id`, `actual`, and `anchor_id`."
+                )
+
+            rows.append(
+                ActualTextRow(
+                    page_number=-1,
+                    row_id=row_id,
+                    actual_text=actual_text,
+                    anchor_id=anchor_id,
+                )
+            )
             continue
 
-        marker_id = value.get("id")
-        actual_text = value.get("actual")
+        if kind != "actual-text-target":
+            continue
+
+        target_id = value.get("id")
+        row_id = value.get("row_id")
         page = value.get("page")
-        if not isinstance(marker_id, str) or not isinstance(actual_text, str):
-            raise PostProcessError("Each actual-text metadata entry must include string `id` and `actual`.")
+        if not isinstance(target_id, str) or not isinstance(row_id, str):
+            raise PostProcessError("Each actual-text target metadata entry must include string `id` and `row_id`.")
         if not isinstance(page, int):
-            raise PostProcessError("Each actual-text metadata entry must include integer `page`.")
+            raise PostProcessError("Each actual-text target metadata entry must include integer `page`.")
 
-        x = parse_pt(value.get("x"), "x")
-        y = parse_pt(value.get("y"), "y")
-        width = parse_pt(value.get("width"), "width")
-        height = parse_pt(value.get("height"), "height")
-        rect = fitz.Rect(
-            x - REGION_PADDING,
-            y - height - REGION_PADDING,
-            x + width + REGION_PADDING,
-            y + REGION_PADDING,
+        targets[target_id] = ActualTextTarget(
+            page_number=page - 1,
+            target_id=target_id,
+            row_id=row_id,
+            x=parse_pt(value.get("x"), "x"),
+            y=parse_pt(value.get("y"), "y"),
+            width=parse_pt(value.get("width"), "width"),
+            height=parse_pt(value.get("height"), "height"),
         )
 
-        regions.append(
-            ActualTextRegion(
-                page_number=page - 1,
-                marker_id=marker_id,
-                actual_text=actual_text,
-                rect=rect,
-                marker_x=x,
-                marker_y=y,
-                marker_height=height,
+    for index, row in enumerate(rows):
+        anchor = targets.get(row.anchor_id)
+        if anchor is None:
+            raise PostProcessError(
+                f"Missing anchor target {row.anchor_id!r} for actual-text row {row.row_id!r}."
             )
+        rows[index] = ActualTextRow(
+            page_number=anchor.page_number,
+            row_id=row.row_id,
+            actual_text=row.actual_text,
+            anchor_id=row.anchor_id,
         )
 
-    if not regions:
+    if not rows:
         LOGGER.info("No actual-text metadata targets were returned by `typst query`.")
 
-    return regions
+    return rows, targets
 
 
 def actual_text_hex(value: str) -> str:
@@ -239,164 +259,173 @@ def actual_text_hex(value: str) -> str:
     return ("FEFF" + encoded.hex()).upper()
 
 
-def pdf_literal_string(value: str) -> bytes:
-    escaped = value.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
-    return escaped.encode("utf-8")
+def pdf_literal_string(value: str) -> str:
+    return value.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
 
 
-def decode_pdf_literal(value: bytes) -> str:
-    text = value.decode("utf-8")
-    return text.replace("\\)", ")").replace("\\(", "(").replace("\\\\", "\\")
-
-
-def existing_processed_ids(doc: fitz.Document) -> set[str]:
-    found: set[str] = set()
-    for xref in range(1, doc.xref_length()):
-        try:
-            data = doc.xref_stream(xref)
-        except Exception:
-            continue
-        if not data:
-            continue
-        for match in NEXT_RESUME_ID_RE.finditer(data):
-            found.add(decode_pdf_literal(required_bytes_group(match, "id")))
-    return found
-
-
-def wrap_original_text_spans(doc: fitz.Document, page: fitz.Page, regions: list[ActualTextRegion]) -> bool:
-    content_xrefs = list(page.get_contents())
-    if len(content_xrefs) != 1:
+def row_targets_for(
+    *,
+    page_number: int,
+    row_id: str,
+    targets: dict[str, ActualTextTarget],
+) -> list[ActualTextTarget]:
+    row_targets = [
+        target
+        for target in targets.values()
+        if target.page_number == page_number and target.row_id == row_id
+    ]
+    if not row_targets:
         raise PostProcessError(
-            f"Expected one raw content stream on page {page.number + 1}, found {len(content_xrefs)}."
+            f"No visible targets were returned for actual-text row {row_id!r} on page {page_number + 1}."
+        )
+    return sorted(row_targets, key=lambda target: (target.y, target.x))
+
+
+def row_rect_for_targets(page: fitz.Page, row_targets: list[ActualTextTarget]) -> fitz.Rect:
+    x0 = min(target.x for target in row_targets) - ROW_PADDING_PT
+    y0 = min(target.y - target.height for target in row_targets) - ROW_PADDING_PT
+    x1 = max(target.x + target.width for target in row_targets) + ROW_PADDING_PT
+    y1 = max(target.y for target in row_targets) + ROW_PADDING_PT
+
+    rect = fitz.Rect(x0, y0, x1, y1)
+    page_rect = page.rect
+    return fitz.Rect(
+        max(rect.x0, page_rect.x0),
+        max(rect.y0, page_rect.y0),
+        min(rect.x1, page_rect.x1),
+        min(rect.y1, page_rect.y1),
+    )
+
+
+def render_row_snapshot(page: fitz.Page, row_rect: fitz.Rect) -> bytes:
+    pixmap = page.get_pixmap(clip=row_rect, dpi=ROW_RENDER_DPI, alpha=False)
+    return pixmap.tobytes("png")
+
+
+def redact_row(page: fitz.Page, row_rect: fitz.Rect) -> None:
+    page.add_redact_annot(
+        row_rect,
+        fill=(1, 1, 1),
+        cross_out=False,
+    )
+    page.apply_redactions(
+        images=fitz.PDF_REDACT_IMAGE_NONE,
+        graphics=fitz.PDF_REDACT_LINE_ART_NONE,
+        text=fitz.PDF_REDACT_TEXT_REMOVE,
+    )
+
+
+def cleanup_empty_patch_wrappers(doc: fitz.Document, page: fitz.Page) -> None:
+    for xref in page.get_contents():
+        stream_bytes = doc.xref_stream(xref)
+        if not stream_bytes:
+            continue
+
+        stream = stream_bytes.decode("latin1")
+        cleaned_stream, count = EMPTY_PATCH_WRAPPER_RE.subn("", stream)
+        if count > 0:
+            doc.update_stream(xref, cleaned_stream.encode("latin1"))
+
+
+def insert_row_snapshot(page: fitz.Page, row_rect: fitz.Rect, image_bytes: bytes) -> None:
+    page.insert_image(row_rect, stream=image_bytes, overlay=True)
+
+
+def insert_replacement_stream(
+    doc: fitz.Document,
+    page: fitz.Page,
+    row_rect: fitz.Rect,
+    actual_text: str,
+    row_id: str,
+) -> None:
+    before = list(page.get_contents())
+    baseline = fitz.Point(row_rect.x0 + 0.5, row_rect.y1 - 1.5)
+    page.insert_text(
+        baseline,
+        actual_text,
+        fontsize=REPLACEMENT_FONT_SIZE,
+        fontname="helv",
+        render_mode=3,
+        overlay=True,
+    )
+    after = list(page.get_contents())
+
+    new_xrefs = [xref for xref in after if xref not in before]
+    if len(new_xrefs) != 1:
+        raise PostProcessError(
+            f"Expected one new replacement text stream on page {page.number + 1}, found {len(new_xrefs)}."
         )
 
-    xref = content_xrefs[0]
-    original_bytes = doc.xref_stream(xref)
-    if not original_bytes:
-        raise PostProcessError(f"Content stream xref {xref} is empty.")
+    xref = new_xrefs[0]
+    stream_bytes = doc.xref_stream(xref)
+    if not stream_bytes:
+        raise PostProcessError(f"Inserted replacement stream xref {xref} is empty.")
 
-    stream = original_bytes.decode("latin1")
-    matches = list(SPAN_BLOCK_RE.finditer(stream))
-    if not matches:
-        raise PostProcessError(f"No candidate text spans found on page {page.number + 1}.")
+    stream = stream_bytes.decode("latin1").rstrip()
+    wrapped_stream = (
+        "/Span << /ActualText <"
+        + actual_text_hex(actual_text)
+        + "> /NextResumeID ("
+        + pdf_literal_string(row_id)
+        + ") >> BDC\n"
+        + stream
+        + "\nEMC\n"
+    )
+    doc.update_stream(xref, wrapped_stream.encode("latin1"))
 
-    page_height = float(page.rect.height)
-    replacements: list[tuple[int, int, str]] = []
-    used_match_indexes: set[int] = set()
 
-    for region in regions:
-        expected_x = region.marker_x + 4.5
-        expected_y_min = page_height - region.marker_y - 1.0
-        expected_y_max = page_height - region.marker_y + region.marker_height + 1.0
+def process_row(
+    doc: fitz.Document,
+    page: fitz.Page,
+    row: ActualTextRow,
+    targets: dict[str, ActualTextTarget],
+) -> None:
+    row_targets = row_targets_for(
+        page_number=page.number,
+        row_id=row.row_id,
+        targets=targets,
+    )
+    row_rect = row_rect_for_targets(page, row_targets)
+    snapshot_bytes = render_row_snapshot(page, row_rect)
 
-        best_index: int | None = None
-        best_distance: float | None = None
-
-        for index, match in enumerate(matches):
-            if index in used_match_indexes:
-                continue
-            dict_body = required_str_group(match, "dict_body")
-            if "/ActualText" in dict_body or "/NextResumeID" in dict_body:
-                continue
-            body = required_str_group(match, "body")
-            if " TJ" not in body and "\nTJ" not in body:
-                continue
-
-            position_match = re.search(
-                r"1 0 0 -1\s+(?P<x>\d+\.\d+)\s+(?P<y>\d+\.\d+)\s+cm",
-                body,
-            )
-            if position_match is None:
-                continue
-
-            x = float(required_str_group(position_match, "x"))
-            y = float(required_str_group(position_match, "y"))
-            if not (expected_y_min <= y <= expected_y_max):
-                continue
-
-            distance = abs(x - expected_x)
-            if distance > 2.0:
-                continue
-
-            if best_distance is None or distance < best_distance:
-                best_index = index
-                best_distance = distance
-
-        if best_index is None:
-            raise PostProcessError(
-                f"Could not find the original text span for marker {region.marker_id!r} "
-                f"on page {page.number + 1}."
-            )
-
-        used_match_indexes.add(best_index)
-        match = matches[best_index]
-        dict_body = required_str_group(match, "dict_body").rstrip()
-        if dict_body and not dict_body.endswith("/"):
-            dict_body = dict_body + " "
-
-        replacement = required_str_group(match, "full").replace(
-            required_str_group(match, "dict_body"),
-            dict_body
-            + "/ActualText <"
-            + actual_text_hex(region.actual_text)
-            + "> /NextResumeID ("
-            + pdf_literal_string(region.marker_id).decode("utf-8")
-            + ") ",
-            1,
-        )
-        replacements.append((match.start("full"), match.end("full"), replacement))
-
-    if not replacements:
-        return False
-
-    updated_parts: list[str] = []
-    cursor = 0
-    for start, end, replacement in sorted(replacements, key=lambda item: item[0]):
-        updated_parts.append(stream[cursor:start])
-        updated_parts.append(replacement)
-        cursor = end
-    updated_parts.append(stream[cursor:])
-
-    updated_stream = "".join(updated_parts).encode("latin1")
-    doc.update_stream(xref, updated_stream)
-    return True
+    redact_row(page, row_rect)
+    cleanup_empty_patch_wrappers(doc, page)
+    insert_row_snapshot(page, row_rect, snapshot_bytes)
+    insert_replacement_stream(doc, page, row_rect, row.actual_text, row.row_id)
 
 
 def process_pdf(document: str, pdf_path: Path, typst_inputs: list[str]) -> bool:
     if not pdf_path.exists():
         raise PostProcessError(f"PDF not found: {pdf_path}")
 
-    regions = query_actual_text_regions(document, typst_inputs)
-    if not regions:
+    rows, targets = query_actual_text_metadata(document, typst_inputs)
+    if not rows:
         return False
 
-    temp_path: Path | None = None
-    with fitz.open(pdf_path) as doc:
-        processed_ids = existing_processed_ids(doc)
-        pending = [region for region in regions if region.marker_id not in processed_ids]
-        if not pending:
-            LOGGER.info("No pending actual-text regions found; assuming the PDF is already processed.")
-            return False
+    fitz.TOOLS.set_small_glyph_heights(True)
 
-        for region in pending:
-            if not 0 <= region.page_number < doc.page_count:
+    with fitz.open(pdf_path) as doc:
+        for row in rows:
+            if not 0 <= row.page_number < doc.page_count:
                 raise PostProcessError(
-                    f"Marker {region.marker_id!r} references page {region.page_number + 1}, "
+                    f"Row {row.row_id!r} references page {row.page_number + 1}, "
                     f"but the PDF only has {doc.page_count} page(s)."
                 )
-        changed = False
-        pages_to_regions: dict[int, list[ActualTextRegion]] = {}
-        for region in pending:
-            pages_to_regions.setdefault(region.page_number, []).append(region)
 
-        for page_number, page_regions in pages_to_regions.items():
+        pages_to_rows: dict[int, list[ActualTextRow]] = {}
+        for row in rows:
+            pages_to_rows.setdefault(row.page_number, []).append(row)
+
+        for page_number, page_rows in sorted(pages_to_rows.items()):
             page = doc[page_number]
-            LOGGER.info("Processing %s marker(s) on page %s.", len(page_regions), page_number + 1)
-            changed = wrap_original_text_spans(doc, page, page_regions) or changed
+            LOGGER.info("Processing %s actual-text row(s) on page %s.", len(page_rows), page_number + 1)
+            for row in sorted(page_rows, key=lambda item: item.row_id):
+                process_row(doc, page, row, targets)
 
-        if changed:
-            doc.saveIncr()
-        return changed
+        doc.saveIncr()
+        return True
+
+
 def wait_for_ready_file(pdf_path: Path) -> None:
     last_error: OSError | None = None
     for _ in range(20):

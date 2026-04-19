@@ -11,7 +11,7 @@ This note documents the repo-local PDF post-processing path used to add `ActualT
 ## Current Scope
 
 - Document support in v1: `cv.pdf` only
-- Section support in v1: certification pills in the Skills section only
+- Section support in v1: the Certifications tag row in the Skills section only
 - Python runtime: the repo-local `.venv`
 - PDF library: `PyMuPDF`
 
@@ -19,20 +19,27 @@ This note documents the repo-local PDF post-processing path used to add `ActualT
 
 ## Typst Metadata Contract
 
-Metadata is emitted in [components/actual-text.typ](C:/Users/dashe/source/repos/Typst/next-resume-typst/components/actual-text.typ) and consumed by [components/skills.typ](C:/Users/dashe/source/repos/Typst/next-resume-typst/components/skills.typ).
+Metadata helpers live in [components/actual-text.typ](C:/Users/dashe/source/repos/Typst/next-resume-typst/components/actual-text.typ), and the universal visible tag-row component lives in [components/tag-row.typ](C:/Users/dashe/source/repos/Typst/next-resume-typst/components/tag-row.typ). The Skills section consumes that helper through [components/skills.typ](C:/Users/dashe/source/repos/Typst/next-resume-typst/components/skills.typ).
 
-Each wrapped certification pill emits one `metadata(...)` item labeled `<next-resume-actual-text>` with:
+Each semantic tag row emits one row-level `metadata(...)` item labeled `<next-resume-actual-text>` with:
 
 - `kind`
 - `id`
 - `actual`
+- `anchor_id`
+
+Each visible pill emits one target-level metadata item with:
+
+- `kind`
+- `id`
+- `row_id`
 - `page`
 - `x`
 - `y`
 - `width`
 - `height`
 
-The post-processor reads those entries through `typst query`, so the PDF itself no longer needs hidden text markers.
+The post-processor reads both row and target entries through `typst query`, so the PDF itself no longer needs hidden text markers.
 
 ## Processing Flow
 
@@ -40,12 +47,14 @@ The post-processor reads those entries through `typst query`, so the PDF itself 
 
 1. Open the compiled `cv.pdf`.
 2. Run `typst query` against `cv.typ` to retrieve the labeled metadata as JSON.
-3. Convert the queried page geometry into PyMuPDF rectangles.
-4. Find the original certification text spans in the raw PDF content stream.
-5. Patch those original spans in place by adding PDF `/ActualText`.
-6. Tag the patched spans with a repo-local `/NextResumeID` so repeat runs stay idempotent.
+3. Convert the queried page geometry into one row bounding box per semantic tag row.
+4. Rasterize the visible certification pill row from that rectangle.
+5. Redact the whole row rectangle so the original visible tag text is physically removed from the PDF text layer.
+6. Reinsert the raster snapshot so the visible pill row still looks the same.
+7. Insert one invisible replacement text object for the whole row and wrap it with PDF `/ActualText`.
+8. Tag the replacement object with a repo-local `/NextResumeID` marker for debugging and inspection.
 
-This keeps the visual output stable while preserving the row's natural reading order.
+This intentionally prioritizes library extraction correctness over deeper PDF-semantic purity: generic extractors should now see one certifications row string instead of multiple live tag spans.
 
 ## CLI Usage
 
@@ -71,7 +80,8 @@ VS Code tasks mirror that CLI:
 ## Limitations
 
 - v1 is intentionally narrow and should not be treated as a general PDF accessibility engine.
-- The current implementation is tuned specifically to the Certifications pill row in the Skills section.
-- The tool is idempotent for already-processed PDFs: it skips any region whose `/NextResumeID` is already present in the PDF.
+- The current implementation is tuned specifically to the Certifications tag row in the Skills section.
+- The tool now repatches every processed row on each `process` run instead of skipping previously tagged content.
+- Reprocessing an already-processed PDF re-rasterizes the current visible row once, so future broader rollouts should revisit whether a higher-fidelity caching strategy is worth the extra complexity.
 - If `typst query` stops returning the expected metadata payload, processing fails instead of silently guessing.
-- Generic PDF text-extraction libraries do not always honor `/ActualText`, so low-level stream inspection is a more reliable automated verification step than plain extracted text.
+- The current implementation is optimized for the Skills certifications row only; wider adoption to other tag rows should be treated as a separate rollout step even though the Typst component is universal.

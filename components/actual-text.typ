@@ -1,17 +1,24 @@
-// Queryable metadata wrapper for PDF post-processing. This produces no visible
-// content beyond the wrapped body, but exposes page geometry and replacement
-// text through `typst query`.
+// Queryable metadata wrappers for PDF post-processing.
 
-#let actual-text-tag(id, actual, body) = context {
+#let actual-text-row(id, actual, anchor-id) = [
+  #metadata((
+    kind: "actual-text-row",
+    id: id,
+    actual: actual,
+    anchor_id: anchor-id,
+  )) <next-resume-actual-text>
+]
+
+#let actual-text-target(id, row-id, body) = context {
   let loc = here()
   let pos = loc.position()
   let size = measure(body)
 
   [
     #metadata((
-      kind: "actual-text",
+      kind: "actual-text-target",
       id: id,
-      actual: actual,
+      row_id: row-id,
       page: loc.page(),
       x: pos.x,
       y: pos.y,
