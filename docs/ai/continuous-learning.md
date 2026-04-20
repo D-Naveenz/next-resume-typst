@@ -20,6 +20,6 @@ Use this file to record project-specific lessons learned during real work. Keep 
 
 ### 2026-04-19
 
-- Native Typst metadata plus `typst query` is enough to expose page geometry and replacement text for narrow PDF post-processing without embedding hidden marker text into the PDF itself.
-- For decorative tag rows where generic extraction matters more than PDF purity, a row-level redaction plus raster snapshot plus one invisible replacement string is more reliable than trying to patch each original visible text span in place.
-- CV-only PDF post-processing should stay narrow and marker-driven; broadening it beyond clearly bounded decorative regions would need a separate design pass.
+- For decorative tag rows in this repo, a Typst-only hidden delimiter is the preferred first step before reaching for PDF post-processing.
+- A `1pt` hidden delimiter inside a `0pt` width wrapper survives extraction more reliably than a `0pt` hidden delimiter, while staying visually inert in the rendered PDF.
+- If PDF post-processing ever comes back for this repo, it should stay narrowly scoped to clearly bounded decorative regions instead of becoming the default extraction strategy.

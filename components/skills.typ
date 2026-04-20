@@ -27,17 +27,17 @@
   _skill-row(type, info)
 }
 
-#let cv-skill-tags(type: "Type", tags: (), actual-delimiter: " | ") = {
+#let cv-skill-tags(type: "Type", tags: (), copy-delimiter: " | ") = {
   _skill-row(
     type,
     tag-row(
       tags: tags,
-      id-prefix: "skill-tags-v2",
-      actual-delimiter: actual-delimiter,
+      copy-delimiter: copy-delimiter,
       gap: 5pt,
       fill: skill-pill-fill,
       radius: 3pt,
       inset: (x: 0.5em, y: 0.35em),
+      outset: (x: 0pt, y: 0pt),
       text-size: 9pt,
     ),
   )

@@ -18,10 +18,9 @@
     {
       "label": "Build: CV Final",
       "dependsOn": [
-        "Typst: Compile CV",
-        "Postprocess: CV"
+        "Typst: Compile CV"
       ],
-      "dependsOrder": "sequence",
+      "dependsOrder": "parallel",
       "presentation": {
         "reveal": "always",
         "panel": "shared",
@@ -52,28 +51,6 @@
       "problemMatcher": []
     },
     {
-      "label": "Postprocess: CV",
-      "type": "shell",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "${workspaceFolder}\\tools\\next_resume_postprocess.py",
-        "process",
-        "--document",
-        "cv",
-        "--pdf",
-        "${workspaceFolder}\\cv.pdf",
-        "--input",
-        "language=en",
-        "--in-place"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Typst: Watch CV",
       "type": "shell",
       "command": "typst",
@@ -93,32 +70,9 @@
       "problemMatcher": []
     },
     {
-      "label": "Postprocess: Watch CV",
-      "type": "shell",
-      "command": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
-      "args": [
-        "${workspaceFolder}\\tools\\next_resume_postprocess.py",
-        "watch",
-        "--document",
-        "cv",
-        "--pdf",
-        "${workspaceFolder}\\cv.pdf",
-        "--input",
-        "language=en"
-      ],
-      "isBackground": true,
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated",
-        "clear": true
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Watch: CV Final",
       "dependsOn": [
-        "Typst: Watch CV",
-        "Postprocess: Watch CV"
+        "Typst: Watch CV"
       ],
       "dependsOrder": "parallel",
       "presentation": {
