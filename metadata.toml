@@ -3,6 +3,10 @@
 # Must match folder suffix: "en" → modules_en/, "fr" → modules_fr/, etc.
 language = "en"
 
+[next_resume]
+    # Must exactly match the root VERSION file or Typst compilation fails.
+    version = "0.1.3"
+
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
     # Preset: skyblue, red, nephritis, concrete, darknight — or any hex like "#1E90FF"

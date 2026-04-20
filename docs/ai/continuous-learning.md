@@ -23,3 +23,8 @@ Use this file to record project-specific lessons learned during real work. Keep 
 - For decorative tag rows in this repo, a Typst-only hidden delimiter is the preferred first step before reaching for PDF post-processing.
 - A `1pt` hidden delimiter inside a `0pt` width wrapper survives extraction more reliably than a `0pt` hidden delimiter, while staying visually inert in the rendered PDF.
 - If PDF post-processing ever comes back for this repo, it should stay narrowly scoped to clearly bounded decorative regions instead of becoming the default extraction strategy.
+
+### 2026-04-20
+
+- The safest NextResume version guard is an exact match between a root `VERSION` file and `metadata.toml next_resume.version`, enforced in Typst with `assert.eq`.
+- Typst can embed the NextResume version into standard PDF metadata fields like `description` and `keywords`, but not into an arbitrary custom PDF metadata key through native markup alone.

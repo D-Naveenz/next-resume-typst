@@ -1,6 +1,7 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv
 #import "./components/profile-photo.typ": profile-photo
+#import "./components/versioning.typ": validate-next-resume-version, set-next-resume-document-metadata
 #let metadata = toml("./metadata.toml")
 #let cv-language = sys.inputs.at("language", default: none)
 #let metadata = if cv-language != none {
@@ -8,6 +9,7 @@
 } else {
   metadata
 }
+#let next-resume-version = validate-next-resume-version(metadata)
 #let profile-photo-path = metadata.personal.at("profile_photo", default: "assets/avatar.png")
 #let profile-photo-source = read(profile-photo-path, encoding: none)
 #let profile-photo-offset-x = eval(metadata.personal.at("profile_photo_offset_x", default: "0pt"))
@@ -18,6 +20,12 @@
   scale-up: profile-photo-scale-up,
   offset-x: profile-photo-offset-x,
   offset-y: profile-photo-offset-y,
+)
+
+#set-next-resume-document-metadata(
+  metadata,
+  next-resume-version,
+  kind: "cv",
 )
 
 #let import-modules(modules, lang: metadata.language) = {

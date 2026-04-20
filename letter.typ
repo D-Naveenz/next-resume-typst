@@ -1,5 +1,6 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": letter
+#import "./components/versioning.typ": validate-next-resume-version, set-next-resume-document-metadata
 #let metadata = toml("./metadata.toml")
 #let letter-language = sys.inputs.at("language", default: none)
 #let metadata = if letter-language != none {
@@ -7,6 +8,13 @@
 } else {
   metadata
 }
+#let next-resume-version = validate-next-resume-version(metadata)
+
+#set-next-resume-document-metadata(
+  metadata,
+  next-resume-version,
+  kind: "letter",
+)
 
 
 #show: letter.with(

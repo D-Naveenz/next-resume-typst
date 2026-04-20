@@ -13,6 +13,8 @@ This note describes the current baseline wiring of the resume system so future c
 - Imports `cv` from `brilliant-cv`
 - Loads `metadata.toml`
 - Optionally overrides `metadata.language` from `sys.inputs`
+- Validates `metadata.toml next_resume.version` against the repo root `VERSION` file
+- Injects standard PDF metadata with the NextResume version
 - Renders with `#show: cv.with(...)`
 - Includes section modules from `modules_<language>/`
 - Passes a repo-local cropped photo into the upstream header photo slot
@@ -23,12 +25,15 @@ This note describes the current baseline wiring of the resume system so future c
 - Imports `letter` from `brilliant-cv`
 - Loads `metadata.toml`
 - Optionally overrides `metadata.language` from `sys.inputs`
+- Validates `metadata.toml next_resume.version` against the repo root `VERSION` file
+- Injects standard PDF metadata with the NextResume version
 - Renders with `#show: letter.with(...)`
 - Currently passes `assets/signature.png` as `signature`
 
 ## Main Customization Surfaces
 
 - `metadata.toml` for layout, fonts, colors, personal data, footer text, and ATS injection
+- `VERSION` plus `components/versioning.typ` for product-version enforcement and PDF metadata injection
 - `modules_en/*.typ` for resume section content
 - `cv.typ` and `letter.typ` for light wrapper behavior around the package
 
