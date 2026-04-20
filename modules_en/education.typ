@@ -1,5 +1,6 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section, cv-entry, h-bar
+#import "@preview/brilliant-cv:3.3.0": cv-section, h-bar
+#import "../components/entries.typ": cv-entry
 
 
 #cv-section("Education")

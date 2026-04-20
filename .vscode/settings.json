@@ -1,4 +1,5 @@
 {
-  "tinymist.exportPdf": "onSave",
-  "tinymist.fontPaths": ["${workspaceFolder}/fonts"]
+  "tinymist.exportPdf": "never",
+  "tinymist.fontPaths": ["${workspaceFolder}/fonts"],
+  "tinymist.lint.enabled": true
 }

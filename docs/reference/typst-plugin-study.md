@@ -6,7 +6,7 @@ This note captures the current understanding of Typst's WebAssembly plugin syste
 
 Yes: pure Rust logic can run during Typst compilation and pass values back into Typst.
 
-For this project, the most relevant example is computing image metadata such as aspect ratio dynamically during compile time.
+For this project, the most relevant example was computing image metadata such as aspect ratio dynamically during compile time.
 
 The important constraint is that the plugin should not open files itself. Typst should read the file bytes and pass those bytes into the plugin.
 
@@ -27,6 +27,7 @@ Implication for this repo:
 - A plugin can compute an image aspect ratio during compilation.
 - `cv.typ` or a wrapper package would call `read(path, encoding: none)` and pass the image bytes to the plugin.
 - The plugin would decode the bytes in Rust and return the result to Typst.
+- For this specific repo, Typst-side `measure(image(...))` may already be enough for aspect ratio, so a plugin is not required just for that one value.
 
 ## Where `typwire` Fits
 
@@ -63,16 +64,18 @@ Likely flow:
 3. Rust decodes the image in memory and computes `width / height`.
 4. Typst converts the returned bytes into a usable value for layout logic.
 
-Why this is a good first spike:
+Why this would be a good first spike when Typst-side measurement is not enough:
 
 - it is pure and deterministic
 - it avoids plugin file access entirely
-- it directly removes a manual metadata step from this repo
+- it can remove a manual metadata step when Typst itself cannot provide the needed value
 - it tests the real compile-time plugin workflow without taking on a large scope
 
 ## What This Does Not Replace
 
 Even if we adopt a plugin for image metadata, it does not automatically mean all preprocessing should move into Typst plugins.
+
+For this repo specifically, a Typst plugin should now be treated as the next step only if we later need richer image metadata or binary parsing beyond what `measure(image(...))` can provide directly.
 
 External scripts may still be simpler when the task needs:
 

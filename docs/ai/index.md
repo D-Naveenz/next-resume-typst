@@ -16,7 +16,9 @@ This folder is the working knowledge base for the `next-resume-typst` project. U
 - [continuous-learning.md](continuous-learning.md): Running log of project-specific lessons and repeat patterns worth remembering.
 - [template-customization-workflow.md](template-customization-workflow.md): Section-level customization workflow for deciding when to stay inside wrappers and when to replace an upstream helper locally.
 - `../reference/template-baseline.md`: Reference note describing how the current `brilliant-cv` setup is wired together.
-- `../reference/typst-plugin-study.md`: Research note on Typst Wasm plugins, `typst-kit`, and `typwire` for future compile-time extensions.
+- `../reference/versioning.md`: Reference note for the repo-local NextResume version guard and PDF metadata injection.
+- `../reference/typst-tag-copy-delimiters.md`: Reference note for the Typst-only hidden-delimiter strategy used by decorative tag rows.
+- `../reference/typst-plugin-study.md`: Research note on Typst Wasm plugins and `typwire` for future compile-time extensions.
 - `../adr/ADR-001-incremental-template-customization.md`: Initial architectural decision to prefer incremental local customization over a template fork.
 
 ## What Goes Where

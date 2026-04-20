@@ -1,0 +1,123 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Typst: Watch All",
+      "dependsOn": [
+        "Typst: Watch CV",
+        "Typst: Watch Letter"
+      ],
+      "dependsOrder": "parallel",
+      "runOptions": {
+        "reevaluateOnRerun": true,
+        "runOn": "folderOpen",
+        "instanceLimit": 1
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: CV Final",
+      "dependsOn": [
+        "Typst: Compile CV"
+      ],
+      "dependsOrder": "parallel",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Compile CV",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "compile",
+        "--font-path",
+        "${workspaceFolder}/fonts",
+        "${workspaceFolder}/cv.typ",
+        "${workspaceFolder}/cv.pdf"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Watch CV",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "watch",
+        "--font-path",
+        "${workspaceFolder}/fonts",
+        "${workspaceFolder}/cv.typ",
+        "${workspaceFolder}/cv.pdf"
+      ],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Watch: CV Final",
+      "dependsOn": [
+        "Typst: Watch CV"
+      ],
+      "dependsOrder": "parallel",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Compile Letter",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "compile",
+        "--font-path",
+        "${workspaceFolder}/fonts",
+        "${workspaceFolder}/letter.typ",
+        "${workspaceFolder}/letter.pdf"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Typst: Watch Letter",
+      "type": "shell",
+      "command": "typst",
+      "args": [
+        "watch",
+        "--font-path",
+        "${workspaceFolder}/fonts",
+        "${workspaceFolder}/letter.typ",
+        "${workspaceFolder}/letter.pdf"
+      ],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

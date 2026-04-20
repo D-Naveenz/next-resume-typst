@@ -1,4 +1,5 @@
 // Repo-local skill helpers used when the upstream template layout is too rigid.
+#import "./tag-row.typ": tag-row
 
 #let skill-pill-fill = luma(235)
 
@@ -26,25 +27,18 @@
   _skill-row(type, info)
 }
 
-#let _skill-tag(skill) = {
-  box(
-    inset: (x: 0.5em, y: 0.35em),
-    fill: skill-pill-fill,
-    radius: 3pt,
-    align(center + horizon, text(size: 9pt, skill)),
-  )
-}
-
-#let cv-skill-tags(type: "Type", tags: ()) = {
+#let cv-skill-tags(type: "Type", tags: (), copy-delimiter: " | ") = {
   _skill-row(
     type,
-    [
-      #for (index, tag) in tags.enumerate() {
-        _skill-tag(tag)
-        if index < tags.len() - 1 {
-          h(5pt)
-        }
-      }
-    ],
+    tag-row(
+      tags: tags,
+      copy-delimiter: copy-delimiter,
+      gap: 5pt,
+      fill: skill-pill-fill,
+      radius: 3pt,
+      inset: (x: 0.5em, y: 0.35em),
+      outset: (x: 0pt, y: 0pt),
+      text-size: 9pt,
+    ),
   )
 }
