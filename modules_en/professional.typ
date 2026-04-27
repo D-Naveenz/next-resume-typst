@@ -1,54 +1,32 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv-section
-#import "../components/entries.typ": cv-entry, cv-entry-start, cv-entry-continued
+#import "../components/entries.typ": cv-entry
 
 
 #cv-section("Professional Experience")
 
-#cv-entry-start(
-  society: [XYZ Corporation],
-  logo: image("../assets/logos/xyz_corp.png"),
-  location: [San Francisco, CA],
-)
-
-#cv-entry-continued(
-  title: [Director of Data Science],
+#cv-entry(
+  title: [Backend Developer - Intern],
+  society: [App 360],
+  date: [Jun 2024 - Dec 2024],
+  location: [Melbourne, Australia (Remote)],
   description: list(
-    [Lead a team of data scientists and analysts to develop and implement data-driven strategies, develop predictive models and algorithms to support decision-making across the organization],
-    [Collaborate with executive leadership to identify business opportunities and drive growth, implement best practices for data governance, quality, and security],
+    [Engineered automated reporting system reducing manual effort by 80% and accelerating query execution by 50%.],
+    [Optimized database architecture achieving 25% faster query performance and enhanced data integrity.],
+    [Enhanced POS360 API security with JWT authentication and integrated Firebase real-time messaging.],
   ),
-  tags: ("Dataiku", "Snowflake", "SparkSQL"),
-)
-
-#cv-entry-continued(
-  title: [Data Scientist],
-  date: [2017 - 2020 #linebreak() 2021 - 2022],
-  description: list(
-    [Analyze large datasets with SQL and Python, collaborate with teams to uncover business insights],
-    [Create data visualizations and dashboards in Tableau, develop and maintain data pipelines with AWS],
-  ),
+  tags: ("C# (ASP .NET)", "ADO.NET", "MS SQL Server", "Firebase", "JWT", "Swagger"),
 )
 
 #cv-entry(
-  title: [Data Analyst],
-  society: [ABC Company],
-  logo: image("../assets/logos/abc_company.png"),
-  date: [2017 - 2020],
-  location: [New York, NY],
+  title: [Software Engineer - Intern],
+  society: [SimCentric Technologies],
+  date: [Nov 2023 - May 2024],
+  location: [Colombo 9],
   description: list(
-    [Analyze large datasets with SQL and Python, collaborate with teams to uncover business insights],
-    [Create data visualizations and dashboards in Tableau, develop and maintain data pipelines with AWS],
+    [Architected legacy system migration to WinUI 3, improving application scalability and performance.],
+    [Developed integrated add-on store with user profiles, increasing platform usage by 25%.],
+    [Built SQLite data processing engine with Entity Framework and modernized UI components.],
   ),
-)
-
-#cv-entry(
-  title: [Data Analysis Intern],
-  society: [PQR Corporation],
-  logo: image("../assets/logos/pqr_corp.png"),
-  date: list(
-    [Summer 2017],
-    [Summer 2016],
-  ),
-  location: [Chicago, IL],
-  description: list([Assisted with data cleaning, processing, and analysis using Python and Excel, participated in team meetings and contributed to project planning and execution]),
+  tags: ("C#", "WinUI 3", "XAML", "Entity Framework", "SQLite", "Microsoft Community Toolkit"),
 )

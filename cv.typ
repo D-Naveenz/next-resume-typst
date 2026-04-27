@@ -47,10 +47,13 @@
 )
 
 #import-modules((
-  "education",
+  "profile",
+  "skills",
   "professional",
   "projects",
+  "open_source",
+  "education",
   "certificates",
-  "publications",
-  "skills",
+  "community",
+  "competencies",
 ))

@@ -6,42 +6,21 @@
 #cv-section("Education")
 
 #cv-entry(
-  title: [Master of Data Science],
-  society: [University of California, Los Angeles],
-  date: [2018 - 2020],
-  location: [USA],
-  logo: image("../assets/logos/ucla.png"),
+  title: [Computer Science | B.Sc.],
+  society: [University of Colombo School of Computing],
+  date: [May 2022 - Aug 2025],
+  location: [Colombo 7],
   description: list(
-    [Thesis: Predicting Customer Churn in Telecommunications Industry using Machine Learning Algorithms and Network Analysis],
-    [Course: Big Data Systems and Technologies #h-bar() Data Mining and Exploration #h-bar() Natural Language Processing],
+    [Relevant Courses: Software Engineering #h-bar() DSA #h-bar() OOP #h-bar() Rapid Application Development #h-bar() Databases #h-bar() Human Computer Interaction #h-bar() Middleware Architecture],
   ),
 )
 
 #cv-entry(
-  title: [Bachelors of Science in Computer Science],
-  society: [University of California, Los Angeles],
-  date: [2014 - 2018],
-  location: [USA],
-  logo: image("../assets/logos/ucla.png"),
+  title: [Mathematics | GCE A/L],
+  society: [Royal College],
+  date: [Apr 2015 - Aug 2019],
+  location: [Colombo 7],
   description: list(
-    [Thesis: Exploring the Use of Machine Learning Algorithms for Predicting Stock Prices: A Comparative Study of Regression and Time-Series Models],
-    [Course: Database Systems #h-bar() Computer Networks #h-bar() Software Engineering #h-bar() Artificial Intelligence],
-    [GPA: 3.8/4.0, Magna Cum Laude],
-  ),
-  tags: ("Computer Science", "Machine Learning", "Statistics"),
-)
-
-// Example with multiple date periods (study abroad program)
-#cv-entry(
-  title: [Exchange Student Program],
-  society: [Technical University of Munich],
-  date: list(
-    [Fall 2016],
-    [Spring 2017],
-  ),
-  location: [Germany],
-  description: list(
-    [Specialized courses in Advanced Algorithms and Data Structures],
-    [Research project on Distributed Computing Systems],
+    [Results: ABC],
   ),
 )

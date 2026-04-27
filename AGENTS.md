@@ -1,14 +1,16 @@
 # AGENTS.md
 
-This repository uses a repo-local knowledge system for Codex and other coding agents. Treat this file as the entry point, not the full knowledge base.
+This workspace uses MindVault as the canonical AI memory. Keep this file short: it is a linker and quick reference, not the knowledge base.
 
-## Read This First
+## MindVault
 
-1. [docs/ai/index.md](docs/ai/index.md) for the knowledge map and reading order.
-2. [docs/ai/project-guidelines.md](docs/ai/project-guidelines.md) for project goals, guardrails, and implementation defaults.
-3. [docs/ai/continuous-learning.md](docs/ai/continuous-learning.md) for lessons learned during real work.
-4. `docs/reference/` for source-of-truth notes about the current template and repo layout.
-5. `docs/adr/` for durable architectural or workflow decisions.
+- Vault: `C:\Users\dashe\OneDrive\Documents\MindVault`
+- Start with: `AI\atlas\Home.md`
+- Reusable principles: `AI\atlas\Principle Index.md`
+- Structural search: `AI\atlas\Structural Similarity Index.md`
+- Workspace evidence: `AI\evidence\workspaces\<workspace>\<Workspace Name> Workspace.md` if it exists
+
+Store durable lessons and cross-workspace abstractions in MindVault. Keep only local setup, commands, and hard repository guardrails here.
 
 ## Project Snapshot
 
