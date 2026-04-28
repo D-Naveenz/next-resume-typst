@@ -57,51 +57,21 @@ language = "en"
         # true shows "1/2" style page numbers in the footer
         display_page_counter = false
 
-        # false removes the footer entirely (no page text, no counter)
-        display_footer = true
+        # Keep the upstream footer disabled; cv.typ provides a PDF artifact footer instead.
+        display_footer = false
+        # true shows the repo-local artifact footer, which is visible but excluded from copy/reflow
+        display_artifact_footer = true
+        # Footer label shown on the right. Use "CV" or "Resume".
+        document_type = "Resume"
 
 
 [inject]
     # Hidden text injected into the PDF for ATS keyword matching (invisible to readers)
     # custom_ai_prompt_text = "Custom prompt text here..."  # Uncomment to add a custom ATS prompt string
 
-    # Hidden keywords injected into PDF metadata for ATS keyword matching (invisible to readers)
-    injected_keywords_list = [
-        "Associate Software Engineer",
-        "Backend Developer",
-        "Software Developer",
-        "C#",
-        ".NET",
-        ".NET Core",
-        "ASP.NET",
-        "Entity Framework",
-        "WinUI 3",
-        "WinAppSDK",
-        "REST API",
-        "API Design",
-        "System Architecture",
-        "Performance Optimization",
-        "Scalable System Design",
-        "Cross-Platform Development",
-        "Open Source Development",
-        "Technical Leadership",
-        "Problem Solving",
-        "Agile Methodologies",
-        "Python",
-        "JavaScript",
-        "TypeScript",
-        "Lua",
-        "MS SQL Server",
-        "MySQL",
-        "SQLite",
-        "Firebase",
-        "Azure",
-        "Azure DevOps",
-        "GCP",
-        "Docker",
-        "GitHub Actions",
-        "NuGet",
-    ]
+    # Do not use injected_keywords_list for ATS keyword stuffing.
+    # The upstream template places those keywords as tiny white page text,
+    # which leaks into copied/parsed text. Keep keywords visible in content.
 
 [personal]
     # Your first name, displayed in the header

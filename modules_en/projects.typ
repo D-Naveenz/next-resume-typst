@@ -9,7 +9,7 @@
   title: [Lead Developer (Backend & Unity) & System Architect],
   society: [DineEase | Customer Experience Optimizer and Sales Management System],
   date: [Nov 2023 - May 2024],
-  location: [Repository: 1000-Faces #linebreak() Deployment: Azure VM],
+  location: [Repository: 1000-Faces | Deployment: Azure VM],
   description: list(
     [Built full-stack restaurant management system with AR menu visualization for 15+ establishments.],
     [Achieved 99.9% system uptime, 40% increased engagement, and 50% faster order processing.],
@@ -21,7 +21,7 @@
   title: [Modular .NET Application Framework],
   society: [Rheo],
   date: [Oct 2025 - Present],
-  location: [Repository: Rheo #linebreak() Deployment: NuGet Package],
+  location: [Repository: Rheo | Deployment: NuGet Package],
   description: list(
     [Architected multi-module C\# library reducing development time for .NET applications by 40%.],
     [Developed cross-platform storage library and specialized generic host layer for WinUI and console apps.],
@@ -33,7 +33,7 @@
   title: [Professional LaTeX Resume Template],
   society: [NextResume],
   date: [Jan 2025 - Present],
-  location: [Repository: NextResume #linebreak() Deployment: GitHub],
+  location: [Repository: NextResume | Deployment: GitHub],
   description: list(
     [Created ATS-friendly LaTeX resume class with Lua-powered dynamic content generation.],
     [Designed modular architecture with SVG icons and professional typography systems.],
