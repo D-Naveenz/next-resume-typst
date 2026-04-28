@@ -5,7 +5,7 @@ language = "en"
 
 [next_resume]
     # Must exactly match the root VERSION file or Typst compilation fails.
-    version = "0.1.3"
+    version = "0.2.0"
 
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
@@ -54,10 +54,7 @@ language = "en"
         display_logo = true
 
     [layout.footer]
-        # true shows "1/2" style page numbers in the footer
-        display_page_counter = false
-
-        # false removes the footer entirely (no page text, no counter)
+        # true shows the NextResume outlined SVG footer on CV pages
         display_footer = true
 
 
@@ -65,8 +62,9 @@ language = "en"
     # Hidden text injected into the PDF for ATS keyword matching (invisible to readers)
     # custom_ai_prompt_text = "Custom prompt text here..."  # Uncomment to add a custom ATS prompt string
 
-    # Hidden keywords injected into PDF metadata for ATS keyword matching (invisible to readers)
-    injected_keywords_list = ["Data Analyst", "GCP", "Python", "SQL", "Tableau"]
+    # Do not use injected_keywords_list for ATS keyword stuffing.
+    # The upstream template places those keywords as tiny white page text,
+    # which leaks into copied/parsed text. Keep keywords visible in content.
 
 [personal]
     # Your first name, displayed in the header
@@ -124,12 +122,11 @@ language = "en"
             link = "https://aws.amazon.com/certification/"
 
 
-# Add a [lang.xx] section for each language you support
-# Each section must contain header_quote, cv_footer, and letter_footer
+# Add a [lang.xx] section for each language you support.
 [lang.en]
     # Italic tagline displayed below your name and contact info
     header_quote = "Experienced Data Analyst looking for a full time job starting from now"
-    # Text shown in the left side of the footer on CV pages
+    # Text shown on the right side of the outlined CV footer
     cv_footer = "Curriculum vitae"
     # Text shown in the left side of the footer on cover letter pages
     letter_footer = "Cover letter"
