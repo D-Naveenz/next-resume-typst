@@ -57,15 +57,6 @@ language = "en"
         # true shows the NextResume outlined SVG footer on CV pages
         display_footer = true
 
-
-[inject]
-    # Hidden text injected into the PDF for ATS keyword matching (invisible to readers)
-    # custom_ai_prompt_text = "Custom prompt text here..."  # Uncomment to add a custom ATS prompt string
-
-    # Do not use injected_keywords_list for ATS keyword stuffing.
-    # The upstream template places those keywords as tiny white page text,
-    # which leaks into copied/parsed text. Keep keywords visible in content.
-
 [personal]
     # Your first name, displayed in the header
     first_name = "John"
