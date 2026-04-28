@@ -8,6 +8,7 @@
 #cv-entry(
   title: [Backend Developer - Intern],
   society: [App 360],
+  logo: image("../assets/logos/app360.jpg"),
   date: [Jun 2024 - Dec 2024],
   location: [Melbourne, Australia (Remote)],
   description: list(
@@ -21,6 +22,7 @@
 #cv-entry(
   title: [Software Engineer - Intern],
   society: [SimCentric Technologies],
+  logo: image("../assets/logos/simcentric.png"),
   date: [Nov 2023 - May 2024],
   location: [Colombo 9],
   description: list(
