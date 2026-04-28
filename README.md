@@ -37,7 +37,7 @@ Typst ecosystem practices.
 
 ## What Changed
 
-- Added a local `components/nextresume.typ` wrapper for the CV/resume path.
+- Added a local `core/nextresume.typ` wrapper for the CV/resume path.
 - Added compile-time version validation between `VERSION` and
   `metadata.toml`.
 - Added PDF metadata handling through the local template layer.
@@ -60,7 +60,7 @@ Typst ecosystem practices.
 - `metadata.toml`: identity, layout, styling, language, ATS, footer, and
   version settings.
 - `modules_en/*.typ`: English resume section content.
-- `components/nextresume.typ`: local CV/resume template wrapper.
+- `core/nextresume.typ`: local CV/resume template wrapper.
 - `components/artifact-footer.typ`: artifact footer renderer.
 - `tools/generate-footer-assets.ps1`: footer SVG asset generator.
 - `assets/`: profile images, signatures, logos, generated footer SVGs, and

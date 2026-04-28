@@ -12,7 +12,8 @@
   _latin-header-font,
   _regular-colors,
 )
-#import "./artifact-footer.typ": artifact-footer
+#import "../components/artifact-footer.typ": artifact-footer
+#import "./metadata.typ": normalize-metadata, to-brilliant-cv-metadata
 
 #let cv(
   metadata,
@@ -25,16 +26,10 @@
     panic("'profilePhoto' has been renamed and will be removed in v4.0. Use 'profile-photo' instead.")
   }
 
-  let nextresume-metadata = metadata
-  let footer = metadata.layout.at("footer", default: (:))
-  let upstream-metadata = metadata + (
-    layout: metadata.layout + (
-      footer: footer + (
-        display_footer: false,
-        display_page_counter: false,
-      ),
-    ),
-  )
+  // Keep NextResume metadata separate from the upstream-safe copy. Our artifact
+  // footer still needs the user's original footer preference.
+  let nextresume-metadata = normalize-metadata(metadata)
+  let upstream-metadata = to-brilliant-cv-metadata(nextresume-metadata, suppress-footer: true)
 
   cv-metadata.update(upstream-metadata)
 
