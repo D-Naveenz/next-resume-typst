@@ -66,7 +66,42 @@ language = "en"
     # custom_ai_prompt_text = "Custom prompt text here..."  # Uncomment to add a custom ATS prompt string
 
     # Hidden keywords injected into PDF metadata for ATS keyword matching (invisible to readers)
-    injected_keywords_list = ["Data Analyst", "GCP", "Python", "SQL", "Tableau"]
+    injected_keywords_list = [
+        "Associate Software Engineer",
+        "Backend Developer",
+        "Software Developer",
+        "C#",
+        ".NET",
+        ".NET Core",
+        "ASP.NET",
+        "Entity Framework",
+        "WinUI 3",
+        "WinAppSDK",
+        "REST API",
+        "API Design",
+        "System Architecture",
+        "Performance Optimization",
+        "Scalable System Design",
+        "Cross-Platform Development",
+        "Open Source Development",
+        "Technical Leadership",
+        "Problem Solving",
+        "Agile Methodologies",
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Lua",
+        "MS SQL Server",
+        "MySQL",
+        "SQLite",
+        "Firebase",
+        "Azure",
+        "Azure DevOps",
+        "GCP",
+        "Docker",
+        "GitHub Actions",
+        "NuGet",
+    ]
 
 [personal]
     # Your first name, displayed in the header
@@ -95,7 +130,7 @@ language = "en"
         # Shown as clickable icon in header; auto-links to linkedin.com/in/<value>
         linkedin = "dasheewd"
         # Shown as clickable globe icon in header; auto-links to https://<value>
-        homepage = "medium.com/@dasheewd"
+        # homepage = "naveendharmathunga.dev"
         # researchgate = "John-Doe"  # Shown as a clickable ResearchGate icon in header
         # Shown as map-marker icon in header; displayed as plain text (no link)
         location = "Colombo, Sri Lanka"
@@ -105,19 +140,16 @@ language = "en"
 
         # Custom info with awesome icon
         [personal.info.custom-1]
-            awesomeIcon = "twitter" # See https://typst.app/universe/package/fontawesome/
+            awesomeIcon = "x-twitter" # See https://typst.app/universe/package/fontawesome/
             # Display text shown next to the icon in the header
             text = "dharmathunga"
             # URL the icon/text links to; omit for non-clickable entries
             link = "https://x.com/dharmathunga"
 
-        # Custom info with image icon
-        # To use a custom image icon, pass it via custom-icons in cv.typ:
-        #   custom-icons: ("custom-2": image("assets/my-icon.png"))
-        # [personal.info.custom-2]
-        #     awesomeIcon = "certificate"
-        #     text = "AWS Certified"
-        #     link = "https://aws.amazon.com/certification/"
+        [personal.info.custom-2]
+            awesomeIcon = "medium"
+            text = "@dasheewd"
+            link = "https://medium.com/@dasheewd"
 
 
 # Add a [lang.xx] section for each language you support
