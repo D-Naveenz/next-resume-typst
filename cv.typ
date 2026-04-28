@@ -1,5 +1,5 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv
+#import "./core/nextresume.typ": cv
 #import "./components/profile-photo.typ": profile-photo
 #import "./components/versioning.typ": validate-next-resume-version, set-next-resume-document-metadata
 #let metadata = toml("./metadata.toml")
