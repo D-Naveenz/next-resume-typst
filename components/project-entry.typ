@@ -28,7 +28,7 @@
   [
     #for (index, item) in links.enumerate() {
       if index > 0 {
-        text(", ")
+        h(1em)
       }
       item
     }
@@ -52,23 +52,32 @@
   let date-width = eval(metadata.layout.at("date_width", default: "4.8cm"))
   let before-entry-skip = eval(metadata.layout.at("before_entry_skip", default: "4pt"))
   let before-description-skip = eval(metadata.layout.at("before_entry_description_skip", default: "1pt"))
+  let name-style = (value) => text(size: 10pt, weight: "bold", value)
+  let role-style = (value) => align(right, text(weight: "medium", fill: accent, style: "oblique", value))
+  let date-style = (value) => align(right, text(size: 8pt, weight: "medium", fill: gray, style: "oblique", value))
+  let description-style = (value) => text(fill: _regular-colors.lightgray, value)
+  let link-row = _links-row(links)
 
   v(before-entry-skip)
-  grid(
+  table(
     columns: (1fr, date-width),
-    column-gutter: 10pt,
-    row-gutter: 1pt,
     inset: 0pt,
-    text(size: 10pt, weight: "bold", fill: _regular-colors.darkgray, name),
-    align(right, text(size: 10pt, weight: "bold", fill: accent, role)),
-    text(size: 9pt, fill: _regular-colors.lightgray, description),
-    align(right, text(size: 9pt, fill: _regular-colors.lightgray, date)),
-    grid.cell(colspan: 2)[#text(size: 9pt, fill: _regular-colors.lightgray, _links-row(links))],
+    stroke: 0pt,
+    gutter: 6pt,
+    align: (x, y) => if x == 1 { right } else { auto },
+    name-style(name),
+    role-style(role),
+    description-style(description),
+    date-style(date),
   )
+
+  if link-row != none {
+    text(size: 9pt, fill: _regular-colors.lightgray, link-row)
+  }
 
   if body != none {
     v(before-description-skip)
-    body
+    description-style(body)
   }
 
   _entry-tags(tags, copy-delimiter: copy-delimiter)

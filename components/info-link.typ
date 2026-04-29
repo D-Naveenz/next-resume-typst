@@ -1,35 +1,87 @@
-// Link helpers that keep polished visible text while exposing a richer PDF
-// semantic string through the build-time ActualText post-processor.
+// Link helpers that keep polished visible text while exposing copy-safe values
+// through the build-time ActualText post-processor.
 
+#import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _set-accent-color
 #import "@preview/fontawesome:0.6.0": fa-github, fa-link, fa-cube
 
-#let _link-body(label, text, icon: none) = [
-  #label:#h(0.25em)
+#let _value-body(text-value, icon: none) = [
   #if icon != none {
     icon
     h(0.22em)
   }
-  #text
+  #text-value
+]
+
+#let _maybe-fill(color, body) = {
+  if color == none {
+    body
+  } else {
+    text(fill: color, body)
+  }
+}
+
+#let actual-value(
+  text-value,
+  actual,
+  url: none,
+  icon: none,
+  color: none,
+  id-prefix: "info-link",
+) = [
+  // Typst query exports this manifest entry; tools/apply-actual-text.py then
+  // turns the matching artifact wrapper into a Span with /ActualText.
+  #metadata((kind: id-prefix, actual: actual, url: url)) <nextresume-actualtext>
+  #{
+    let visible = _maybe-fill(color, _value-body(text-value, icon: icon))
+    let artifact = pdf.artifact(kind: "other")[#visible]
+
+    if url == none {
+      artifact
+    } else {
+      link(url)[
+        // Group the mixed icon/text run into one annotation so Adobe-style
+        // copy uses one ActualText replacement instead of repeating it.
+        #box[#artifact]
+      ]
+    }
+  }
 ]
 
 #let info-link(
-  label,
-  text,
-  url,
-  icon: fa-link(),
+  name,
+  text-value,
+  url: none,
+  icon: none,
+  color: none,
+  link-color: none,
   id-prefix: "info-link",
-) = {
-  let actual = label + ": " + url
+) = context {
+  let metadata = cv-metadata.get()
+  let accent = if link-color != none { link-color } else { _set-accent-color(_awesome-colors, metadata) }
+  let value-color = if url == none {
+    color
+  } else {
+    accent
+  }
 
-  // Typst query exports this manifest entry; tools/apply-actual-text.py then
-  // turns the matching artifact wrapper into a Span with /ActualText.
   [
-    #metadata((kind: id-prefix, actual: actual, url: url)) <nextresume-actualtext>
-    #pdf.artifact(kind: "other")[
-      #link(url)[
-        #_link-body(label, text, icon: icon)
-      ]
-    ]
+    #if icon != none {
+      _maybe-fill(color, icon)
+      h(0.22em)
+    }
+    #_maybe-fill(color, [#name:#h(0.25em)])
+    #if url == none {
+      _maybe-fill(color, text-value)
+    } else {
+      actual-value(
+        text-value,
+        url,
+        url: url,
+        icon: none,
+        color: value-color,
+        id-prefix: id-prefix,
+      )
+    }
   ]
 }
 
@@ -38,7 +90,7 @@
   text,
   url,
   icon: none,
-) = {
+) = context {
   let default-icon = if kind == "Repository" {
     fa-github()
   } else if kind == "Deployment" {
@@ -47,11 +99,15 @@
     fa-link()
   }
 
-  info-link(
-    kind,
-    text,
-    url,
-    icon: if icon == none { default-icon } else { icon },
-    id-prefix: "project-link",
-  )
+  [
+    #kind:#h(0.25em)
+    #actual-value(
+      text,
+      url,
+      url: url,
+      icon: if icon == none { default-icon } else { icon },
+      color: _set-accent-color(_awesome-colors, cv-metadata.get()),
+      id-prefix: "project-link",
+    )
+  ]
 }
