@@ -6,6 +6,7 @@
 [![License][licence-shield]][licence-file]
 [![Typst][typst-shield]][typst]
 [![ATS Friendly][ats-shield]][ats-notes]
+[![Changelog][changelog-shield]][changelog-file]
 [![brilliant-CV Foundation][foundation-shield]][brilliant-cv]
 
 </div>
@@ -37,21 +38,16 @@ Typst ecosystem practices.
 
 ## What Changed
 
-- Added a local `core/nextresume.typ` wrapper for the CV/resume path.
-- Added compile-time version validation between `VERSION` and
-  `metadata.toml`.
-- Added PDF metadata handling through the local template layer.
-- Reworked the footer as a visible PDF artifact rendered from outlined SVG
-  assets, so it can appear on the page without polluting copied resume text.
-- Added `tools/generate-footer-assets.ps1` to generate language-keyed footer
-  SVGs from resume metadata.
-- Removed hidden keyword injection from the default metadata flow and moved ATS
-  strategy toward visible, truthful skills and experience content.
-- Added reusable local components for entries, skills, tags, profile photos,
-  and versioning.
-- Updated local font and icon assets, including newer Font Awesome support.
-- Kept the cover-letter path compatible with the brilliant-CV foundation while
-  the resume path evolves through NextResume components.
+See [CHANGELOG.md][changelog-file] for the full release history.
+
+- ATS-conscious PDF output: hidden keyword injection is disabled by default,
+  semantic project links use `/ActualText`, and visual footer text stays out of
+  copied resume content.
+- NextResume-owned rendering layer: the CV path now runs through local core and
+  entry components while preserving the compact brilliant-CV visual language.
+- Stronger authoring model: version validation, shared entry primitives,
+  project metadata rows, keep-together entries, and build tooling make the
+  template easier to maintain and extend.
 
 ## Main Files
 
@@ -61,7 +57,14 @@ Typst ecosystem practices.
   version settings.
 - `modules_en/*.typ`: English resume section content.
 - `core/nextresume.typ`: local CV/resume template wrapper.
+- `components/entry.typ`: shared entry header, description, and full-entry
+  primitives.
+- `components/info-link.typ`: semantic info/project links with ActualText
+  metadata.
+- `components/project-entry.typ`: project and association entry renderer.
 - `components/artifact-footer.typ`: artifact footer renderer.
+- `tools/build.ps1`: CV build wrapper that compiles and applies ActualText.
+- `tools/apply-actual-text.py`: PDF post-processor for semantic link text.
 - `tools/generate-footer-assets.ps1`: footer SVG asset generator.
 - `assets/`: profile images, signatures, logos, generated footer SVGs, and
   other binary inputs.
@@ -70,6 +73,15 @@ Generated PDFs are build outputs. Edit the Typst, TOML, module, tool, or asset
 sources instead.
 
 ## Build
+
+For the CV/resume, use the build wrapper so semantic project links are
+post-processed with PDF `/ActualText`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\build.ps1
+```
+
+For quick raw Typst output without post-processing:
 
 ```powershell
 typst compile cv.typ cv.pdf
@@ -120,7 +132,7 @@ NextResume is built on the excellent foundation of
 Their work provided the visual and structural starting point that made this
 template possible.
 
-[version-shield]: https://img.shields.io/badge/version-0.2.0-blue
+[version-shield]: https://img.shields.io/badge/version-0.3.0-blue
 [version-file]: ./VERSION
 [licence-shield]: https://img.shields.io/badge/licence-MIT-green
 [licence-file]: ./LICENSE
@@ -128,6 +140,8 @@ template possible.
 [typst]: https://typst.app/
 [ats-shield]: https://img.shields.io/badge/ATS-friendly-2ea44f
 [ats-notes]: #ats-notes
+[changelog-shield]: https://img.shields.io/badge/changelog-keep%20a%20changelog-orange
+[changelog-file]: ./CHANGELOG.md
 [foundation-shield]: https://img.shields.io/badge/foundation-brilliant--CV-8a63d2
 [brilliant-cv]: https://github.com/yunanwg/brilliant-CV
 [yunan-wang]: https://github.com/yunanwg
