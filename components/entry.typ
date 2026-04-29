@@ -111,6 +111,7 @@
   awesome-colors: _awesome-colors,
   awesomeColors: none,
   copy-delimiter: " | ",
+  allow_break: false,
 ) = context {
   let metadata = if metadata != none { metadata } else { cv-metadata.get() }
   let params = _entry-params(metadata, color, awesome-colors, awesomeColors)
@@ -141,6 +142,7 @@
   awesome-colors: _awesome-colors,
   awesomeColors: none,
   copy-delimiter: " | ",
+  allow_break: false,
 ) = context {
   let metadata = if metadata != none { metadata } else { cv-metadata.get() }
   let params = _entry-params(metadata, color, awesome-colors, awesomeColors)
@@ -152,22 +154,24 @@
   let right-primary = if society-first { location } else { (styles.dates)(date) }
   let right-secondary = if society-first { (styles.dates)(date) } else { location }
 
-  cv-entry-header(
-    primary,
-    secondary,
-    right-primary,
-    right-secondary,
-    logo: logo,
-    color: color,
-    metadata: metadata,
-    awesome-colors: awesome-colors,
-  )
-  cv-entry-description(
-    description,
-    tags: tags,
-    color: color,
-    metadata: metadata,
-    awesome-colors: awesome-colors,
-    copy-delimiter: copy-delimiter,
-  )
+  block(breakable: allow_break)[
+    #cv-entry-header(
+      primary,
+      secondary,
+      right-primary,
+      right-secondary,
+      logo: logo,
+      color: color,
+      metadata: metadata,
+      awesome-colors: awesome-colors,
+    )
+    #cv-entry-description(
+      description,
+      tags: tags,
+      color: color,
+      metadata: metadata,
+      awesome-colors: awesome-colors,
+      copy-delimiter: copy-delimiter,
+    )
+  ]
 }

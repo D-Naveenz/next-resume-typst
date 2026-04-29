@@ -29,6 +29,7 @@
   color: none,
   metadata: none,
   copy-delimiter: " | ",
+  allow_break: false,
 ) = context {
   let link-row = _links-row(links)
   let project-description-style = (value, before-skip) => text(
@@ -40,26 +41,28 @@
   )
   let project-subtitle-style = (value) => text(fill: _regular-colors.lightgray, value)
 
-  cv-entry-header(
-    name,
-    description,
-    role,
-    date,
-    color: color,
-    metadata: metadata,
-    secondary-style: project-subtitle-style,
-  )
+  block(breakable: allow_break)[
+    #cv-entry-header(
+      name,
+      description,
+      role,
+      date,
+      color: color,
+      metadata: metadata,
+      secondary-style: project-subtitle-style,
+    )
 
-  if link-row != none {
-    text(size: 9pt, fill: _regular-colors.lightgray, link-row)
-  }
+    #if link-row != none {
+      text(size: 9pt, fill: _regular-colors.lightgray, link-row)
+    }
 
-  cv-entry-description(
-    body,
-    tags: tags,
-    description-style: project-description-style,
-    color: color,
-    metadata: metadata,
-    copy-delimiter: copy-delimiter,
-  )
+    #cv-entry-description(
+      body,
+      tags: tags,
+      description-style: project-description-style,
+      color: color,
+      metadata: metadata,
+      copy-delimiter: copy-delimiter,
+    )
+  ]
 }
