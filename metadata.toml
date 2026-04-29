@@ -5,7 +5,7 @@ language = "en"
 
 [next_resume]
     # Must exactly match the root VERSION file or Typst compilation fails.
-    version = "0.2.0"
+    version = "0.3.0"
 
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
@@ -47,7 +47,7 @@ language = "en"
 
     [layout.entry]
         # true = company name bold on top, role below; false = role bold on top
-        # Must be true to use cv-entry-start / cv-entry-continued pattern
+        # true shows society/company before role/title in entry headers
         display_entry_society_first = true
 
         # false hides all company/organisation logos in entries

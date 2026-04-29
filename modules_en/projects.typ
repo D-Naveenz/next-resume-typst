@@ -1,30 +1,49 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv-section
-#import "../components/entries.typ": cv-entry
+#import "../components/info-link.typ": project-link
+#import "../components/project-entry.typ": project-entry
 
 
 #cv-section("Projects & Associations")
 
-#cv-entry(
-  title: [Volunteer Data Analyst],
-  society: [ABC Nonprofit Organization],
-  date: [2019 - Present],
-  location: [New York, NY],
-  description: list(
-    [Analyze donor and fundraising data to identify trends and opportunities for growth],
-    [Create data visualizations and dashboards to communicate insights to the board of directors],
-    [Collaborate with other volunteers to develop and implement data-driven strategies],
-    [Increased donation efficiency by 25% through predictive modeling],
+#project-entry(
+  [NextResume],
+  [Maintainer],
+  [Typst CV/Resume template],
+  [2025 - Present],
+  links: (
+    project-link(
+      "Repository",
+      [next-resume-typst],
+      "https://github.com/D-Naveenz/next-resume-typst",
+    ),
+    project-link(
+      "Deployment",
+      [Crates],
+      "https://crates.io/crates/dhara_storage",
+    ),
   ),
-  tags: ("Volunteer Work", "Non-profit", "Social Impact"),
+  body: list(
+    [Built a Typst resume template that balances visual polish with copy-friendly ATS extraction],
+    [Added modular project headers, semantic link handling, and artifact-based footer rendering],
+    [Modernized the brilliant-CV foundation while preserving its compact professional layout],
+  ),
+  tags: ("Typst", "PDF", "ATS", "Template"),
 )
 
-#cv-entry(
-  title: [Open Source Contributor],
-  society: [Python Data Science Libraries],
-  date: [2018 - Present],
-  location: [Remote],
-  description: list(
+#project-entry(
+  [Python Data Science Libraries],
+  [Open Source Contributor],
+  [Community-maintained analysis and visualization tooling],
+  [2018 - Present],
+  links: (
+    project-link(
+      "Repository",
+      [pandas],
+      "https://github.com/pandas-dev/pandas",
+    ),
+  ),
+  body: list(
     [Contributed to pandas, scikit-learn, and matplotlib projects],
     [Fixed bugs, improved documentation, and added new features],
     [Mentored new contributors during Google Summer of Code],
@@ -32,12 +51,19 @@
   tags: ("Open Source", "Python", "Community"),
 )
 
-#cv-entry(
-  title: [Machine Learning Research Project],
-  society: [Personal Project],
-  date: [Summer 2020],
-  location: [Remote],
-  description: list(
+#project-entry(
+  [Time Series Forecasting],
+  [Research Developer],
+  [Transformer-based machine learning research project],
+  [Summer 2020],
+  links: (
+    project-link(
+      "Repository",
+      [forecasting-lab],
+      "https://github.com/johndoe/forecasting-lab",
+    ),
+  ),
+  body: list(
     [Developed a novel approach to time series forecasting using transformer architectures],
     [Published research paper and open-sourced implementation on GitHub],
     [Achieved 15% improvement over baseline models on benchmark datasets],

@@ -1,18 +1,16 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv-section
-#import "../components/entries.typ": cv-entry, cv-entry-start, cv-entry-continued
+#import "../components/entry.typ": cv-entry
 
 
 #cv-section("Professional Experience")
 
-#cv-entry-start(
+#cv-entry(
+  title: [Director of Data Science],
   society: [XYZ Corporation],
   logo: image("../assets/logos/xyz_corp.png"),
+  date: [Date],
   location: [San Francisco, CA],
-)
-
-#cv-entry-continued(
-  title: [Director of Data Science],
   description: list(
     [Lead a team of data scientists and analysts to develop and implement data-driven strategies, develop predictive models and algorithms to support decision-making across the organization],
     [Collaborate with executive leadership to identify business opportunities and drive growth, implement best practices for data governance, quality, and security],
@@ -20,9 +18,12 @@
   tags: ("Dataiku", "Snowflake", "SparkSQL"),
 )
 
-#cv-entry-continued(
+#cv-entry(
   title: [Data Scientist],
+  society: [XYZ Corporation],
+  logo: image("../assets/logos/xyz_corp.png"),
   date: [2017 - 2020 #linebreak() 2021 - 2022],
+  location: [San Francisco, CA],
   description: list(
     [Analyze large datasets with SQL and Python, collaborate with teams to uncover business insights],
     [Create data visualizations and dashboards in Tableau, develop and maintain data pipelines with AWS],
