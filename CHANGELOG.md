@@ -6,12 +6,13 @@ All notable changes to NextResume are documented in this file.
 
 ### Added
 
-- Added a local CV header renderer with semantic personal-info links, preserving labeled handle display while storing canonical links in hyperlink targets and PDF `/ActualText`.
+- Added a local CV header renderer with labeled personal-info links and canonical hyperlink targets.
 - Added X and Medium personal-info keys for modern social/profile links.
 
 ### Changed
 
-- Header icons are treated as decorative PDF artifacts so copied header text avoids Font Awesome glyph noise.
+- Header icons use typed decorative PDF artifacts so readers that honor artifacts can ignore Font Awesome glyph text during copy.
+- Header contact links no longer emit `/ActualText`; Adobe Reader repeats row-level or nested link ActualText across header sub-runs, so the header now relies on visible labels plus hyperlink targets while project links keep `/ActualText`.
 - Strengthened the ActualText post-processor fixture to tolerate nested decorative artifacts inside semantic link spans.
 
 ## [0.3.0] - 2026-04-29

@@ -72,10 +72,9 @@ language = "en"
     # Your mailing address, used as default sender-address in the cover letter
     # address = "123 Main St, San Francisco, CA 94102"
 
-    # The order of entries below controls the display order of icons/links in the header
-    # The custom value is for any additional information you want to add, name it as custom-1, custom-2, etc.
+    # The order of entries below controls the display order of icons/links in the header.
+    # Header contact links render as "Label: handle" while storing the full URL in the PDF link target.
     [personal.info]
-        # Header contact links render as "Label: handle" while storing the full URL in the PDF link and ActualText.
         # Shown as GitHub: <value>; links to github.com/<value>
         github = "yunanwg"
         # Shown as Phone: <value>; links to tel:<value-without-spaces>
@@ -84,8 +83,6 @@ language = "en"
         email = "john.doe@me.org"
         # Shown as LinkedIn: <value>; links to linkedin.com/in/<value>
         linkedin = "johndoe"
-        # Shown as GitLab: <value>; links to gitlab.com/<value>
-        gitlab = "yunanwg"
         # Shown as Website: <value>; links to https://<value>. Comment out until the portfolio exists.
         homepage = "johndoe.dev"
         # Shown as X: <value>; links to x.com/<value-without-@>
@@ -95,30 +92,22 @@ language = "en"
         # Shown as ORCID: <value>; links to orcid.org/<value>
         orcid = "0000-0000-0000-0000"
         # researchgate = "John-Doe"  # Shown as ResearchGate: <value>; links to researchgate.net/profile/<value>
-        # Shown as Location: <value>; displayed as plain text with ActualText
+        # Shown as Location: <value>; displayed as plain text
         location = "San Francisco, CA"
         # extraInfo = "Available for remote work"  # Shown as Info: <value>
         # Insert a line break in the header info, splitting icons across two lines
         #linebreak = ""
 
-        # Custom info with awesome icon
+        # Custom info entries can be repeated by adding more custom-N tables.
+        # Use awesomeIcon for any Font Awesome icon name, or pass an image icon from cv.typ:
+        #   custom-icons: ("custom-1": image("assets/my-icon.png"))
+        # label/name controls the visible prefix.
+        # text controls the visible value. link is optional; when present, it becomes the PDF link target.
         [personal.info.custom-1]
-            awesomeIcon = "graduation-cap" # See https://typst.app/universe/package/fontawesome/
-            # Optional label. If omitted, only text is shown.
-            label = "Credential"
-            # Display text shown next to the icon in the header
-            text = "PhD in Data Science"
-            # URL the icon/text links to; omit for non-clickable entries
-            link = "https://www.example.com"
-
-        # Custom info with image icon
-        # To use a custom image icon, pass it via custom-icons in cv.typ:
-        #   custom-icons: ("custom-2": image("assets/my-icon.png"))
-        [personal.info.custom-2]
-            awesomeIcon = "certificate"
-            label = "Certification"
-            text = "AWS Certified"
-            link = "https://aws.amazon.com/certification/"
+            awesomeIcon = "gitlab" # See https://typst.app/universe/package/fontawesome/
+            label = "GitLab"
+            text = "yunanwg"
+            link = "https://gitlab.com/yunanwg"
 
 
 # Add a [lang.xx] section for each language you support.

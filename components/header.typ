@@ -9,11 +9,9 @@
   h-bar,
 )
 #import "@preview/fontawesome:0.6.0": (
-  fa-certificate,
   fa-envelope,
   fa-github,
   fa-gitlab,
-  fa-graduation-cap,
   fa-icon,
   fa-info-circle,
   fa-linkedin,
@@ -25,8 +23,11 @@
   fa-researchgate,
   fa-x-twitter,
 )
-#import "./info-link.typ": actual-value, info-link
+#import "./info-link.typ": info-link
+#import "./profile-photo.typ": profile-photo
 
+// --------------------------------------
+// Canonical URL helpers for metadata values that are stored as short handles.
 #let _with-scheme(value) = if value.contains("://") { value } else { "https://" + value }
 #let _clean-handle(value) = value.replace("@", "")
 #let _x-url(value) = _with-scheme("x.com/" + _clean-handle(value))
@@ -37,20 +38,45 @@
 } else {
   "https://medium.com/@" + value
 }
+#let _repo-relative(path) = if path.starts-with("/") or path.contains(":") {
+  path
+} else {
+  "../" + path
+}
 
+// --------------------------------------
+// Shared contact-field renderer. The visible header stays compact while the PDF
+// link target carries the canonical machine-readable value. Header ActualText is
+// intentionally avoided because Adobe repeats it across nested link runs.
 #let _field(label, text-value, icon, url: none, actual: none) = {
-  let actual = if actual == none { text-value } else { actual }
-
   info-link(
     label,
     text-value,
     url: url,
     icon: icon,
-    actual: label + ": " + actual,
-    id-prefix: "header-info",
+    semantic: false,
   )
 }
 
+#let _plain-field(text-value, icon, url: none) = {
+  let body = [
+    #if icon != none {
+      pdf.artifact(kind: "page")[#icon]
+      h(0.22em)
+    }
+    #text-value
+  ]
+
+  if url == none {
+    box[#body]
+  } else {
+    link(url)[#box[#body]]
+  }
+}
+
+// --------------------------------------
+// Custom metadata helpers. Users can add personal.info.custom-N entries with a
+// Font Awesome icon name or a cv.typ-provided image icon.
 #let _custom-icon(key, value, custom-icons) = {
   let image-icon = custom-icons.at(key, default: none)
   if image-icon != none {
@@ -80,12 +106,10 @@
   let actual = if url == "" { text-value } else { url }
 
   if label == "" {
-    return actual-value(
+    return _plain-field(
       text-value,
-      actual,
+      icon,
       url: if url == "" { none } else { url },
-      icon: icon,
-      id-prefix: "header-info",
     )
   }
 
@@ -112,21 +136,29 @@
   } else if key == "email" {
     _field("Email", value, fa-envelope(), url: "mailto:" + value, actual: value)
   } else if key == "linkedin" {
-    _field("LinkedIn", value, fa-linkedin(), url: "https://www.linkedin.com/in/" + value, actual: "https://www.linkedin.com/in/" + value)
+    let url = "https://www.linkedin.com/in/" + value
+    _field("LinkedIn", value, fa-linkedin(), url: url, actual: url)
   } else if key == "github" {
-    _field("GitHub", value, fa-github(), url: "https://github.com/" + value, actual: "https://github.com/" + value)
+    let url = "https://github.com/" + value
+    _field("GitHub", value, fa-github(), url: url, actual: url)
   } else if key == "gitlab" {
-    _field("GitLab", value, fa-gitlab(), url: "https://gitlab.com/" + value, actual: "https://gitlab.com/" + value)
+    let url = "https://gitlab.com/" + value
+    _field("GitLab", value, fa-gitlab(), url: url, actual: url)
   } else if key == "homepage" {
-    _field("Website", value, fa-pager(), url: _with-scheme(value), actual: _with-scheme(value))
+    let url = _with-scheme(value)
+    _field("Website", value, fa-pager(), url: url, actual: url)
   } else if key == "orcid" {
-    _field("ORCID", value, fa-orcid(), url: "https://orcid.org/" + value, actual: "https://orcid.org/" + value)
+    let url = "https://orcid.org/" + value
+    _field("ORCID", value, fa-orcid(), url: url, actual: url)
   } else if key == "researchgate" {
-    _field("ResearchGate", value, fa-researchgate(), url: "https://www.researchgate.net/profile/" + value, actual: "https://www.researchgate.net/profile/" + value)
+    let url = "https://www.researchgate.net/profile/" + value
+    _field("ResearchGate", value, fa-researchgate(), url: url, actual: url)
   } else if key == "x" or key == "twitter" {
-    _field("X", value, fa-x-twitter(), url: _x-url(value), actual: _x-url(value))
+    let url = _x-url(value)
+    _field("X", value, fa-x-twitter(), url: url, actual: url)
   } else if key == "medium" {
-    _field("Medium", value, fa-medium(), url: _medium-url(value), actual: _medium-url(value))
+    let url = _medium-url(value)
+    _field("Medium", value, fa-medium(), url: url, actual: url)
   } else if key == "location" {
     _field("Location", value, fa-location-dot(), actual: value)
   } else if key == "extraInfo" {
@@ -136,6 +168,8 @@
   }
 }
 
+// --------------------------------------
+// Render contact entries in metadata order, preserving explicit line breaks.
 #let _header-info(personal-info, custom-icons) = {
   let rendered = 0
   for (key, value) in personal-info {
@@ -156,25 +190,62 @@
   }
 }
 
+// --------------------------------------
+// Prepare the profile image inside the header so cv.typ only has to provide
+// metadata. A passed profile-photo still overrides metadata for compatibility.
+#let _prepare-profile-photo(metadata, profile-photo-override) = {
+  if profile-photo-override != none {
+    return profile-photo-override
+  }
+
+  if not metadata.layout.header.display_profile_photo {
+    return none
+  }
+
+  let path = metadata.personal.at("profile_photo", default: "assets/avatar.png")
+  let source = read(_repo-relative(path), encoding: none)
+  let offset-x = eval(metadata.personal.at("profile_photo_offset_x", default: "0pt"))
+  let offset-y = eval(metadata.personal.at("profile_photo_offset_y", default: "0pt"))
+  let scale-up = metadata.personal.at("profile_photo_scale_up", default: 0)
+
+  profile-photo(
+    source,
+    scale-up: scale-up,
+    offset-x: offset-x,
+    offset-y: offset-y,
+  )
+}
+
+// --------------------------------------
+// Name row. Keep the visible name as real selectable text; block boundaries in
+// `_header-name-section` handle extraction order between name and contact info.
+#let _header-name(styles, non-latin, non-latin-name, first-name, last-name) = {
+  if non-latin {
+    (styles.first-name)(non-latin-name)
+  } else {
+    [#(styles.first-name)(first-name) #h(5pt) #(styles.last-name)(last-name)]
+  }
+}
+
+// --------------------------------------
+// Rebuild brilliant-CV's header name/info/quote section with NextResume's
+// semantic contact renderer.
 #let _header-name-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons) = {
-  table(
+  grid(
     columns: 1fr,
-    inset: 0pt,
-    stroke: none,
+    gutter: 0pt,
     row-gutter: 6mm,
-    if non-latin {
-      (styles.first-name)(non-latin-name)
-    } else {
-      [#(styles.first-name)(first-name) #h(5pt) #(styles.last-name)(last-name)]
-    },
+    _header-name(styles, non-latin, non-latin-name, first-name, last-name),
     [#(styles.info)(_header-info(personal-info, custom-icons))],
     .. if header-quote != none { ([#(styles.quote)(header-quote)],) },
   )
 }
 
+// --------------------------------------
+// Public CV header component consumed by core/nextresume.typ.
 #let cv-header(
   metadata,
-  profile-photo,
+  profile-photo-override,
   header-font,
   regular-colors,
   awesome-colors,
@@ -204,6 +275,7 @@
 
   let styles = _header-styles(header-font, regular-colors, accent-color, header-info-font-size)
   let name-section = _header-name-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons)
+  let profile-photo = _prepare-profile-photo(metadata, profile-photo-override)
   let photo-section = _make-header-photo-section(display-profile-photo, profile-photo, profile-photo-radius)
 
   if display-profile-photo {

@@ -6,7 +6,9 @@
 
 #let _decorative-icon(icon) = {
   if icon != none {
-    pdf.artifact(kind: "other")[#icon]
+    // Use a typed artifact so the post-processor can distinguish decorative
+    // icon text from the plain artifact wrappers used for ActualText spans.
+    pdf.artifact(kind: "page")[#icon]
   }
 }
 
@@ -42,7 +44,7 @@
     let artifact = pdf.artifact(kind: "other")[#visible]
 
     if url == none {
-      artifact
+      box[#artifact]
     } else {
       link(url)[
         // Group the mixed icon/text run into one annotation so Adobe-style
@@ -62,6 +64,7 @@
   link-color: none,
   actual: none,
   id-prefix: "info-link",
+  semantic: true,
 ) = context {
   let metadata = cv-metadata.get()
   let accent = if link-color != none { link-color } else { _set-accent-color(_awesome-colors, metadata) }
@@ -83,12 +86,15 @@
   ]
 
   [
-    #if actual-text == none {
-      if icon != none {
-        _maybe-fill(color, icon)
-        h(0.22em)
+    #if not semantic {
+      let body = _maybe-fill(value-color, _value-body(visible, icon: icon))
+      if url == none {
+        box[#body]
+      } else {
+        link(url)[#box[#body]]
       }
-      _maybe-fill(color, visible)
+    } else if actual-text == none {
+      _maybe-fill(color, _value-body(visible, icon: icon))
     } else if url == none {
       actual-value(
         visible,
