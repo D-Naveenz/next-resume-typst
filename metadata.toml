@@ -91,7 +91,6 @@ language = "en"
         # medium = "@johndoe"
         # Shown as ORCID: <value>; links to orcid.org/<value>
         orcid = "0000-0000-0000-0000"
-        # researchgate = "John-Doe"  # Shown as ResearchGate: <value>; links to researchgate.net/profile/<value>
         # Shown as Location: <value>; displayed as plain text
         location = "San Francisco, CA"
         # extraInfo = "Available for remote work"  # Shown as Info: <value>

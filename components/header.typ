@@ -18,9 +18,7 @@
   fa-location-dot,
   fa-medium,
   fa-orcid,
-  fa-pager,
   fa-phone,
-  fa-researchgate,
   fa-x-twitter,
 )
 #import "./info-link.typ": info-link
@@ -43,6 +41,12 @@
 } else {
   "../" + path
 }
+
+#let _outline-globe() = box(
+  width: 1.08em,
+  baseline: -0.02em,
+  move(dy: 0.16em, image("../assets/icons/globe-outline.svg", width: 100%)),
+)
 
 // --------------------------------------
 // Shared contact-field renderer. The visible header stays compact while the PDF
@@ -146,13 +150,10 @@
     _field("GitLab", value, fa-gitlab(), url: url, actual: url)
   } else if key == "homepage" {
     let url = _with-scheme(value)
-    _field("Website", value, fa-pager(), url: url, actual: url)
+    _field("Website", value, _outline-globe(), url: url, actual: url)
   } else if key == "orcid" {
     let url = "https://orcid.org/" + value
     _field("ORCID", value, fa-orcid(), url: url, actual: url)
-  } else if key == "researchgate" {
-    let url = "https://www.researchgate.net/profile/" + value
-    _field("ResearchGate", value, fa-researchgate(), url: url, actual: url)
   } else if key == "x" or key == "twitter" {
     let url = _x-url(value)
     _field("X", value, fa-x-twitter(), url: url, actual: url)
