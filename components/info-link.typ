@@ -4,9 +4,15 @@
 #import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _set-accent-color
 #import "@preview/fontawesome:0.6.0": fa-github, fa-link, fa-cube
 
+#let _decorative-icon(icon) = {
+  if icon != none {
+    pdf.artifact(kind: "other")[#icon]
+  }
+}
+
 #let _value-body(text-value, icon: none) = [
   #if icon != none {
-    icon
+    _decorative-icon(icon)
     h(0.22em)
   }
   #text-value
@@ -54,6 +60,7 @@
   icon: none,
   color: none,
   link-color: none,
+  actual: none,
   id-prefix: "info-link",
 ) = context {
   let metadata = cv-metadata.get()
@@ -63,21 +70,39 @@
   } else {
     accent
   }
+  let actual-text = if actual != none {
+    actual
+  } else if url != none {
+    url
+  } else {
+    none
+  }
+  let visible = [
+    #_maybe-fill(color, [#name:#h(0.25em)])
+    #text-value
+  ]
 
   [
-    #if icon != none {
-      _maybe-fill(color, icon)
-      h(0.22em)
-    }
-    #_maybe-fill(color, [#name:#h(0.25em)])
-    #if url == none {
-      _maybe-fill(color, text-value)
+    #if actual-text == none {
+      if icon != none {
+        _maybe-fill(color, icon)
+        h(0.22em)
+      }
+      _maybe-fill(color, visible)
+    } else if url == none {
+      actual-value(
+        visible,
+        actual-text,
+        icon: icon,
+        color: value-color,
+        id-prefix: id-prefix,
+      )
     } else {
       actual-value(
-        text-value,
-        url,
+        visible,
+        actual-text,
         url: url,
-        icon: none,
+        icon: icon,
         color: value-color,
         id-prefix: id-prefix,
       )

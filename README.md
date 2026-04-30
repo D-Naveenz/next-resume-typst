@@ -41,8 +41,8 @@ Typst ecosystem practices.
 See [CHANGELOG.md][changelog-file] for the full release history.
 
 - ATS-conscious PDF output: hidden keyword injection is disabled by default,
-  semantic project links use `/ActualText`, and visual footer text stays out of
-  copied resume content.
+  semantic header and project links use `/ActualText`, and visual footer text
+  stays out of copied resume content.
 - NextResume-owned rendering layer: the CV path now runs through local core and
   entry components while preserving the compact brilliant-CV visual language.
 - Stronger authoring model: version validation, shared entry primitives,
@@ -61,6 +61,8 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   primitives.
 - `components/info-link.typ`: semantic info/project links with ActualText
   metadata.
+- `components/header.typ`: local CV header renderer with semantic personal
+  info links.
 - `components/project-entry.typ`: project and association entry renderer.
 - `components/artifact-footer.typ`: artifact footer renderer.
 - `tools/build.ps1`: CV build wrapper that compiles and applies ActualText.
@@ -74,8 +76,8 @@ sources instead.
 
 ## Build
 
-For the CV/resume, use the build wrapper so semantic project links are
-post-processed with PDF `/ActualText`:
+For the CV/resume, use the build wrapper so semantic header and project links
+are post-processed with PDF `/ActualText`:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\build.ps1
