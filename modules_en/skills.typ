@@ -12,12 +12,12 @@
 
 #cv-skill(
   type: [Frameworks & APIs],
-  info: [.NET #h-bar() ASP.NET #h-bar() .NET 10 #h-bar() Next.js #h-bar() React #h-bar() Razor Pages #h-bar() WinUI 3 #h-bar() Entity Framework #h-bar() REST],
+  info: [.NET #h-bar() ASP.NET #h-bar() .NET 10 #h-bar() Next.js #h-bar() React #h-bar() Razor Pages #h-bar() WinUI 3 #h-bar() Entity Framework #h-bar() REST #h-bar() Crystal Reports],
 )
 
 #cv-skill(
   type: [Industrial & IoT],
-  info: [Modbus #h-bar() BACnet #h-bar() HVAC Monitoring #h-bar() Energy Metering #h-bar() Resource Monitoring],
+  info: [Modbus #h-bar() BACnet #h-bar() Resource Monitoring #h-bar() Device Networks],
 )
 
 #cv-skill(
@@ -27,5 +27,5 @@
 
 #cv-skill(
   type: [Tools & Operations],
-  info: [GitHub Actions #h-bar() Docker #h-bar() Azure DevOps #h-bar() SAP #h-bar() Microsoft Office #h-bar() Reporting #h-bar() Audits #h-bar() Process Coordination],
+  info: [OpenAI Codex #h-bar() Obsidian #h-bar() GitHub Actions #h-bar() Docker #h-bar() Azure DevOps #h-bar() SAP #h-bar() Reporting #h-bar() Audits #h-bar() Process Coordination],
 )

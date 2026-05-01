@@ -14,10 +14,11 @@
   description: list(
     [Delivered production systems across PMS, HRMS, CMMS, and resource-monitoring products after starting in R&D.],
     [Built an employee task monitoring system with workspace and Kanban-style workflows, then integrated it into the PMS.],
-    [Created attendance processing and review flows for HRMS using fingerprint validation, working-hour calculation, and modern UI work.],
+    [Created HRMS attendance review flows and Crystal Reports outputs using fingerprint validation, working-hour calculation, and modern UI work.],
     [Took ownership of a Modbus/BACnet resource-monitoring system for high-volume device networks, later folded into the modern CMMS platform.],
+    [Use a hybrid manual and AI-assisted development workflow with OpenAI Codex and Obsidian-backed technical notes to accelerate production delivery.],
   ),
-  tags: ("Next.js", "React", "C#", "ASP.NET", ".NET 10", "Razor Pages", "Python", "SQL Server", "Protobuf", "Modbus", "BACnet"),
+  tags: ("Next.js", "React", "C#", "ASP.NET", ".NET 10", "Razor Pages", "Python", "SQL Server", "Crystal Reports", "Protobuf", "Modbus", "BACnet", "OpenAI Codex"),
 )
 
 #cv-entry(

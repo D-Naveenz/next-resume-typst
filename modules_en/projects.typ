@@ -1,8 +1,44 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section
-#import "../components/info-link.typ": info-link, project-link
+#import "@preview/brilliant-cv:3.3.0": cv-section, cv-metadata, _awesome-colors, _set-accent-color
+#import "@preview/fontawesome:0.6.0": fa-bag-shopping
+#import "../components/info-link.typ": actual-value, project-link
 #import "../components/project-entry.typ": project-entry
 
+#let package-icon = box(width: 0.95em)[
+  #move(dy: 0.11em, image("../assets/icons/package.svg", width: 100%))
+]
+
+#let typst-icon = box(width: 0.95em)[
+  #move(dy: 0.11em, image("../assets/icons/typst.svg", width: 100%))
+]
+
+#let typst-deployment = [
+  Deployment:#h(0.25em)#typst-icon#h(0.35em) Typst Universe (Planned)
+]
+
+#let deployment-link(text-value, url, icon) = context {
+  actual-value(
+    text-value,
+    url,
+    url: url,
+    icon: icon,
+    color: _set-accent-color(_awesome-colors, cv-metadata.get()),
+    id-prefix: "project-link",
+  )
+}
+
+#let dhara-deployments = [
+  Deployment:#h(0.25em)
+  #deployment-link(
+    [dhara_storage],
+    "https://crates.io/crates/dhara_storage",
+    package-icon,
+  )#text[,]#h(0.35em)#deployment-link(
+    [dhara_dhbin],
+    "https://crates.io/crates/dhara_dhbin",
+    package-icon,
+  )#text[,]#h(0.35em)#fa-bag-shopping()#h(0.35em) Microsoft Store (planned)
+]
 
 #cv-section("Projects & Associations")
 
@@ -17,16 +53,7 @@
       [dhara_storage],
       "https://github.com/D-Naveenz/dhara_storage",
     ),
-    project-link(
-      "Crate",
-      [dhara_storage],
-      "https://crates.io/crates/dhara_storage",
-    ),
-    project-link(
-      "DHBIN",
-      [dhara_dhbin],
-      "https://crates.io/crates/dhara_dhbin",
-    ),
+    dhara-deployments,
   ),
   body: list(
     [Built a Rust-first storage toolchain around file analysis, directory operations, debounced watching, and reusable package formats.],
@@ -47,11 +74,7 @@
       [NextResume],
       "https://github.com/D-Naveenz/next-resume-typst",
     ),
-    info-link(
-      "Deployment",
-      [Typst Universe (Planned)],
-      semantic: false,
-    ),
+    typst-deployment,
   ),
   body: list(
     [Built an AI-assisted resume workflow where agent-generated content flows through a Python preprocessor into Typst.],

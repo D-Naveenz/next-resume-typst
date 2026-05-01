@@ -24,10 +24,12 @@ Strengthen:
 
 - AFISOL production systems work across PMS, HRMS, CMMS, and resource
   monitoring.
+- AI-assisted delivery practices at AFISOL, especially the hybrid manual plus
+  OpenAI Codex workflow and Obsidian-backed technical notes.
 - Ownership of Modbus/BACnet resource-monitoring development and the move from
   R&D into production delivery.
 - Engineering depth in C#, ASP.NET, Next.js, React, Python, SQL Server,
-  Protobuf, and industrial protocols.
+  Crystal Reports, Protobuf, and industrial protocols.
 - Dhara Toolchain and NextResume as current technical project anchors.
 
 Compress or move lower:
@@ -50,7 +52,10 @@ Skills to surface:
 
 - C#, Rust, Python, JavaScript/TypeScript.
 - .NET, ASP.NET, Next.js, React, WinUI 3.
-- Modbus, BACnet, SQL Server, DHBIN, MessagePack, Protobuf, SQLite.
+- Modbus, BACnet, SQL Server, DHBIN, MessagePack, Protobuf, SQLite, Crystal
+  Reports.
+- OpenAI Codex, structured Obsidian notes, technical prompting, and manual
+  review ownership.
 - SAP, Inventory Control, Reporting, Audits, and Process Coordination as
   supporting business systems signals.
 
