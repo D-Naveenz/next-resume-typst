@@ -1,5 +1,7 @@
 {
   "tinymist.exportPdf": "never",
   "tinymist.fontPaths": ["${workspaceFolder}/fonts"],
-  "tinymist.lint.enabled": true
+  "tinymist.lint.enabled": true,
+  "nextresume.toolLauncher": "${workspaceFolder}\\tools\\nextresume.cmd",
+  "nextresume.toolPython": "${workspaceFolder}\\tools\\.venv\\Scripts\\python.exe"
 }
