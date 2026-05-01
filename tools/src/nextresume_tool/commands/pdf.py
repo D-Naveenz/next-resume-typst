@@ -1,24 +1,15 @@
-"""Apply PDF /ActualText entries emitted by NextResume Typst components.
-
-Typst renders info links as normal clickable content wrapped in PDF artifacts.
-This tool converts those artifact wrappers into marked /Span blocks with
-/ActualText while preserving the original drawing operators and annotations.
-"""
+"""PDF helpers for NextResume."""
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-try:
-    import pikepdf
-except ImportError:  # pragma: no cover - exercised by users without deps
-    pikepdf = None
+import pikepdf
 
+from nextresume_tool.host.app import AppContext
 
 ARTIFACT_RE = re.compile(rb"/Artifact\s+BMC")
 MARKED_TOKEN_RE = re.compile(rb"/[A-Za-z0-9_.-]+\s+(?:BMC|BDC)|EMC")
@@ -30,8 +21,6 @@ class ActualTextEntry:
 
 
 def pdf_utf16be_hex(text: str) -> bytes:
-    """Return a PDF hex string for UTF-16BE text with BOM."""
-
     return b"<" + (b"\xfe\xff" + text.encode("utf-16-be")).hex().upper().encode("ascii") + b">"
 
 
@@ -67,9 +56,6 @@ def iter_artifact_blocks(data: bytes):
 
 
 def is_text_artifact(body: bytes) -> bool:
-    # ActualText wrappers contain text drawing. Decorative SVG/footer artifacts
-    # are path/XObject content and should remain untouched. Nested decorative
-    # text artifacts are skipped after their outer semantic span is consumed.
     return b"BT" in body and b"ET" in body
 
 
@@ -107,17 +93,10 @@ def rewrite_stream(data: bytes, entries: list[ActualTextEntry], start_index: int
     return b"".join(chunks), index
 
 
-def apply_actual_text(input_pdf: Path, manifest: Path, output_pdf: Path) -> int:
-    if pikepdf is None:
-        print(
-            "pikepdf is required. Install with: python -m pip install -r tools/requirements.txt",
-            file=sys.stderr,
-        )
-        return 2
-
+def apply_actual_text(input_pdf: Path, manifest: Path, output_pdf: Path, ctx: AppContext) -> None:
     entries = load_manifest(manifest)
     if not entries:
-        raise RuntimeError(f"no nextresume-actualtext entries found in {manifest}")
+        raise RuntimeError(f"No nextresume-actualtext entries found in {manifest}")
 
     rewritten = 0
     with pikepdf.Pdf.open(input_pdf) as pdf:
@@ -136,16 +115,23 @@ def apply_actual_text(input_pdf: Path, manifest: Path, output_pdf: Path) -> int:
 
         if rewritten != len(entries):
             raise RuntimeError(
-                f"rewrote {rewritten} ActualText spans, but manifest contains {len(entries)} entries"
+                f"Rewrote {rewritten} ActualText spans, but manifest contains {len(entries)} entries"
             )
 
         output_pdf.parent.mkdir(parents=True, exist_ok=True)
         pdf.save(output_pdf)
 
-    return 0
+    ctx.logger.info("Wrote %s", output_pdf)
 
 
-def self_test() -> int:
+def inspect_pdf(path: Path, ctx: AppContext) -> None:
+    with pikepdf.Pdf.open(path) as pdf:
+        ctx.logger.info("PDF: %s", path)
+        ctx.logger.info("Pages: %s", len(pdf.pages))
+        ctx.logger.info("Objects: %s", len(pdf.objects))
+
+
+def self_test() -> None:
     entries = [ActualTextEntry("Repository: https://example.com/repo")]
     source = b"/Artifact BMC\n/Artifact BMC\nBT\n(i) Tj\nET\nEMC\nBT\n(aaa) Tj\nET\nEMC\n"
     rewritten, count = rewrite_stream(source, entries, 0)
@@ -155,29 +141,6 @@ def self_test() -> int:
         + b"\n>> BDC"
         b"\n/Artifact BMC\nBT\n(i) Tj\nET\nEMC\nBT\n(aaa) Tj\nET\nEMC\n"
     )
-    if count != 1 or rewritten != expected:
-        print("ActualText fixture rewrite failed", file=sys.stderr)
-        print(rewritten, file=sys.stderr)
-        return 1
-    return 0
+    if rewritten != expected or count != 1:
+        raise RuntimeError("ActualText fixture rewrite failed")
 
-
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--input", type=Path, help="Raw Typst PDF")
-    parser.add_argument("--manifest", type=Path, help="JSON from typst query")
-    parser.add_argument("--output", type=Path, help="Post-processed PDF")
-    parser.add_argument("--self-test", action="store_true", help="Run the stream rewrite fixture test")
-    args = parser.parse_args(argv)
-
-    if args.self_test:
-        return self_test()
-
-    if not args.input or not args.manifest or not args.output:
-        parser.error("--input, --manifest, and --output are required unless --self-test is used")
-
-    return apply_actual_text(args.input, args.manifest, args.output)
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
