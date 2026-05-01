@@ -227,13 +227,11 @@
 }
 
 // --------------------------------------
-// Header layout table. It looks like a visual two-column wrapper, but PDF
-// extractors use its cell boundaries more reliably than a grid here.
+// Header layout grid. This wrapper is visual only; the left stack owns the
+// ordered header compartments.
 #let _header-layout(contents, columns, align) = {
-  table(
+  grid(
     columns: columns,
-    inset: 0pt,
-    stroke: none,
     column-gutter: 15pt,
     align: align + horizon,
     ..contents,
@@ -241,20 +239,21 @@
 }
 
 // --------------------------------------
-// Header left cell. The outer header table owns the main 2-column layout; this
-// cell owns the three visible text compartments with explicit block boundaries:
+// Header left stack. Keep the visible compartments as ordered stack children:
 // 1. name
 // 2. personal info links
 // 3. header quote/tagline
 #let _header-left-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons) = {
-  block(width: 100%)[#_header-name(styles, non-latin, non-latin-name, first-name, last-name)]
-  v(2mm)
-  block(width: 100%)[#(styles.info)(_header-info(personal-info, custom-icons))]
+  let compartments = (
+    _header-name(styles, non-latin, non-latin-name, first-name, last-name),
+    (styles.info)(_header-info(personal-info, custom-icons)),
+  )
 
   if header-quote != none {
-    v(2mm)
-    block(width: 100%)[#(styles.quote)(header-quote)]
+    compartments.push((styles.quote)(header-quote))
   }
+
+  stack(dir: ttb, spacing: 6mm, ..compartments)
 }
 
 // --------------------------------------
