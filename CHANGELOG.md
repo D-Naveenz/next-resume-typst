@@ -4,6 +4,10 @@ All notable changes to NextResume are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Right-aligned the header profile photo within the header grid so it stays pinned to the right edge even when the text-side header content is long.
+
 ## [0.5.0] - 2026-05-01
 
 ### Added

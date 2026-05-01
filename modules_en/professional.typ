@@ -6,28 +6,55 @@
 #cv-section("Professional Experience")
 
 #cv-entry(
-  title: [Backend Developer - Intern],
+  title: [Associate Software Engineer],
+  society: [AFISOL (Pvt.) Ltd.],
+  logo: image("../assets/logos/afisol.png"),
+  date: [Feb 2026 - Present],
+  location: [Kottawa],
+  description: list(
+    [Delivered production systems across PMS, HRMS, CMMS, and resource-monitoring products after starting in R&D.],
+    [Built an employee task monitoring system with workspace and Kanban-style workflows, then integrated it into the PMS.],
+    [Created attendance processing and review flows for HRMS using fingerprint validation, working-hour calculation, and modern UI work.],
+    [Took ownership of a Modbus/BACnet resource-monitoring system for high-volume device networks, later folded into the modern CMMS platform.],
+  ),
+  tags: ("Next.js", "React", "C#", "ASP.NET", ".NET 10", "Razor Pages", "Python", "SQL Server", "Protobuf", "Modbus", "BACnet"),
+)
+
+#cv-entry(
+  title: [Store Administrator (Supervisor)],
+  society: [Keells - Jaykay Marketing Services (Pvt) Ltd.],
+  logo: image("../assets/logos/keells.png"),
+  date: [Feb 2025 - Dec 2025],
+  location: [Kirillawala],
+  description: list(
+    [Maintained audit-ready inventory, vendor invoice, delivery note, and stock movement records for branch operations.],
+    [Prepared operational reports and coordinated replenishment workflows with store management, finance, procurement, and supply-chain teams.],
+    [Built practical business operations judgment that strengthened later engineering work on ERP-style HRMS, PMS, and CMMS systems.],
+  ),
+  tags: ("Retail Operations", "Inventory Control", "SAP", "Microsoft Office", "Reporting", "Audits", "Process Coordination"),
+)
+
+#cv-entry(
+  title: [Backend Developer Intern],
   society: [App 360],
   logo: image("../assets/logos/app360.jpg"),
   date: [Jun 2024 - Dec 2024],
   location: [Melbourne, Australia (Remote)],
   description: list(
     [Engineered automated reporting system reducing manual effort by 80% and accelerating query execution by 50%.],
-    [Optimized database architecture achieving 25% faster query performance and enhanced data integrity.],
     [Enhanced POS360 API security with JWT authentication and integrated Firebase real-time messaging.],
   ),
   tags: ("C# (ASP .NET)", "ADO.NET", "MS SQL Server", "Firebase", "JWT", "Swagger"),
 )
 
 #cv-entry(
-  title: [Software Engineer - Intern],
+  title: [Software Engineer Intern],
   society: [SimCentric Technologies],
   logo: image("../assets/logos/simcentric.png"),
   date: [Nov 2023 - May 2024],
   location: [Colombo 9],
   description: list(
     [Architected legacy system migration to WinUI 3, improving application scalability and performance.],
-    [Developed integrated add-on store with user profiles, increasing platform usage by 25%.],
     [Built SQLite data processing engine with Entity Framework and modernized UI components.],
   ),
   tags: ("C#", "WinUI 3", "XAML", "Entity Framework", "SQLite", "Microsoft Community Toolkit"),

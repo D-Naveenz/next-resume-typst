@@ -7,57 +7,39 @@
 #cv-section("Projects & Associations")
 
 #project-entry(
-  [DineEase],
-  [Lead Developer (Backend & Unity) & System Architect],
-  [Customer experience optimizer and sales management system],
-  [Nov 2023 - May 2024],
+  [Dhara Toolchain],
+  [Creator & Maintainer],
+  [Open-source storage runtime, package format, and BACnet tooling],
+  [2025 - Present],
   links: (
     project-link(
       "Repository",
-      [1000-Faces],
-      "https://github.com/1000-Faces",
+      [dhara_storage],
+      "https://github.com/D-Naveenz/dhara_storage",
     ),
-    info-link(
-      "Deployment",
-      [Azure VM],
-      semantic: false,
-    ),
-  ),
-  body: list(
-    [Built full-stack restaurant management system with AR menu visualization for 15+ establishments.],
-    [Achieved 99.9% system uptime, 40% increased engagement, and 50% faster order processing.],
-  ),
-  tags: ("C# (ASP .NET)", "Unity", "Blender", "ARCore", "Three.js", "WebGL", "Vue.js", "MS SQL Server"),
-)
-
-#project-entry(
-  [Rheo],
-  [Architect & Maintainer],
-  [Modular .NET Application Framework],
-  [Oct 2025 - Present],
-  links: (
     project-link(
-      "Repository",
-      [Rheo],
-      "https://github.com/D-Naveenz/Rheo",
+      "Crate",
+      [dhara_storage],
+      "https://crates.io/crates/dhara_storage",
     ),
-    info-link(
-      "Deployment",
-      [NuGet Package],
-      semantic: false,
+    project-link(
+      "DHBIN",
+      [dhara_dhbin],
+      "https://crates.io/crates/dhara_dhbin",
     ),
   ),
   body: list(
-    [Architected multi-module C\# library reducing development time for .NET applications by 40%.],
-    [Developed cross-platform storage library and specialized generic host layer for WinUI and console apps.],
+    [Built a Rust-first storage toolchain around file analysis, directory operations, debounced watching, and reusable package formats.],
+    [Developed dhara_storage and dhara_dhbin for runtime storage operations and MessagePack-based container packaging.],
+    [Built Dhara.BACnet.Explorer as a WinUI 3 and Python BACnet exploration/simulation app backed by Dhara libraries.],
   ),
-  tags: ("C# (.NET 9)", "Microsoft Generic Host", "NuGet", "Async/Await Patterns"),
+  tags: ("Rust", "C#", "WinUI 3", "Python", "DHBIN", "MessagePack", "FFI", ".NET", "BACnet"),
 )
 
 #project-entry(
   [NextResume],
   [Creator & Maintainer],
-  [Typst CV/Resume template],
+  [AI-assisted Typst resume generator and template system],
   [Jan 2025 - Present],
   links: (
     project-link(
@@ -67,16 +49,16 @@
     ),
     info-link(
       "Deployment",
-      [GitHub],
+      [Typst Universe (Planned)],
       semantic: false,
     ),
   ),
   body: list(
-    [Built a Typst resume template that balances visual polish with copy-friendly ATS extraction.],
-    [Added modular project headers, semantic link handling, and artifact-based footer rendering.],
-    [Modernized the brilliant-CV foundation while preserving its compact professional layout.],
+    [Built an AI-assisted resume workflow where agent-generated content flows through a Python preprocessor into Typst.],
+    [Added post-processing for PDF metadata, semantic contact/project links, page rendering, inspection, and artifact footers.],
+    [Generated this resume with the same NextResume toolchain to validate the template against real tailoring work.],
   ),
-  tags: ("Typst", "PDF", "ATS", "Template"),
+  tags: ("Typst", "Python", "PDF", "ATS", "AI Workflow", "Template"),
 )
 
 #project-entry(
