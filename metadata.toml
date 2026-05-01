@@ -1,15 +1,15 @@
 #:schema https://raw.githubusercontent.com/yunanwg/brilliant-CV/main/metadata.toml.schema.json
 
-# Must match folder suffix: "en" → modules_en/, "fr" → modules_fr/, etc.
+# Must match folder suffix: "en" -> modules_en/, "fr" -> modules_fr/, etc.
 language = "en"
 
 [next_resume]
     # Must exactly match the root VERSION file or Typst compilation fails.
-    version = "0.2.0"
+    version = "0.5.0"
 
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
-    # Preset: skyblue, red, nephritis, concrete, darknight — or any hex like "#1E90FF"
+    # Preset: skyblue, red, nephritis, concrete, darknight - or any hex like "#1E90FF"
     awesome_color = "skyblue"
 
     # Controls vertical spacing; increase to spread out sections/entries, decrease to compact
@@ -35,10 +35,11 @@ language = "en"
         header_font = "Roboto"
 
     [layout.header]
-        # Aligns the entire header block (name, info, quote). Possible values: left, center, right
+        # Aligns the entire header block (name, info, quote). Possible values: left, center, right.
+        # When display_profile_photo is false, use "center" for a classic centered no-photo header.
         header_align = "left"
 
-        # false hides the photo and gives full width to name/info
+        # false hides the photo and gives full width to name/info.
         display_profile_photo = true
         # "50%" = circle, "0%" = square, "10%" = rounded corners
         profile_photo_radius = "50%"
@@ -47,7 +48,7 @@ language = "en"
 
     [layout.entry]
         # true = company name bold on top, role below; false = role bold on top
-        # Must be true to use cv-entry-start / cv-entry-continued pattern
+        # true shows society/company before role/title in entry headers
         display_entry_society_first = true
 
         # false hides all company/organisation logos in entries
@@ -56,7 +57,6 @@ language = "en"
     [layout.footer]
         # true shows the NextResume outlined SVG footer on CV pages
         display_footer = true
-
 
 [inject]
     # Hidden text injected into the PDF for ATS keyword matching (invisible to readers)
@@ -81,39 +81,28 @@ language = "en"
     # Your mailing address, used as default sender-address in the cover letter
     # address = "123 Main St, San Francisco, CA 94102"
 
-    # The order of entries below controls the display order of icons/links in the header
-    # The custom value is for any additional information you want to add, name it as custom-1, custom-2, etc.
+    # The order of entries below controls the display order of icons/links in the header.
+    # Header contact links render as "Label: handle" while storing the full URL in the PDF link target.
     [personal.info]
-        # Shown as clickable icon in header; auto-links to github.com/<value>
+        # Shown as GitHub: <value>; links to github.com/<value>
         github = "D-Naveenz"
-        # Shown as phone icon in header; displayed as-is with a tel: link
+        # Shown as Phone: <value>; links to tel:<value-without-spaces>
         phone = "+94729883668"
-        # Shown as envelope icon in header; auto-links to mailto:<value>
+        # Shown as Email: <value>; links to mailto:<value>
         email = "dasheenaveen@outlook.com"
-        # Shown as clickable icon in header; auto-links to linkedin.com/in/<value>
+        # Shown as LinkedIn: <value>; links to linkedin.com/in/<value>
         linkedin = "dasheewd"
-        # Shown as clickable globe icon in header; auto-links to https://<value>
-        # homepage = "naveendharmathunga.dev"
-        # researchgate = "John-Doe"  # Shown as a clickable ResearchGate icon in header
-        # Shown as map-marker icon in header; displayed as plain text (no link)
+        # Shown as Location: <value>; displayed as plain text
         location = "Colombo, Sri Lanka"
-        # extraInfo = "Available for remote work"  # Shown as extra text with an info icon in header
+        # Shown as X: <value>; links to x.com/<value-without-@>
+        x = "dharmathunga"
+        # Shown as Medium: <value>; links to medium.com/@<value>
+        medium = "@dasheewd"
+        # Shown as Website: <value>; links to https://<value>. Comment out until the portfolio exists.
+        # homepage = "naveendharmathunga.dev"
+        # extraInfo = "Available for remote work"  # Shown as Info: <value>
         # Insert a line break in the header info, splitting icons across two lines
         #linebreak = ""
-
-        # Custom info with awesome icon
-        [personal.info.custom-1]
-            awesomeIcon = "x-twitter" # See https://typst.app/universe/package/fontawesome/
-            # Display text shown next to the icon in the header
-            text = "dharmathunga"
-            # URL the icon/text links to; omit for non-clickable entries
-            link = "https://x.com/dharmathunga"
-
-        [personal.info.custom-2]
-            awesomeIcon = "medium"
-            text = "@dasheewd"
-            link = "https://medium.com/@dasheewd"
-
 
 # Add a [lang.xx] section for each language you support.
 [lang.en]

@@ -1,0 +1,33 @@
+[typst]
+default_language = "en"
+font_paths = ["fonts"]
+cv_source = "cv.typ"
+letter_source = "letter.typ"
+cv_output = "cv.pdf"
+letter_output = "letter.pdf"
+metadata_path = "metadata.toml"
+footer_output_dir = "assets/footer"
+
+[paths]
+tooling_dir = ".tooling"
+
+[logging]
+level = "INFO"
+verbose = false
+
+[clean]
+preserve_logs = true
+preserve_config = true
+
+[watch]
+paths = [
+  "cv.typ",
+  "letter.typ",
+  "metadata.toml",
+  "components",
+  "core",
+  "modules_en",
+  "assets",
+]
+debounce_ms = 800
+

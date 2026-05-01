@@ -1,7 +1,11 @@
 // Imports
-#import "./components/nextresume.typ": cv
-#import "./components/profile-photo.typ": profile-photo
+#import "./core/nextresume.typ": cv
 #import "./components/versioning.typ": validate-next-resume-version, set-next-resume-document-metadata
+
+// --------------------------------------
+// Metadata setup
+// Loads repository metadata, applies the optional CLI language override, and
+// validates that metadata.next_resume.version matches the root VERSION file.
 #let metadata = toml("./metadata.toml")
 #let cv-language = sys.inputs.at("language", default: none)
 #let metadata = if cv-language != none {
@@ -10,24 +14,21 @@
   metadata
 }
 #let next-resume-version = validate-next-resume-version(metadata)
-#let profile-photo-path = metadata.personal.at("profile_photo", default: "assets/avatar.png")
-#let profile-photo-source = read(profile-photo-path, encoding: none)
-#let profile-photo-offset-x = eval(metadata.personal.at("profile_photo_offset_x", default: "0pt"))
-#let profile-photo-offset-y = eval(metadata.personal.at("profile_photo_offset_y", default: "0pt"))
-#let profile-photo-scale-up = metadata.personal.at("profile_photo_scale_up", default: 0)
-#let profile-photo = profile-photo(
-  profile-photo-source,
-  scale-up: profile-photo-scale-up,
-  offset-x: profile-photo-offset-x,
-  offset-y: profile-photo-offset-y,
-)
 
+// --------------------------------------
+// PDF document properties
+// These values are document metadata only. Resume keywords should stay visible
+// in the body, skills, and experience sections.
 #set-next-resume-document-metadata(
   metadata,
   next-resume-version,
   kind: "cv",
 )
 
+// --------------------------------------
+// Module loader
+// Resolves section files from modules_<language>/ so the module list below can
+// stay language-neutral.
 #let import-modules(modules, lang: metadata.language) = {
   for module in modules {
     include {
@@ -36,9 +37,12 @@
   }
 }
 
+// --------------------------------------
+// Template setup
+// Applies the NextResume CV wrapper around the imported modules. Header photo
+// loading/cropping is handled by the local header component from metadata.
 #show: cv.with(
   metadata,
-  profile-photo: profile-photo,
   // To use custom image icons in personal.info.custom-N entries,
   // pass them here (keys must match the custom-N keys in metadata.toml):
   // custom-icons: (
@@ -46,6 +50,9 @@
   // ),
 )
 
+// --------------------------------------
+// Section selection
+// Keep this list in the order the CV should render its visible sections.
 #import-modules((
   "professional",
   "education",
