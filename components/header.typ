@@ -49,15 +49,22 @@
 
 // --------------------------------------
 // Shared contact-field renderer. The visible header stays compact while the PDF
-// link target carries the canonical machine-readable value. Header ActualText is
-// intentionally avoided because Adobe repeats it across nested link runs.
+// ActualText carries a labeled, canonical machine-readable value.
 #let _field(label, text-value, icon, url: none, actual: none) = {
+  let actual-value = if url != none {
+    url
+  } else if actual != none {
+    actual
+  } else {
+    text-value
+  }
+
   info-link(
     label,
     text-value,
     url: url,
     icon: icon,
-    semantic: false,
+    actual: label + ": " + actual-value,
   )
 }
 
