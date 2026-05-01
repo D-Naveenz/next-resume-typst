@@ -16,6 +16,7 @@ COMMAND_CHOICES = [(spec.label, spec.key) for spec in COMMAND_SPECS]
 
 
 class NextResumeTui(App[None]):
+    TITLE = "NextResume Tools"
     CSS = """
     Screen {
       layout: vertical;
@@ -46,7 +47,7 @@ class NextResumeTui(App[None]):
         yield Header(show_clock=True)
         with Horizontal(id="body"):
             with Vertical(id="controls"):
-                yield Static("NextResume Tool", classes="title")
+                yield Static("NextResume Tools", classes="title")
                 yield Label("Command")
                 yield Select(COMMAND_CHOICES, value="build-cv", id="command")
                 yield Label("Language")
@@ -116,4 +117,3 @@ class NextResumeTui(App[None]):
         else:
             args.extend(["clean"])
         return args
-

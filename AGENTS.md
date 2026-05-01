@@ -19,6 +19,13 @@ Store durable lessons, decisions, and cross-workspace abstractions in MindVault.
 - `metadata.toml` is the safest first customization surface for identity, styling, fonts, spacing, and ATS fields
 - Generated PDFs are outputs only and must not be edited directly
 
+## Tooling
+
+- Use `NextResume Tools` for task-driven build, watch, footer, PDF inspection, and cleanup workflows.
+- Main entrypoints are VS Code tasks, `tools\nextresume.cmd`, and `uv run --project tools nextresume ...`.
+- Tool-generated logs, manifests, extracted assets, and debug PDFs live under `.tooling/`.
+- For PDF inspection and future agent helper work, prefer the centralized tool host over ad hoc scratch scripts.
+
 ## Agent Defaults
 
 - Prefer small, compile-safe changes over broad refactors.
@@ -32,11 +39,12 @@ Store durable lessons, decisions, and cross-workspace abstractions in MindVault.
 Run from the repository root:
 
 ```powershell
-typst compile cv.typ cv.pdf
-typst compile letter.typ letter.pdf
+tools\nextresume.cmd doctor
+tools\nextresume.cmd build cv --language en
+tools\nextresume.cmd build letter --language en
 ```
 
-If language-specific rendering matters:
+If you intentionally want raw Typst output without the centralized PDF post-processing:
 
 ```powershell
 typst compile --input language=en cv.typ cv.pdf

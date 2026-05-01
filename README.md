@@ -1,6 +1,6 @@
 <div align="center">
   <h1>NextResume</h1>
-  <p><strong>The CV/Resume template</strong></p>
+  <p><strong>The release-quality CV/Resume system</strong></p>
 
 [![Version][version-shield]][version-file]
 [![License][licence-shield]][licence-file]
@@ -11,9 +11,9 @@
 
 </div>
 
-NextResume is a modern Typst CV/resume template that balances polished visual
+NextResume is a modern Typst CV/resume system that balances polished visual
 presentation with ATS-friendly PDF structure, semantic contact/project links,
-and maintainable resume composition.
+maintainable resume composition, and a centralized release-quality tooling host.
 
 ## Why NextResume
 
@@ -45,8 +45,8 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   header, entry, project, and footer components while preserving the compact
   brilliant-CV visual language.
 - Stronger authoring model: version validation, shared entry primitives,
-  project metadata rows, keep-together entries, and build tooling make the
-  template easier to maintain and extend.
+  project metadata rows, keep-together entries, and centralized tooling make
+  the template easier to maintain, inspect, and release.
 
 ## Main Files
 
@@ -96,6 +96,12 @@ To build both documents:
 tools\nextresume.cmd build all --language en
 ```
 
+To inspect a PDF through the centralized tool host:
+
+```powershell
+tools\nextresume.cmd pdf inspect cv.pdf
+```
+
 For quick raw Typst output without the centralized tooling host:
 
 ```powershell
@@ -126,6 +132,16 @@ tools\nextresume.cmd footer generate
 The generator writes assets like `assets/footer/footer-en.svg`, keyed by the
 language code.
 
+## Release Tooling
+
+NextResume Tools is now part of the normal project surface rather than an
+optional helper layer.
+
+- Use VS Code tasks for everyday build/watch workflows.
+- Use `tools\nextresume.cmd doctor` to verify the toolchain before release work.
+- Use `tools\nextresume.cmd pdf inspect <file>` when inspecting generated PDFs.
+- Expect `.tooling/` to hold logs, manifests, extracted artifacts, and debug PDFs.
+
 ## ATS Notes
 
 NextResume avoids hidden keyword stuffing. Keywords should appear naturally in
@@ -139,7 +155,7 @@ NextResume builds on the excellent style and metadata foundation of
 [`brilliant-CV`][brilliant-cv] by [Yunan Wang][yunan-wang] and contributors.
 Their work provided the starting point that made this template possible.
 
-[version-shield]: https://img.shields.io/badge/version-0.4.0-blue
+[version-shield]: https://img.shields.io/badge/version-0.5.0-blue
 [version-file]: ./VERSION
 [licence-shield]: https://img.shields.io/badge/licence-MIT-green
 [licence-file]: ./LICENSE
