@@ -2,25 +2,10 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Typst: Watch All",
-      "dependsOn": [
-        "Typst: Watch CV",
-        "Typst: Watch Letter"
-      ],
-      "dependsOrder": "parallel",
-      "runOptions": {
-        "reevaluateOnRerun": true,
-        "runOn": "folderOpen",
-        "instanceLimit": 1
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Build: CV Final",
-      "dependsOn": [
-        "Typst: Compile CV"
-      ],
-      "dependsOrder": "parallel",
+      "label": "Tool: Open TUI",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["tui"],
       "presentation": {
         "reveal": "always",
         "panel": "shared",
@@ -29,16 +14,22 @@
       "problemMatcher": []
     },
     {
-      "label": "Typst: Compile CV",
-      "type": "shell",
-      "command": "typst",
-      "args": [
-        "compile",
-        "--font-path",
-        "${workspaceFolder}/fonts",
-        "${workspaceFolder}/cv.typ",
-        "${workspaceFolder}/cv.pdf"
-      ],
+      "label": "Tool: Doctor",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["doctor"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Build CV Final",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["build", "cv", "--language", "en"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -51,16 +42,34 @@
       "problemMatcher": []
     },
     {
-      "label": "Typst: Watch CV",
-      "type": "shell",
-      "command": "typst",
-      "args": [
-        "watch",
-        "--font-path",
-        "${workspaceFolder}/fonts",
-        "${workspaceFolder}/cv.typ",
-        "${workspaceFolder}/cv.pdf"
-      ],
+      "label": "Tool: Build Letter",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["build", "letter", "--language", "en"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Build All",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["build", "all", "--language", "en"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Watch CV Final",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["watch", "cv", "--language", "en"],
       "isBackground": true,
       "presentation": {
         "reveal": "always",
@@ -70,51 +79,63 @@
       "problemMatcher": []
     },
     {
-      "label": "Watch: CV Final",
-      "dependsOn": [
-        "Typst: Watch CV"
-      ],
-      "dependsOrder": "parallel",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Typst: Compile Letter",
-      "type": "shell",
-      "command": "typst",
-      "args": [
-        "compile",
-        "--font-path",
-        "${workspaceFolder}/fonts",
-        "${workspaceFolder}/letter.typ",
-        "${workspaceFolder}/letter.pdf"
-      ],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared",
-        "clear": true
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Typst: Watch Letter",
-      "type": "shell",
-      "command": "typst",
-      "args": [
-        "watch",
-        "--font-path",
-        "${workspaceFolder}/fonts",
-        "${workspaceFolder}/letter.typ",
-        "${workspaceFolder}/letter.pdf"
-      ],
+      "label": "Tool: Watch Letter",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["watch", "letter", "--language", "en"],
       "isBackground": true,
       "presentation": {
         "reveal": "always",
         "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Watch All",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["watch", "all", "--language", "en"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Generate Footer",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["footer", "generate"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Clean Tooling",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["clean"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Tool: Clean Tooling All",
+      "type": "process",
+      "command": "${config:nextresume.toolLauncher}",
+      "args": ["clean", "--all"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
         "clear": true
       },
       "problemMatcher": []
