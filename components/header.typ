@@ -301,7 +301,7 @@
   let photo-section = _make-header-photo-section(display-profile-photo, profile-photo, profile-photo-radius)
 
   if display-profile-photo {
-    _header-layout((left-section, photo-section), (auto, 20%), header-alignment)
+    _header-layout((left-section, align(right, photo-section)), (1fr, auto), header-alignment)
   } else {
     _header-layout((left-section,), (auto,), header-alignment)
   }
