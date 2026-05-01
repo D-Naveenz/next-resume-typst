@@ -1,9 +1,8 @@
-// NextResume CV header with semantic personal info links.
+// NextResume CV header with labeled personal info links.
 
 #import "@preview/brilliant-cv:3.3.0": (
   _header-styles,
   _is-non-latin,
-  _make-header,
   _make-header-photo-section,
   _set-accent-color,
   h-bar,
@@ -218,8 +217,7 @@
 }
 
 // --------------------------------------
-// Name row. Keep the visible name as real selectable text; block boundaries in
-// `_header-name-section` handle extraction order between name and contact info.
+// Name row. Keep the visible name as real selectable text.
 #let _header-name(styles, non-latin, non-latin-name, first-name, last-name) = {
   if non-latin {
     (styles.first-name)(non-latin-name)
@@ -229,17 +227,34 @@
 }
 
 // --------------------------------------
-// Rebuild brilliant-CV's header name/info/quote section with NextResume's
-// semantic contact renderer.
-#let _header-name-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons) = {
-  grid(
-    columns: 1fr,
-    gutter: 0pt,
-    row-gutter: 6mm,
-    _header-name(styles, non-latin, non-latin-name, first-name, last-name),
-    [#(styles.info)(_header-info(personal-info, custom-icons))],
-    .. if header-quote != none { ([#(styles.quote)(header-quote)],) },
+// Header layout table. It looks like a visual two-column wrapper, but PDF
+// extractors use its cell boundaries more reliably than a grid here.
+#let _header-layout(contents, columns, align) = {
+  table(
+    columns: columns,
+    inset: 0pt,
+    stroke: none,
+    column-gutter: 15pt,
+    align: align + horizon,
+    ..contents,
   )
+}
+
+// --------------------------------------
+// Header left cell. The outer header table owns the main 2-column layout; this
+// cell owns the three visible text compartments with explicit block boundaries:
+// 1. name
+// 2. personal info links
+// 3. header quote/tagline
+#let _header-left-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons) = {
+  block(width: 100%)[#_header-name(styles, non-latin, non-latin-name, first-name, last-name)]
+  v(2mm)
+  block(width: 100%)[#(styles.info)(_header-info(personal-info, custom-icons))]
+
+  if header-quote != none {
+    v(2mm)
+    block(width: 100%)[#(styles.quote)(header-quote)]
+  }
 }
 
 // --------------------------------------
@@ -275,13 +290,13 @@
   }
 
   let styles = _header-styles(header-font, regular-colors, accent-color, header-info-font-size)
-  let name-section = _header-name-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons)
+  let left-section = _header-left-section(styles, non-latin, non-latin-name, first-name, last-name, personal-info, header-quote, custom-icons)
   let profile-photo = _prepare-profile-photo(metadata, profile-photo-override)
   let photo-section = _make-header-photo-section(display-profile-photo, profile-photo, profile-photo-radius)
 
   if display-profile-photo {
-    _make-header((name-section, photo-section), (auto, 20%), header-alignment)
+    _header-layout((left-section, photo-section), (auto, 20%), header-alignment)
   } else {
-    _make-header((name-section,), (auto,), header-alignment)
+    _header-layout((left-section,), (auto,), header-alignment)
   }
 }
