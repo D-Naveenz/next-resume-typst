@@ -67,9 +67,9 @@ def iter_artifact_blocks(data: bytes):
 
 
 def is_text_artifact(body: bytes) -> bool:
-    # Link artifacts contain text drawing. Decorative SVG/footer artifacts are
-    # path/XObject content and should remain untouched. NextResume reserves
-    # text-bearing pdf.artifact(kind: "other") wrappers for ActualText links.
+    # ActualText wrappers contain text drawing. Decorative SVG/footer artifacts
+    # are path/XObject content and should remain untouched. Nested decorative
+    # text artifacts are skipped after their outer semantic span is consumed.
     return b"BT" in body and b"ET" in body
 
 
@@ -82,6 +82,8 @@ def rewrite_stream(data: bytes, entries: list[ActualTextEntry], start_index: int
     index = start_index
 
     for block_start, body_start, body_end, block_end in iter_artifact_blocks(data):
+        if block_start < cursor:
+            continue
         if index >= len(entries):
             break
 
@@ -145,13 +147,13 @@ def apply_actual_text(input_pdf: Path, manifest: Path, output_pdf: Path) -> int:
 
 def self_test() -> int:
     entries = [ActualTextEntry("Repository: https://example.com/repo")]
-    source = b"/Artifact BMC\nBT\n(aaa) Tj\nET\nEMC\n"
+    source = b"/Artifact BMC\n/Artifact BMC\nBT\n(i) Tj\nET\nEMC\nBT\n(aaa) Tj\nET\nEMC\n"
     rewritten, count = rewrite_stream(source, entries, 0)
     expected = (
         b"/Span <<\n  /ActualText "
         + pdf_utf16be_hex(entries[0].actual)
         + b"\n>> BDC"
-        b"\nBT\n(aaa) Tj\nET\nEMC\n"
+        b"\n/Artifact BMC\nBT\n(i) Tj\nET\nEMC\nBT\n(aaa) Tj\nET\nEMC\n"
     )
     if count != 1 or rewritten != expected:
         print("ActualText fixture rewrite failed", file=sys.stderr)

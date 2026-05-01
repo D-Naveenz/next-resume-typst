@@ -5,7 +5,7 @@ language = "en"
 
 [next_resume]
     # Must exactly match the root VERSION file or Typst compilation fails.
-    version = "0.3.0"
+    version = "0.4.0"
 
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
@@ -35,10 +35,11 @@ language = "en"
         header_font = "Roboto"
 
     [layout.header]
-        # Aligns the entire header block (name, info, quote). Possible values: left, center, right
+        # Aligns the entire header block (name, info, quote). Possible values: left, center, right.
+        # When display_profile_photo is false, use "center" for a classic centered no-photo header.
         header_align = "left"
 
-        # false hides the photo and gives full width to name/info
+        # false hides the photo and gives full width to name/info.
         display_profile_photo = true
         # "50%" = circle, "0%" = square, "10%" = rounded corners
         profile_photo_radius = "50%"
@@ -72,45 +73,41 @@ language = "en"
     # Your mailing address, used as default sender-address in the cover letter
     # address = "123 Main St, San Francisco, CA 94102"
 
-    # The order of entries below controls the display order of icons/links in the header
-    # The custom value is for any additional information you want to add, name it as custom-1, custom-2, etc.
+    # The order of entries below controls the display order of icons/links in the header.
+    # Header contact links render as "Label: handle" while storing the full URL in the PDF link target.
     [personal.info]
-        # Shown as clickable icon in header; auto-links to github.com/<value>
+        # Shown as GitHub: <value>; links to github.com/<value>
         github = "yunanwg"
-        # Shown as phone icon in header; displayed as-is with a tel: link
+        # Shown as Phone: <value>; links to tel:<value-without-spaces>
         phone = "+33 6 12 34 56 78"
-        # Shown as envelope icon in header; auto-links to mailto:<value>
+        # Shown as Email: <value>; links to mailto:<value>
         email = "john.doe@me.org"
-        # Shown as clickable icon in header; auto-links to linkedin.com/in/<value>
+        # Shown as LinkedIn: <value>; links to linkedin.com/in/<value>
         linkedin = "johndoe"
-        # Shown as clickable icon in header; auto-links to gitlab.com/<value>
-        gitlab = "yunanwg"
-        # Shown as clickable globe icon in header; auto-links to https://<value>
+        # Shown as Website: <value>; links to https://<value>. Comment out until the portfolio exists.
         homepage = "johndoe.dev"
-        # Shown as ORCID icon in header; auto-links to orcid.org/<value>
+        # Shown as X: <value>; links to x.com/<value-without-@>
+        # x = "johndoe"
+        # Shown as Medium: <value>; links to medium.com/@<value>
+        # medium = "@johndoe"
+        # Shown as ORCID: <value>; links to orcid.org/<value>
         orcid = "0000-0000-0000-0000"
-        # researchgate = "John-Doe"  # Shown as a clickable ResearchGate icon in header
-        # Shown as map-marker icon in header; displayed as plain text (no link)
+        # Shown as Location: <value>; displayed as plain text
         location = "San Francisco, CA"
-        # extraInfo = "Available for remote work"  # Shown as extra text with an info icon in header
+        # extraInfo = "Available for remote work"  # Shown as Info: <value>
         # Insert a line break in the header info, splitting icons across two lines
         #linebreak = ""
 
-        # Custom info with awesome icon
+        # Custom info entries can be repeated by adding more custom-N tables.
+        # Use awesomeIcon for any Font Awesome icon name, or pass an image icon from cv.typ:
+        #   custom-icons: ("custom-1": image("assets/my-icon.png"))
+        # label/name controls the visible prefix.
+        # text controls the visible value. link is optional; when present, it becomes the PDF link target.
         [personal.info.custom-1]
-            awesomeIcon = "graduation-cap" # See https://typst.app/universe/package/fontawesome/
-            # Display text shown next to the icon in the header
-            text = "PhD in Data Science"
-            # URL the icon/text links to; omit for non-clickable entries
-            link = "https://www.example.com"
-
-        # Custom info with image icon
-        # To use a custom image icon, pass it via custom-icons in cv.typ:
-        #   custom-icons: ("custom-2": image("assets/my-icon.png"))
-        [personal.info.custom-2]
-            awesomeIcon = "certificate"
-            text = "AWS Certified"
-            link = "https://aws.amazon.com/certification/"
+            awesomeIcon = "gitlab" # See https://typst.app/universe/package/fontawesome/
+            label = "GitLab"
+            text = "yunanwg"
+            link = "https://gitlab.com/yunanwg"
 
 
 # Add a [lang.xx] section for each language you support.

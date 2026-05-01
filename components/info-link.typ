@@ -4,9 +4,17 @@
 #import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _set-accent-color
 #import "@preview/fontawesome:0.6.0": fa-github, fa-link, fa-cube
 
+#let _decorative-icon(icon) = {
+  if icon != none {
+    // Use a typed artifact so the post-processor can distinguish decorative
+    // icon text from the plain artifact wrappers used for ActualText spans.
+    pdf.artifact(kind: "page")[#icon]
+  }
+}
+
 #let _value-body(text-value, icon: none) = [
   #if icon != none {
-    icon
+    _decorative-icon(icon)
     h(0.22em)
   }
   #text-value
@@ -36,7 +44,7 @@
     let artifact = pdf.artifact(kind: "other")[#visible]
 
     if url == none {
-      artifact
+      box[#artifact]
     } else {
       link(url)[
         // Group the mixed icon/text run into one annotation so Adobe-style
@@ -54,7 +62,9 @@
   icon: none,
   color: none,
   link-color: none,
+  actual: none,
   id-prefix: "info-link",
+  semantic: true,
 ) = context {
   let metadata = cv-metadata.get()
   let accent = if link-color != none { link-color } else { _set-accent-color(_awesome-colors, metadata) }
@@ -63,21 +73,42 @@
   } else {
     accent
   }
+  let actual-text = if actual != none {
+    actual
+  } else if url != none {
+    url
+  } else {
+    none
+  }
+  let visible = [
+    #_maybe-fill(color, [#name:#h(0.25em)])
+    #text-value
+  ]
 
   [
-    #if icon != none {
-      _maybe-fill(color, icon)
-      h(0.22em)
-    }
-    #_maybe-fill(color, [#name:#h(0.25em)])
-    #if url == none {
-      _maybe-fill(color, text-value)
+    #if not semantic {
+      let body = _maybe-fill(value-color, _value-body(visible, icon: icon))
+      if url == none {
+        box[#body]
+      } else {
+        link(url)[#box[#body]]
+      }
+    } else if actual-text == none {
+      _maybe-fill(color, _value-body(visible, icon: icon))
+    } else if url == none {
+      actual-value(
+        visible,
+        actual-text,
+        icon: icon,
+        color: value-color,
+        id-prefix: id-prefix,
+      )
     } else {
       actual-value(
-        text-value,
-        url,
+        visible,
+        actual-text,
         url: url,
-        icon: none,
+        icon: icon,
         color: value-color,
         id-prefix: id-prefix,
       )

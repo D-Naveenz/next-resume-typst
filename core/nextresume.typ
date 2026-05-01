@@ -6,13 +6,13 @@
   cv-metadata,
   overwrite-fonts,
   _awesome-colors,
-  _cv-header,
   _is-non-latin,
   _latin-font-list,
   _latin-header-font,
   _regular-colors,
 )
 #import "../components/artifact-footer.typ": artifact-footer
+#import "../components/header.typ": cv-header
 #import "./metadata.typ": normalize-metadata, to-brilliant-cv-metadata
 
 #let cv(
@@ -64,6 +64,6 @@
     footer: context artifact-footer(nextresume-metadata),
   )
 
-  _cv-header(upstream-metadata, profile-photo, header-font, _regular-colors, _awesome-colors, custom-icons)
+  cv-header(upstream-metadata, profile-photo, header-font, _regular-colors, _awesome-colors, custom-icons)
   doc
 }
