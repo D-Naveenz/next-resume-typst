@@ -64,9 +64,12 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   hyperlink-backed personal info and semantic ActualText.
 - `components/project-entry.typ`: project and association entry renderer.
 - `components/artifact-footer.typ`: artifact footer renderer.
-- `tools/build.ps1`: CV build wrapper that compiles and applies ActualText.
-- `tools/apply-actual-text.py`: PDF post-processor for semantic link text.
-- `tools/generate-footer-assets.ps1`: footer SVG asset generator.
+- `tools/`: centralized Python + UV tooling host for build, watch, footer,
+  PDF helper, clean, and TUI workflows.
+- `tools/nextresume.cmd`: Windows launcher used by VS Code tasks and terminal
+  workflows without requiring PowerShell.
+- `.tooling/`: generated logs, manifests, debug PDFs, extracted assets, and
+  other tool outputs.
 - `assets/`: profile images, signatures, logos, generated footer SVGs, and
   other binary inputs.
 
@@ -75,25 +78,29 @@ sources instead.
 
 ## Build
 
-For the CV/resume, use the build wrapper so header and project links are
-post-processed with PDF `/ActualText`:
+The main developer workflow is now VS Code task-driven. Open the command
+palette and run the `Tasks: Run Task` actions such as `Tool: Build CV Final`,
+`Tool: Watch CV Final`, or `Tool: Open TUI`.
+
+For terminal usage, the centralized tool host handles build, watch, footer,
+PDF helpers, and cleaning. The CV/resume build still post-processes header and
+project links with PDF `/ActualText`:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\build.ps1
+tools\nextresume.cmd build cv --language en
 ```
 
-For quick raw Typst output without post-processing:
+To build both documents:
+
+```powershell
+tools\nextresume.cmd build all --language en
+```
+
+For quick raw Typst output without the centralized tooling host:
 
 ```powershell
 typst compile cv.typ cv.pdf
 typst compile letter.typ letter.pdf
-```
-
-For explicit English rendering:
-
-```powershell
-typst compile --input language=en cv.typ cv.pdf
-typst compile --input language=en letter.typ letter.pdf
 ```
 
 ## Footer Assets
@@ -113,7 +120,7 @@ After changing the personal name, `cv_footer`, footer font, footer color, or
 adding another `[lang.xx]` block, regenerate the footer SVGs:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\generate-footer-assets.ps1
+tools\nextresume.cmd footer generate
 ```
 
 The generator writes assets like `assets/footer/footer-en.svg`, keyed by the
