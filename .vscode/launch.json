@@ -1,9 +1,50 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Tool: Debug TUI",
+      "python": "${config:nextresume.toolPython}",
+      "module": "nextresume_tool",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}\\tools\\src"
+      },
+      "preLaunchTask": "Tool: Doctor"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Tool: Debug Build CV",
+      "python": "${config:nextresume.toolPython}",
+      "module": "nextresume_tool",
+      "args": ["build", "cv", "--language", "en"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}\\tools\\src"
+      },
+      "preLaunchTask": "Tool: Doctor"
+    },
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Tool: Debug Footer Generate",
+      "python": "${config:nextresume.toolPython}",
+      "module": "nextresume_tool",
+      "args": ["footer", "generate"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}\\tools\\src"
+      },
+      "preLaunchTask": "Tool: Doctor"
+    },
     {
       "type": "myriaddreamin.typst-debugger",
       "request": "launch",

@@ -4,6 +4,26 @@ All notable changes to NextResume are documented in this file.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-01
+
+### Added
+
+- Added `NextResume Tools`, a centralized Python + UV tooling host for build, watch, footer generation, PDF inspection, cleaning, diagnostics, and a TUI launcher.
+- Added `.tooling/` as the standard location for tool-generated logs, manifests, debug PDFs, and extracted helper artifacts.
+- Added VS Code task and debug integration for the new tooling host so normal document workflows no longer depend on manual PowerShell script usage.
+- Added repository guidance in `AGENTS.md`, `README.md`, and tooling docs for task-driven PDF inspection and release workflows.
+
+### Changed
+
+- Promoted NextResume from a customized template into a release-quality resume system with a first-class local tooling layer.
+- Switched the preferred verification path from ad hoc scripts to `tools\nextresume.cmd` and VS Code tasks.
+- Bumped the project version from `0.4.0` to `0.5.0` and aligned metadata-driven version checks with the new release.
+
+### Removed
+
+- Removed the old PowerShell-based `tools\build.ps1` and `tools\generate-footer-assets.ps1` workflow.
+- Removed the standalone `tools\apply-actual-text.py` / `tools\requirements.txt` script path in favor of the centralized host.
+
 ## [0.4.0] - 2026-05-01
 
 ### Added
@@ -59,6 +79,7 @@ All notable changes to NextResume are documented in this file.
 
 - Added the early NextResume/brilliant-CV customization baseline with version validation and metadata support.
 
+[0.5.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.1.3...v0.2.0

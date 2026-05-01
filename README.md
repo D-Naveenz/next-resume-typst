@@ -1,6 +1,6 @@
 <div align="center">
   <h1>NextResume</h1>
-  <p><strong>The CV/Resume template</strong></p>
+  <p><strong>The release-quality CV/Resume system</strong></p>
 
 [![Version][version-shield]][version-file]
 [![License][licence-shield]][licence-file]
@@ -11,9 +11,9 @@
 
 </div>
 
-NextResume is a modern Typst CV/resume template that balances polished visual
+NextResume is a modern Typst CV/resume system that balances polished visual
 presentation with ATS-friendly PDF structure, semantic contact/project links,
-and maintainable resume composition.
+maintainable resume composition, and a centralized release-quality tooling host.
 
 ## Why NextResume
 
@@ -45,8 +45,8 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   header, entry, project, and footer components while preserving the compact
   brilliant-CV visual language.
 - Stronger authoring model: version validation, shared entry primitives,
-  project metadata rows, keep-together entries, and build tooling make the
-  template easier to maintain and extend.
+  project metadata rows, keep-together entries, and centralized tooling make
+  the template easier to maintain, inspect, and release.
 
 ## Main Files
 
@@ -64,9 +64,12 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   hyperlink-backed personal info and semantic ActualText.
 - `components/project-entry.typ`: project and association entry renderer.
 - `components/artifact-footer.typ`: artifact footer renderer.
-- `tools/build.ps1`: CV build wrapper that compiles and applies ActualText.
-- `tools/apply-actual-text.py`: PDF post-processor for semantic link text.
-- `tools/generate-footer-assets.ps1`: footer SVG asset generator.
+- `tools/`: centralized Python + UV tooling host for build, watch, footer,
+  PDF helper, clean, and TUI workflows.
+- `tools/nextresume.cmd`: Windows launcher used by VS Code tasks and terminal
+  workflows without requiring PowerShell.
+- `.tooling/`: generated logs, manifests, debug PDFs, extracted assets, and
+  other tool outputs.
 - `assets/`: profile images, signatures, logos, generated footer SVGs, and
   other binary inputs.
 
@@ -75,25 +78,43 @@ sources instead.
 
 ## Build
 
-For the CV/resume, use the build wrapper so header and project links are
-post-processed with PDF `/ActualText`:
+The main developer workflow is now VS Code task-driven. Open the command
+palette and run the `Tasks: Run Task` actions such as `Tool: Build CV Final`,
+`Tool: Watch CV Final`, or `Tool: Open TUI`.
+
+For terminal usage, the centralized tool host handles build, watch, footer,
+PDF helpers, page-image rendering, and cleaning. The required helper
+dependencies are part of the tool-managed environment, so you should not need
+manual renderer setup for normal workflows. The CV/resume build still
+post-processes header and project links with PDF `/ActualText`:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\build.ps1
+tools\nextresume.cmd build cv --language en
 ```
 
-For quick raw Typst output without post-processing:
+To build both documents:
+
+```powershell
+tools\nextresume.cmd build all --language en
+```
+
+To inspect a PDF through the centralized tool host:
+
+```powershell
+tools\nextresume.cmd pdf inspect cv.pdf
+```
+
+To render PDF pages as images for visual inspection:
+
+```powershell
+tools\nextresume.cmd pdf render cv.pdf --dpi 144
+```
+
+For quick raw Typst output without the centralized tooling host:
 
 ```powershell
 typst compile cv.typ cv.pdf
 typst compile letter.typ letter.pdf
-```
-
-For explicit English rendering:
-
-```powershell
-typst compile --input language=en cv.typ cv.pdf
-typst compile --input language=en letter.typ letter.pdf
 ```
 
 ## Footer Assets
@@ -113,11 +134,23 @@ After changing the personal name, `cv_footer`, footer font, footer color, or
 adding another `[lang.xx]` block, regenerate the footer SVGs:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\generate-footer-assets.ps1
+tools\nextresume.cmd footer generate
 ```
 
 The generator writes assets like `assets/footer/footer-en.svg`, keyed by the
 language code.
+
+## Release Tooling
+
+NextResume Tools is now part of the normal project surface rather than an
+optional helper layer.
+
+- Use VS Code tasks for everyday build/watch workflows.
+- Use `tools\nextresume.cmd doctor` to verify the toolchain before release work.
+- Use `tools\nextresume.cmd pdf inspect <file>` when inspecting generated PDFs.
+- Use `tools\nextresume.cmd pdf render <file>` when you want page images for visual review.
+- The required PDF inspection/rendering tools are provided by the managed tool environment; normal workflows should not need manual dependency runs.
+- Expect `.tooling/` to hold logs, manifests, extracted artifacts, and debug PDFs.
 
 ## ATS Notes
 
@@ -132,7 +165,7 @@ NextResume builds on the excellent style and metadata foundation of
 [`brilliant-CV`][brilliant-cv] by [Yunan Wang][yunan-wang] and contributors.
 Their work provided the starting point that made this template possible.
 
-[version-shield]: https://img.shields.io/badge/version-0.4.0-blue
+[version-shield]: https://img.shields.io/badge/version-0.5.0-blue
 [version-file]: ./VERSION
 [licence-shield]: https://img.shields.io/badge/licence-MIT-green
 [licence-file]: ./LICENSE
