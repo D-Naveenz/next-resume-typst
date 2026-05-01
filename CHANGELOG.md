@@ -4,15 +4,18 @@ All notable changes to NextResume are documented in this file.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-05-01
+
 ### Added
 
-- Added a local CV header renderer with labeled personal-info links and canonical hyperlink targets.
+- Added a local stack-based CV header renderer with labeled personal-info links and canonical hyperlink targets.
 - Added X and Medium personal-info keys for modern social/profile links.
 
 ### Changed
 
+- Restored header personal-info `/ActualText` with labeled canonical values such as `GitHub: https://github.com/yunanwg`.
+- Reworked the header layout around ordered `stack` compartments and a visual grid so the rendered header avoids table semantics while preserving the brilliant-CV look.
 - Header icons use typed decorative PDF artifacts so readers that honor artifacts can ignore Font Awesome glyph text during copy.
-- Header contact links no longer emit `/ActualText`; Adobe Reader repeats row-level or nested link ActualText across header sub-runs, so the header now relies on visible labels plus hyperlink targets while project links keep `/ActualText`.
 - Strengthened the ActualText post-processor fixture to tolerate nested decorative artifacts inside semantic link spans.
 
 ## [0.3.0] - 2026-04-29
@@ -56,6 +59,7 @@ All notable changes to NextResume are documented in this file.
 
 - Added the early NextResume/brilliant-CV customization baseline with version validation and metadata support.
 
+[0.4.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/D-Naveenz/next-resume-typst/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/D-Naveenz/next-resume-typst/releases/tag/v0.1.3
