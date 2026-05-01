@@ -11,9 +11,9 @@
 
 </div>
 
-NextResume is a modern Typst CV/resume template that keeps a polished
-professional layout while improving ATS-friendly text extraction, configurable
-rendering, and maintainable resume composition.
+NextResume is a modern Typst CV/resume template that balances polished visual
+presentation with ATS-friendly PDF structure, semantic contact/project links,
+and maintainable resume composition.
 
 ## Why NextResume
 
@@ -24,27 +24,26 @@ PDF reader, recruiter, or Applicant Tracking System extracts the text.
 
 NextResume began with [`brilliant-CV`][brilliant-cv] by
 [Yunan Wang][yunan-wang] and its contributors as the foundation. That template
-already had a strong visual direction and a practical Typst structure, so it
-was the right place to start. From there, NextResume has been replacing and
-wrapping pieces with local NextResume components, improving layout behavior,
-modernizing assets, and making the generated PDF friendlier to copy, reflow,
-and ATS parsing.
+provided a strong visual direction, useful metadata conventions, and a compact
+professional style worth preserving.
 
-The goal is to preserve the original brilliant-CV look with subtle visual
-changes, while heavily improving how the document is rendered and maintained.
-NextResume is now confident enough to stand as its own Typst template, with
-more frequent updates planned around modern resume, ATS, PDF accessibility, and
-Typst ecosystem practices.
+NextResume now owns much of the rendering path itself. It uses brilliant-CV
+mainly as a style and metadata base while local NextResume components handle
+the CV wrapper, header, entries, project rows, semantic links, footer behavior,
+version checks, and build-time PDF post-processing. The intention is still to
+keep the overall brilliant-CV look familiar, but the structure underneath is
+increasingly NextResume's own.
 
 ## What Changed
 
 See [CHANGELOG.md][changelog-file] for the full release history.
 
 - ATS-conscious PDF output: hidden keyword injection is disabled by default,
-  project links use `/ActualText`, header contact links keep canonical hyperlink
-  targets, and visual footer text stays out of copied resume content.
-- NextResume-owned rendering layer: the CV path now runs through local core and
-  entry components while preserving the compact brilliant-CV visual language.
+  header contact links and project links use `/ActualText`, and visual footer
+  text stays out of copied resume content.
+- NextResume-owned rendering layer: the CV path now runs through local core,
+  header, entry, project, and footer components while preserving the compact
+  brilliant-CV visual language.
 - Stronger authoring model: version validation, shared entry primitives,
   project metadata rows, keep-together entries, and build tooling make the
   template easier to maintain and extend.
@@ -61,8 +60,8 @@ See [CHANGELOG.md][changelog-file] for the full release history.
   primitives.
 - `components/info-link.typ`: reusable info/project links with optional
   ActualText metadata.
-- `components/header.typ`: local CV header renderer with labeled,
-  hyperlink-backed personal info.
+- `components/header.typ`: local stack-based CV header renderer with labeled,
+  hyperlink-backed personal info and semantic ActualText.
 - `components/project-entry.typ`: project and association entry renderer.
 - `components/artifact-footer.typ`: artifact footer renderer.
 - `tools/build.ps1`: CV build wrapper that compiles and applies ActualText.
@@ -76,8 +75,8 @@ sources instead.
 
 ## Build
 
-For the CV/resume, use the build wrapper so project links are post-processed
-with PDF `/ActualText`:
+For the CV/resume, use the build wrapper so header and project links are
+post-processed with PDF `/ActualText`:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools\build.ps1
@@ -129,12 +128,11 @@ as the main ATS keyword strategy.
 
 ## Credits
 
-NextResume is built on the excellent foundation of
+NextResume builds on the excellent style and metadata foundation of
 [`brilliant-CV`][brilliant-cv] by [Yunan Wang][yunan-wang] and contributors.
-Their work provided the visual and structural starting point that made this
-template possible.
+Their work provided the starting point that made this template possible.
 
-[version-shield]: https://img.shields.io/badge/version-0.3.0-blue
+[version-shield]: https://img.shields.io/badge/version-0.4.0-blue
 [version-file]: ./VERSION
 [licence-shield]: https://img.shields.io/badge/licence-MIT-green
 [licence-file]: ./LICENSE

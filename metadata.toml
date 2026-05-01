@@ -5,7 +5,7 @@ language = "en"
 
 [next_resume]
     # Must exactly match the root VERSION file or Typst compilation fails.
-    version = "0.3.0"
+    version = "0.4.0"
 
 [layout]
     # Accent color used for section titles, icons, and highlights in the rendered PDF
