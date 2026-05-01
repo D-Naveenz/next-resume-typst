@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pikepdf
+import pypdfium2 as pdfium
 
 from nextresume_tool.host.app import AppContext
 
@@ -131,6 +132,26 @@ def inspect_pdf(path: Path, ctx: AppContext) -> None:
         ctx.logger.info("Objects: %s", len(pdf.objects))
 
 
+def render_pdf_pages(path: Path, ctx: AppContext, dpi: int = 144) -> list[Path]:
+    output_dir = ctx.paths.extracted_images_dir / f"{path.stem}-{ctx.run_info.timestamp}-{ctx.run_info.run_id}"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    pdf = pdfium.PdfDocument(str(path))
+    scale = dpi / 72.0
+    rendered_paths: list[Path] = []
+
+    for index in range(len(pdf)):
+        page = pdf[index]
+        bitmap = page.render(scale=scale)
+        image = bitmap.to_pil()
+        output_path = output_dir / f"{path.stem}-page-{index + 1:02d}.png"
+        image.save(output_path)
+        rendered_paths.append(output_path)
+        ctx.logger.info("Rendered %s", output_path)
+
+    return rendered_paths
+
+
 def self_test() -> None:
     entries = [ActualTextEntry("Repository: https://example.com/repo")]
     source = b"/Artifact BMC\n/Artifact BMC\nBT\n(i) Tj\nET\nEMC\nBT\n(aaa) Tj\nET\nEMC\n"
@@ -143,4 +164,3 @@ def self_test() -> None:
     )
     if rewritten != expected or count != 1:
         raise RuntimeError("ActualText fixture rewrite failed")
-

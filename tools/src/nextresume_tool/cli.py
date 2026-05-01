@@ -9,7 +9,7 @@ from nextresume_tool.commands.build import build_all, build_cv, build_letter
 from nextresume_tool.commands.clean import clean_tooling
 from nextresume_tool.commands.doctor import run_doctor
 from nextresume_tool.commands.footer import generate_footer_assets
-from nextresume_tool.commands.pdf import apply_actual_text, inspect_pdf
+from nextresume_tool.commands.pdf import apply_actual_text, inspect_pdf, render_pdf_pages
 from nextresume_tool.commands.watch import watch_target
 from nextresume_tool.host.app import AppContext
 from nextresume_tool.ui.app import NextResumeTui
@@ -122,6 +122,15 @@ def pdf_inspect_command(path: Path = typer.Argument(...)) -> None:
     inspect_pdf(path, _ctx("pdf-inspect"))
 
 
+@pdf_app.command("render")
+def pdf_render_command(
+    path: Path = typer.Argument(...),
+    dpi: int = typer.Option(144, "--dpi", min=72, help="Render resolution in DPI."),
+) -> None:
+    ctx = _ctx("pdf-render")
+    rendered = render_pdf_pages(path, ctx, dpi=dpi)
+    ctx.logger.info("Rendered %s page image(s)", len(rendered))
+
+
 def main() -> None:
     app()
-

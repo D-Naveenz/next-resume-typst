@@ -83,8 +83,10 @@ palette and run the `Tasks: Run Task` actions such as `Tool: Build CV Final`,
 `Tool: Watch CV Final`, or `Tool: Open TUI`.
 
 For terminal usage, the centralized tool host handles build, watch, footer,
-PDF helpers, and cleaning. The CV/resume build still post-processes header and
-project links with PDF `/ActualText`:
+PDF helpers, page-image rendering, and cleaning. The required helper
+dependencies are part of the tool-managed environment, so you should not need
+manual renderer setup for normal workflows. The CV/resume build still
+post-processes header and project links with PDF `/ActualText`:
 
 ```powershell
 tools\nextresume.cmd build cv --language en
@@ -100,6 +102,12 @@ To inspect a PDF through the centralized tool host:
 
 ```powershell
 tools\nextresume.cmd pdf inspect cv.pdf
+```
+
+To render PDF pages as images for visual inspection:
+
+```powershell
+tools\nextresume.cmd pdf render cv.pdf --dpi 144
 ```
 
 For quick raw Typst output without the centralized tooling host:
@@ -140,6 +148,8 @@ optional helper layer.
 - Use VS Code tasks for everyday build/watch workflows.
 - Use `tools\nextresume.cmd doctor` to verify the toolchain before release work.
 - Use `tools\nextresume.cmd pdf inspect <file>` when inspecting generated PDFs.
+- Use `tools\nextresume.cmd pdf render <file>` when you want page images for visual review.
+- The required PDF inspection/rendering tools are provided by the managed tool environment; normal workflows should not need manual dependency runs.
 - Expect `.tooling/` to hold logs, manifests, extracted artifacts, and debug PDFs.
 
 ## ATS Notes

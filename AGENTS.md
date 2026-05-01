@@ -22,8 +22,10 @@ Store durable lessons, decisions, and cross-workspace abstractions in MindVault.
 ## Tooling
 
 - Use `NextResume Tools` for task-driven build, watch, footer, PDF inspection, and cleanup workflows.
+- Use `NextResume Tools` for task-driven build, watch, footer, PDF inspection, PDF page rendering, and cleanup workflows.
 - Main entrypoints are VS Code tasks, `tools\nextresume.cmd`, and `uv run --project tools nextresume ...`.
 - Tool-generated logs, manifests, extracted assets, and debug PDFs live under `.tooling/`.
+- The required PDF helper dependencies are now provided by the tool host; do not assume manual renderer installs or ad hoc setup steps.
 - For PDF inspection and future agent helper work, prefer the centralized tool host over ad hoc scratch scripts.
 
 ## Agent Defaults
@@ -42,6 +44,7 @@ Run from the repository root:
 tools\nextresume.cmd doctor
 tools\nextresume.cmd build cv --language en
 tools\nextresume.cmd build letter --language en
+tools\nextresume.cmd pdf render cv.pdf
 ```
 
 If you intentionally want raw Typst output without the centralized PDF post-processing:
