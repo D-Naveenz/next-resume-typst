@@ -31,7 +31,6 @@
     date-width: eval(date-width),
     after-entry-header-skip: eval(metadata.layout.at("after_entry_header_skip", default: "1pt")),
     after-entry-body-skip: eval(metadata.layout.at("after_entry_body_skip", default: "1pt")),
-    after-entry-skip: eval(metadata.layout.at("after_entry_skip", default: "8pt")),
   )
 }
 
@@ -198,6 +197,5 @@
       awesome-colors: awesome-colors,
       copy-delimiter: copy-delimiter,
     )
-    #v(params.after-entry-skip)
   ]
 }

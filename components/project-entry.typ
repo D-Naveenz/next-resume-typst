@@ -36,7 +36,6 @@
   let project-layout = metadata.layout.at("project", default: (:))
   let after-header-skip = eval(project-layout.at("after_header_skip", default: "0pt"))
   let after-links-skip = eval(project-layout.at("after_links_skip", default: "1pt"))
-  let after-entry-skip = eval(metadata.layout.at("after_entry_skip", default: "8pt"))
   let link-font-size = eval(project-layout.at("link_font_size", default: "9pt"))
   let link-gap = eval(project-layout.at("link_gap", default: "1em"))
 
@@ -75,6 +74,5 @@
       metadata: metadata,
       copy-delimiter: copy-delimiter,
     )
-    #v(after-entry-skip)
   ]
 }

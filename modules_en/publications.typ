@@ -3,18 +3,21 @@
 #import "../components/section.typ": cv-section
 
 
-#cv-section("Publications")
-
-// Example 1: Selected publications with custom style
-#cv-publication(
-  bib: bibliography("../assets/publications.bib"),
-  key-list: (
-    "smith2020",
-    "jones2021",
-    "wilson2022",
+#cv-section(
+  "Publications",
+  body: (
+    // Example 1: Selected publications with custom style
+    cv-publication(
+      bib: bibliography("../assets/publications.bib"),
+      key-list: (
+        "smith2020",
+        "jones2021",
+        "wilson2022",
+      ),
+      ref-style: "ieee",
+      ref-full: false,
+    ),
   ),
-  ref-style: "ieee",
-  ref-full: false,
 )
 
 // Example 2: All publications with APA style (commented out to avoid duplication)

@@ -16,12 +16,14 @@ language = "en"
     after_header_skip = "12pt"
     # Vertical space after a section title before the section content starts.
     after_section_title_skip = "6pt"
+    # Vertical space between items inside a section body.
+    section_body_gap = "8pt"
+    # Vertical space after a section before the next section starts.
+    after_section_skip = "8pt"
     # Vertical space after an entry header before body text.
     after_entry_header_skip = "1pt"
     # Vertical space after entry body text before tag pills.
     after_entry_body_skip = "1pt"
-    # Vertical space after each entry block before the next block or section.
-    after_entry_skip = "8pt"
 
     # Page dimensions and margins applied to the PDF output. Possible values: a4 (default), us-letter
     paper_size = "a4"
@@ -71,18 +73,18 @@ language = "en"
     [layout.certificates]
         # Vertical space after the Certificates section title before rows start.
         after_section_title_skip = "6pt"
+        # Vertical space between compact certificate rows.
+        body_gap = "0pt"
         # Vertical space after the Certificates section before the next section.
         after_section_skip = "6pt"
-        # Vertical space after each compact certificate row.
-        after_row_skip = "0pt"
 
     [layout.skills]
         # Vertical space after the Skills section title before rows start.
         after_section_title_skip = "6pt"
+        # Vertical space between skill rows.
+        body_gap = "1pt"
         # Vertical space after the Skills section before the next section.
         after_section_skip = "0pt"
-        # Vertical space after each skill row.
-        after_row_skip = "1pt"
 
     [layout.footer]
         # true shows the NextResume outlined SVG footer on CV pages

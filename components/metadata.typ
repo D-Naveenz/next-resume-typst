@@ -5,9 +5,10 @@
   layout: (
     awesome_color: "skyblue",
     after_section_title_skip: "6pt",
+    section_body_gap: "8pt",
+    after_section_skip: "8pt",
     after_entry_header_skip: "1pt",
     after_entry_body_skip: "1pt",
-    after_entry_skip: "8pt",
     date_width: "4.8cm",
     entry: (
       display_entry_society_first: true,
@@ -22,12 +23,12 @@
     certificates: (
       after_section_title_skip: "6pt",
       after_section_skip: "6pt",
-      after_row_skip: "3pt",
+      body_gap: "0pt",
     ),
     skills: (
       after_section_title_skip: "6pt",
       after_section_skip: "0pt",
-      after_row_skip: "2pt",
+      body_gap: "1pt",
     ),
   ),
 )

@@ -8,6 +8,7 @@
   highlighted: true,
   letters: 3,
   layout-key: none,
+  body: (),
   color: none,
   metadata: none,
   awesome-colors: _awesome-colors,
@@ -26,7 +27,16 @@
     "after_section_title_skip",
     default: metadata.layout.at("after_section_title_skip", default: "6pt"),
   ))
+  let body-gap = eval(section-layout.at(
+    "body_gap",
+    default: metadata.layout.at("section_body_gap", default: "8pt"),
+  ))
+  let after-section-skip = eval(section-layout.at(
+    "after_section_skip",
+    default: metadata.layout.at("after_section_skip", default: "8pt"),
+  ))
   let non-latin = _is-non-latin(metadata.language)
+  let body-items = if type(body) == array { body } else { (body,) }
 
   let section-title-style(str, color: black) = {
     text(size: 16pt, weight: "bold", fill: color, str)
@@ -44,12 +54,14 @@
     #h(2pt)
     #box(width: 1fr, line(stroke: 0.9pt, length: 100%))
   ]
-  v(after-title-skip)
-}
-
-#let cv-section-end(layout-key: none, metadata: none) = context {
-  let metadata = metadata-or-default(if metadata != none { metadata } else { cv-metadata.get() })
-  let section-layout = if layout-key == none { (:) } else { metadata.layout.at(layout-key, default: (:)) }
-  let after-section-skip = eval(section-layout.at("after_section_skip", default: "0pt"))
+  if body-items.len() > 0 {
+    v(after-title-skip)
+    for (index, item) in body-items.enumerate() {
+      if index > 0 {
+        v(body-gap)
+      }
+      item
+    }
+  }
   v(after-section-skip)
 }
