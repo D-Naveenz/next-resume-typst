@@ -65,5 +65,6 @@
   )
 
   cv-header(upstream-metadata, profile-photo, header-font, _regular-colors, _awesome-colors, custom-icons)
+  v(eval(upstream-metadata.layout.at("after_header_skip", default: "12pt")))
   doc
 }

@@ -12,12 +12,16 @@ language = "en"
     # Preset: skyblue, red, nephritis, concrete, darknight - or any hex like "#1E90FF"
     awesome_color = "skyblue"
 
-    # Controls vertical spacing; increase to spread out sections/entries, decrease to compact
-    before_section_skip = "12pt"
-    # Vertical space before each entry within a section
-    before_entry_skip = "8pt"
-    # Vertical space before entry description text
-    before_entry_description_skip = "0pt"
+    # Vertical space after the header before the first CV section.
+    after_header_skip = "12pt"
+    # Vertical space after a section title before the section content starts.
+    after_section_title_skip = "6pt"
+    # Vertical space after an entry header before body text.
+    after_entry_header_skip = "1pt"
+    # Vertical space after entry body text before tag pills.
+    after_entry_body_skip = "1pt"
+    # Vertical space after each entry block before the next block or section.
+    after_entry_skip = "8pt"
 
     # Page dimensions and margins applied to the PDF output. Possible values: a4 (default), us-letter
     paper_size = "a4"
@@ -55,15 +59,22 @@ language = "en"
         display_logo = true
 
     [layout.project]
-        # Vertical adjustment before project metadata links. Negative values pull
-        # Repository/Deployment rows closer to the project subtitle.
-        before_links_skip = "-5pt"
-        # Vertical space before project bullet/body text after metadata links.
-        before_body_skip = "0pt"
+        # Vertical space after project title/subtitle before metadata links.
+        after_header_skip = "0pt"
+        # Vertical space after metadata links before project body text.
+        after_links_skip = "1pt"
         # Font size for project metadata links.
         link_font_size = "9pt"
         # Horizontal gap between link groups, such as Repository and Deployment.
         link_gap = "1em"
+
+    [layout.certificates]
+        # Vertical space after each compact certificate row.
+        after_row_skip = "3pt"
+
+    [layout.skills]
+        # Vertical space after each skill row.
+        after_row_skip = "2pt"
 
     [layout.footer]
         # true shows the NextResume outlined SVG footer on CV pages

@@ -1,5 +1,7 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section
+#import "@preview/brilliant-cv:3.3.0": cv-metadata
+#import "../components/metadata.typ": metadata-or-default
+#import "../components/section.typ": cv-section
 
 
 #let certificate-row(
@@ -8,7 +10,10 @@
   issuer: [],
   url: none,
   location: [],
-) = {
+) = context {
+  let metadata = metadata-or-default(cv-metadata.get())
+  let certificates-layout = metadata.layout.at("certificates", default: (:))
+  let after-row-skip = eval(certificates-layout.at("after_row_skip", default: "0pt"))
   let title-text = text(weight: "bold", if url == none { title } else { link(url)[#title] })
   let issuer-text = if issuer == [] { [] } else { [, #issuer] }
   let left-columns = if date == [] { (1fr,) } else { (3.2em, 1fr) }
@@ -32,7 +37,7 @@
     ..left-cells,
     align(right, text(weight: "medium", fill: rgb("#00A0DD"), style: "oblique", location)),
   )
-  v(-4pt)
+  v(after-row-skip)
 }
 
 

@@ -1,8 +1,10 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section, cv-metadata, _awesome-colors, _set-accent-color
+#import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _set-accent-color
 #import "@preview/fontawesome:0.6.0": fa-bag-shopping
 #import "../components/info-link.typ": actual-value, project-link
+#import "../components/metadata.typ": metadata-or-default
 #import "../components/project-entry.typ": project-entry
+#import "../components/section.typ": cv-section
 
 #let package-icon = box(width: 0.95em)[
   #move(dy: 0.11em, image("../assets/icons/package.svg", width: 100%))
@@ -17,12 +19,13 @@
 ]
 
 #let deployment-link(text-value, url, icon) = context {
+  let metadata = metadata-or-default(cv-metadata.get())
   actual-value(
     text-value,
     url,
     url: url,
     icon: icon,
-    color: _set-accent-color(_awesome-colors, cv-metadata.get()),
+    color: _set-accent-color(_awesome-colors, metadata),
     id-prefix: "project-link",
   )
 }

@@ -1,5 +1,6 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section, h-bar
+#import "@preview/brilliant-cv:3.3.0": h-bar
+#import "../components/section.typ": cv-section
 #import "../components/skills.typ": cv-skill
 
 

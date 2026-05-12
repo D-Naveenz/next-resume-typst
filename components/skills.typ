@@ -1,9 +1,14 @@
 // Repo-local skill helpers used when the upstream template layout is too rigid.
+#import "@preview/brilliant-cv:3.3.0": cv-metadata
+#import "./metadata.typ": metadata-or-default
 #import "./tag-row.typ": tag-row
 
 #let skill-pill-fill = luma(235)
 
-#let _skill-row(type, body) = {
+#let _skill-row(type, body) = context {
+  let metadata = metadata-or-default(cv-metadata.get())
+  let skills-layout = metadata.layout.at("skills", default: (:))
+  let after-row-skip = eval(skills-layout.at("after_row_skip", default: "2pt"))
   let skill-type-style(str) = {
     text(size: 10pt, weight: "bold", str)
   }
@@ -20,7 +25,7 @@
       #align(left + horizon, body)
     ],
   )
-  v(2pt)
+  v(after-row-skip)
 }
 
 #let cv-skill(type: "Type", info: "Info") = {

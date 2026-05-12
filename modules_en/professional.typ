@@ -1,6 +1,6 @@
 // Imports
-#import "@preview/brilliant-cv:3.3.0": cv-section
 #import "../components/entry.typ": cv-entry
+#import "../components/section.typ": cv-section
 
 
 #cv-section("Professional Experience")

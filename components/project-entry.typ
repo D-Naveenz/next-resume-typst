@@ -2,6 +2,7 @@
 
 #import "@preview/brilliant-cv:3.3.0": cv-metadata, _regular-colors
 #import "./entry.typ": cv-entry-header, cv-entry-description
+#import "./metadata.typ": metadata-or-default
 
 #let _links-row(links, gap) = {
   if links.len() == 0 {
@@ -31,25 +32,19 @@
   copy-delimiter: " | ",
   allow_break: false,
 ) = context {
-  let metadata = if metadata != none { metadata } else { cv-metadata.get() }
+  let metadata = metadata-or-default(if metadata != none { metadata } else { cv-metadata.get() })
   let project-layout = metadata.layout.at("project", default: (:))
-  let before-links-skip = eval(project-layout.at("before_links_skip", default: "0pt"))
-  let before-body-skip = eval(project-layout.at(
-    "before_body_skip",
-    default: metadata.layout.at("before_entry_description_skip", default: "1pt"),
-  ))
+  let after-header-skip = eval(project-layout.at("after_header_skip", default: "0pt"))
+  let after-links-skip = eval(project-layout.at("after_links_skip", default: "1pt"))
+  let after-entry-skip = eval(metadata.layout.at("after_entry_skip", default: "8pt"))
   let link-font-size = eval(project-layout.at("link_font_size", default: "9pt"))
   let link-gap = eval(project-layout.at("link_gap", default: "1em"))
 
   let link-row = _links-row(links, link-gap)
-  let project-description-style = (value, before-skip) => text(
-    fill: _regular-colors.lightgray,
-    {
-      v(before-body-skip)
-      value
-    },
-  )
+  let project-description-style = (value) => text(fill: _regular-colors.lightgray, value)
   let project-subtitle-style = (value) => text(fill: _regular-colors.lightgray, value)
+  let has-body = body != none and body != ""
+  let has-details = has-body or tags.len() > 0
 
   block(breakable: allow_break)[
     #cv-entry-header(
@@ -63,8 +58,13 @@
     )
 
     #if link-row != none {
-      v(before-links-skip)
+      v(after-header-skip)
       text(size: link-font-size, fill: _regular-colors.lightgray, link-row)
+      if has-details {
+        v(after-links-skip)
+      }
+    } else if has-details {
+      v(after-header-skip)
     }
 
     #cv-entry-description(
@@ -75,5 +75,6 @@
       metadata: metadata,
       copy-delimiter: copy-delimiter,
     )
+    #v(after-entry-skip)
   ]
 }
