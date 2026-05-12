@@ -69,12 +69,20 @@ language = "en"
         link_gap = "1em"
 
     [layout.certificates]
+        # Vertical space after the Certificates section title before rows start.
+        after_section_title_skip = "6pt"
+        # Vertical space after the Certificates section before the next section.
+        after_section_skip = "6pt"
         # Vertical space after each compact certificate row.
-        after_row_skip = "3pt"
+        after_row_skip = "0pt"
 
     [layout.skills]
+        # Vertical space after the Skills section title before rows start.
+        after_section_title_skip = "6pt"
+        # Vertical space after the Skills section before the next section.
+        after_section_skip = "0pt"
         # Vertical space after each skill row.
-        after_row_skip = "2pt"
+        after_row_skip = "1pt"
 
     [layout.footer]
         # true shows the NextResume outlined SVG footer on CV pages

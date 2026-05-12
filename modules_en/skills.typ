@@ -1,10 +1,10 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": h-bar
-#import "../components/section.typ": cv-section
+#import "../components/section.typ": cv-section, cv-section-end
 #import "../components/skills.typ": cv-skill
 
 
-#cv-section("Skills")
+#cv-section("Skills", layout-key: "skills")
 
 #cv-skill(
   type: [Languages],
@@ -30,3 +30,5 @@
   type: [Tools & Operations],
   info: [OpenAI Codex #h-bar() Obsidian #h-bar() GitHub Actions #h-bar() Docker #h-bar() Azure DevOps #h-bar() SAP #h-bar() Reporting #h-bar() Audits #h-bar() Process Coordination],
 )
+
+#cv-section-end(layout-key: "skills")

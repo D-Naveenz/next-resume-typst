@@ -1,7 +1,7 @@
 // Imports
 #import "@preview/brilliant-cv:3.3.0": cv-metadata
 #import "../components/metadata.typ": metadata-or-default
-#import "../components/section.typ": cv-section
+#import "../components/section.typ": cv-section, cv-section-end
 
 
 #let certificate-row(
@@ -41,7 +41,7 @@
 }
 
 
-#cv-section("Certificates & Awards")
+#cv-section("Certificates & Awards", layout-key: "certificates")
 
 #certificate-row(
   date: [2024],
@@ -66,3 +66,5 @@
   url: "https://www.linkedin.com/learning/certificates/3f4908fdc852ebac8fc8351e6e1048d608eff3930c8829c3749a92bf68b92613",
   location: [Online],
 )
+
+#cv-section-end(layout-key: "certificates")

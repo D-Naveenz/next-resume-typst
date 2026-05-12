@@ -20,9 +20,13 @@
       link_gap: "1em",
     ),
     certificates: (
+      after_section_title_skip: "6pt",
+      after_section_skip: "6pt",
       after_row_skip: "3pt",
     ),
     skills: (
+      after_section_title_skip: "6pt",
+      after_section_skip: "0pt",
       after_row_skip: "2pt",
     ),
   ),
