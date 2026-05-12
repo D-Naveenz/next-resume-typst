@@ -22,18 +22,13 @@
   let accent-color = if color != none { color } else { _set-accent-color(awesome-colors, metadata) }
   let highlighted-text = title.slice(0, letters)
   let normal-text = title.slice(letters)
+  let base-section-layout = metadata.layout.at("section", default: (:))
   let section-layout = if layout-key == none { (:) } else { metadata.layout.at(layout-key, default: (:)) }
-  let after-title-skip = eval(section-layout.at(
-    "after_section_title_skip",
-    default: metadata.layout.at("after_section_title_skip", default: "6pt"),
-  ))
-  let body-gap = eval(section-layout.at(
-    "body_gap",
-    default: metadata.layout.at("section_body_gap", default: "8pt"),
-  ))
+  let after-title-skip = eval(section-layout.at("after_title_skip", default: base-section-layout.at("after_title_skip", default: "6pt")))
+  let body-gap = eval(section-layout.at("body_gap", default: base-section-layout.at("body_gap", default: "8pt")))
   let after-section-skip = eval(section-layout.at(
     "after_section_skip",
-    default: metadata.layout.at("after_section_skip", default: "8pt"),
+    default: base-section-layout.at("after_section_skip", default: "8pt"),
   ))
   let non-latin = _is-non-latin(metadata.language)
   let body-items = if type(body) == array { body } else { (body,) }

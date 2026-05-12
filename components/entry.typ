@@ -26,11 +26,12 @@
   }
 
   let date-width = metadata.layout.at("date_width", default: "4.8cm")
+  let entry-layout = metadata.layout.at("entry", default: (:))
   (
     accent-color: if color != none { color } else { _set-accent-color(awesome-colors, metadata) },
     date-width: eval(date-width),
-    after-entry-header-skip: eval(metadata.layout.at("after_entry_header_skip", default: "1pt")),
-    after-entry-body-skip: eval(metadata.layout.at("after_entry_body_skip", default: "1pt")),
+    after-entry-header-skip: eval(entry-layout.at("after_header_skip", default: "1pt")),
+    after-entry-body-skip: eval(entry-layout.at("after_body_skip", default: "1pt")),
   )
 }
 

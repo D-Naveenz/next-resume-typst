@@ -4,13 +4,22 @@
   language: "en",
   layout: (
     awesome_color: "skyblue",
-    after_section_title_skip: "6pt",
-    section_body_gap: "8pt",
-    after_section_skip: "8pt",
-    after_entry_header_skip: "1pt",
-    after_entry_body_skip: "1pt",
     date_width: "4.8cm",
+    header: (
+      header_align: "left",
+      after_header_skip: "12pt",
+      display_profile_photo: true,
+      profile_photo_radius: "50%",
+      info_font_size: "10pt",
+    ),
+    section: (
+      after_title_skip: "6pt",
+      body_gap: "8pt",
+      after_section_skip: "8pt",
+    ),
     entry: (
+      after_header_skip: "1pt",
+      after_body_skip: "1pt",
       display_entry_society_first: true,
       display_logo: true,
     ),
@@ -21,12 +30,12 @@
       link_gap: "1em",
     ),
     certificates: (
-      after_section_title_skip: "6pt",
+      after_title_skip: "6pt",
       after_section_skip: "6pt",
       body_gap: "0pt",
     ),
     skills: (
-      after_section_title_skip: "6pt",
+      after_title_skip: "6pt",
       after_section_skip: "0pt",
       body_gap: "1pt",
     ),
