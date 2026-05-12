@@ -7,6 +7,7 @@ All notable changes to NextResume are documented in this file.
 ### Changed
 
 - Right-aligned the header profile photo within the header grid so it stays pinned to the right edge even when the text-side header content is long.
+- Exposed project-entry link row spacing, link font size, and body spacing through `metadata.toml` under `[layout.project]`.
 
 ## [0.5.0] - 2026-05-01
 

@@ -13,11 +13,11 @@ language = "en"
     awesome_color = "skyblue"
 
     # Controls vertical spacing; increase to spread out sections/entries, decrease to compact
-    before_section_skip = "8pt"
+    before_section_skip = "12pt"
     # Vertical space before each entry within a section
-    before_entry_skip = "4pt"
+    before_entry_skip = "8pt"
     # Vertical space before entry description text
-    before_entry_description_skip = "1pt"
+    before_entry_description_skip = "0pt"
 
     # Page dimensions and margins applied to the PDF output. Possible values: a4 (default), us-letter
     paper_size = "a4"
@@ -53,6 +53,17 @@ language = "en"
 
         # false hides all company/organisation logos in entries
         display_logo = true
+
+    [layout.project]
+        # Vertical adjustment before project metadata links. Negative values pull
+        # Repository/Deployment rows closer to the project subtitle.
+        before_links_skip = "-5pt"
+        # Vertical space before project bullet/body text after metadata links.
+        before_body_skip = "0pt"
+        # Font size for project metadata links.
+        link_font_size = "9pt"
+        # Horizontal gap between link groups, such as Repository and Deployment.
+        link_gap = "1em"
 
     [layout.footer]
         # true shows the NextResume outlined SVG footer on CV pages
