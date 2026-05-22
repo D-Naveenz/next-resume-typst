@@ -1,5 +1,6 @@
-// NextResume entry primitives based on brilliant-cv's entry layout.
-#import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _prepare-entry-params, _entry-styles
+// NextResume entry primitives with bottom-owned spacing.
+#import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _regular-colors, _set-accent-color
+#import "./metadata.typ": metadata-or-default
 #import "./tag-row.typ": tag-row
 
 #let _entry-tags(tags, copy-delimiter: " | ") = {
@@ -24,10 +25,29 @@
     panic("'awesomeColors' has been renamed and will be removed in v4.0. Use 'awesome-colors' instead.")
   }
 
-  _prepare-entry-params(metadata, awesome-colors, color: color)
+  let date-width = metadata.layout.at("date_width", default: "4.8cm")
+  let entry-layout = metadata.layout.at("entry", default: (:))
+  (
+    accent-color: if color != none { color } else { _set-accent-color(awesome-colors, metadata) },
+    date-width: eval(date-width),
+    after-entry-header-skip: eval(entry-layout.at("after_header_skip", default: "1pt")),
+    after-entry-body-skip: eval(entry-layout.at("after_body_skip", default: "1pt")),
+  )
 }
 
 #let _entry-visible(value) = value != none and value != ""
+
+#let _entry-styles(accent-color) = (
+  a1: (str) => text(size: 10pt, weight: "bold", str),
+  a2: (str) => align(right, text(weight: "medium", fill: accent-color, style: "oblique", str)),
+  b1: (str) => text(size: 8pt, fill: accent-color, weight: "medium", smallcaps(str)),
+  b2: (str) => align(right, text(size: 8pt, weight: "medium", fill: gray, style: "oblique", str)),
+  dates: (dates) => [
+    #set list(marker: [])
+    #dates
+  ],
+  description: (value) => text(fill: _regular-colors.lightgray, value),
+)
 
 #let cv-entry-header(
   primary,
@@ -41,13 +61,12 @@
   awesomeColors: none,
   secondary-style: auto,
 ) = context {
-  let metadata = if metadata != none { metadata } else { cv-metadata.get() }
+  let metadata = metadata-or-default(if metadata != none { metadata } else { cv-metadata.get() })
   let params = _entry-params(metadata, color, awesome-colors, awesomeColors)
-  let styles = _entry-styles(params.accent-color, params.before-entry-description-skip)
+  let styles = _entry-styles(params.accent-color)
   let display-logo = metadata.layout.entry.display_logo
   let secondary-style = if secondary-style == auto { styles.b1 } else { secondary-style }
 
-  v(params.before-entry-skip)
   table(
     columns: (1fr, params.date-width),
     inset: 0pt,
@@ -113,17 +132,20 @@
   copy-delimiter: " | ",
   allow_break: false,
 ) = context {
-  let metadata = if metadata != none { metadata } else { cv-metadata.get() }
+  let metadata = metadata-or-default(if metadata != none { metadata } else { cv-metadata.get() })
   let params = _entry-params(metadata, color, awesome-colors, awesomeColors)
-  let styles = _entry-styles(params.accent-color, params.before-entry-description-skip)
+  let styles = _entry-styles(params.accent-color)
   let description-style = if description-style == auto {
-    (value, before-skip) => (styles.description)(value)
+    (value) => (styles.description)(value)
   } else {
     description-style
   }
 
   if _entry-visible(description) {
-    description-style(description, params.before-entry-description-skip)
+    description-style(description)
+    if tags.len() > 0 {
+      v(params.after-entry-body-skip)
+    }
   }
 
   _entry-tags(tags, copy-delimiter: copy-delimiter)
@@ -144,9 +166,9 @@
   copy-delimiter: " | ",
   allow_break: false,
 ) = context {
-  let metadata = if metadata != none { metadata } else { cv-metadata.get() }
+  let metadata = metadata-or-default(if metadata != none { metadata } else { cv-metadata.get() })
   let params = _entry-params(metadata, color, awesome-colors, awesomeColors)
-  let styles = _entry-styles(params.accent-color, params.before-entry-description-skip)
+  let styles = _entry-styles(params.accent-color)
   let society-first = metadata.layout.entry.display_entry_society_first
 
   let primary = if society-first { society } else { title }
@@ -165,6 +187,9 @@
       metadata: metadata,
       awesome-colors: awesome-colors,
     )
+    #if _entry-visible(description) or tags.len() > 0 {
+      v(params.after-entry-header-skip)
+    }
     #cv-entry-description(
       description,
       tags: tags,

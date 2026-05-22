@@ -1,0 +1,4 @@
+interface:
+  display_name: "Merge Tailoring Branch"
+  short_description: "Safely hand off tailoring-branch improvements"
+  default_prompt: "Use $merge-tailoring-branch to port reusable improvements from a tailoring branch into development without carrying over personal resume data."

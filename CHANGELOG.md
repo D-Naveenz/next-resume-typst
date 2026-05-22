@@ -4,6 +4,11 @@ All notable changes to NextResume are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Right-aligned the header profile photo within the header grid so it stays pinned to the right edge even when the text-side header content is long.
+- Reworked CV spacing into section-owned containers with tuple body items and metadata-driven section/body gaps.
+
 ## [0.5.0] - 2026-05-01
 
 ### Added

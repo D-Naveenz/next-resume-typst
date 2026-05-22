@@ -3,6 +3,7 @@
 
 #import "@preview/brilliant-cv:3.3.0": cv-metadata, _awesome-colors, _set-accent-color
 #import "@preview/fontawesome:0.6.0": fa-github, fa-link, fa-cube
+#import "./metadata.typ": metadata-or-default
 
 #let _decorative-icon(icon) = {
   if icon != none {
@@ -66,7 +67,7 @@
   id-prefix: "info-link",
   semantic: true,
 ) = context {
-  let metadata = cv-metadata.get()
+  let metadata = metadata-or-default(cv-metadata.get())
   let accent = if link-color != none { link-color } else { _set-accent-color(_awesome-colors, metadata) }
   let value-color = if url == none {
     color
@@ -122,6 +123,7 @@
   url,
   icon: none,
 ) = context {
+  let metadata = metadata-or-default(cv-metadata.get())
   let default-icon = if kind == "Repository" {
     fa-github()
   } else if kind == "Deployment" {
@@ -137,7 +139,7 @@
       url,
       url: url,
       icon: if icon == none { default-icon } else { icon },
-      color: _set-accent-color(_awesome-colors, cv-metadata.get()),
+      color: _set-accent-color(_awesome-colors, metadata),
       id-prefix: "project-link",
     )
   ]
